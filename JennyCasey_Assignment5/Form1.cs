@@ -379,6 +379,7 @@ namespace JennyCasey_Assignment5
                                     //based on what index we are at, depends what cell the information goes in
                                     switch (i)
                                     {
+                                        //row 1
                                         case 0:
                                             //we have a value so print that to the board
                                             PointF pointF1 = new PointF(W / 10, L / 10);
@@ -404,6 +405,8 @@ namespace JennyCasey_Assignment5
                                             PointF pointF5 = new PointF(9* W / 10 - 10, L / 10);
                                             e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF5);
                                             break;
+
+                                            //row 2
                                         case 5:
                                             //we have a value so print that to the board
                                             PointF pointF6 = new PointF(W / 10, 3 * L / 10);
@@ -430,7 +433,86 @@ namespace JennyCasey_Assignment5
                                             e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF10);
                                             break;
 
+                                        //row 3
+                                        case 10:
+                                            //we have a value so print that to the board
+                                            PointF pointF11 = new PointF(W / 10, 5 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF11);
+                                            break;
+                                        case 11:
+                                            //we have a value so print that to the board
+                                            PointF pointF12 = new PointF(3 * W / 10, 5 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF12);
+                                            break;
+                                        case 12:
+                                            //we have a value so print that to the board
+                                            PointF pointF13 = new PointF(5 * W / 10, 5 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF13);
+                                            break;
+                                        case 13:
+                                            //we have a value so print that to the board
+                                            PointF pointF14 = new PointF(7 * W / 10, 5 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF14);
+                                            break;
+                                        case 14:
+                                            //we have a value so print that to the board
+                                            PointF pointF15 = new PointF(9 * W / 10, 5 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF15);
+                                            break;
 
+                                        //row 4
+                                        case 15:
+                                            //we have a value so print that to the board
+                                            PointF pointF16 = new PointF(W / 10, 7 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF16);
+                                            break;
+                                        case 16:
+                                            //we have a value so print that to the board
+                                            PointF pointF17 = new PointF(3 * W / 10, 7 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF17);
+                                            break;
+                                        case 17:
+                                            //we have a value so print that to the board
+                                            PointF pointF18 = new PointF(5 * W / 10, 7 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF18);
+                                            break;
+                                        case 18:
+                                            //we have a value so print that to the board
+                                            PointF pointF19 = new PointF(7 * W / 10, 7 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF19);
+                                            break;
+                                        case 19:
+                                            //we have a value so print that to the board
+                                            PointF pointF20 = new PointF(9 * W / 10, 7 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF20);
+                                            break;
+
+                                        //row 5
+                                        case 20:
+                                            //we have a value so print that to the board
+                                            PointF pointF21 = new PointF(W / 10, 9 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF21);
+                                            break;
+                                        case 21:
+                                            //we have a value so print that to the board
+                                            PointF pointF22 = new PointF(3 * W / 10, 9 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF22);
+                                            break;
+                                        case 22:
+                                            //we have a value so print that to the board
+                                            PointF pointF23 = new PointF(5 * W / 10, 9 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF23);
+                                            break;
+                                        case 23:
+                                            //we have a value so print that to the board
+                                            PointF pointF24 = new PointF(7 * W / 10, 9 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF24);
+                                            break;
+                                        case 24:
+                                            //we have a value so print that to the board
+                                            PointF pointF25 = new PointF(9 * W / 10, 9 * L / 10);
+                                            e.Graphics.DrawString(gameValuesMedium1[i].ToString(), font1, Brushes.Black, pointF25);
+                                            break;
                                     }
                                 }
                             }
@@ -579,6 +661,216 @@ namespace JennyCasey_Assignment5
                                     canvas.Controls.Add(txt);
                                     generatedMedTextboxes.Add(txt);
                                 }
+                                else if( i == 10)
+                                { 
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF11 = new Point(W / 10 - 10, 5 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell11";
+                                    txt.Text = "";
+                                    txt.Location = pointF11;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 11)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF12 = new Point(3 * W / 10 - 10, 5 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell12";
+                                    txt.Text = "";
+                                    txt.Location = pointF12;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 12)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF13 = new Point(5 * W / 10 - 10, 5 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell13";
+                                    txt.Text = "";
+                                    txt.Location = pointF13;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i== 13)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF14 = new Point(7 * W / 10 - 10, 5 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell14";
+                                    txt.Text = "";
+                                    txt.Location = pointF14;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 14)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF15 = new Point(9 * W / 10 - 10, 5 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell15";
+                                    txt.Text = "";
+                                    txt.Location = pointF15;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if( i == 15)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF16 = new Point(W / 10 - 10, 7 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell16";
+                                    txt.Text = "";
+                                    txt.Location = pointF16;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 16)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                     Point pointF17 = new Point(3 * W / 10 - 10, 7 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell17";
+                                    txt.Text = "";
+                                    txt.Location = pointF17;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 17)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF18 = new Point(5 * W / 10 - 10, 7 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell18";
+                                    txt.Text = "";
+                                    txt.Location = pointF18;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 18)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF19 = new Point(7 * W / 10 - 10, 7 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell19";
+                                    txt.Text = "";
+                                    txt.Location = pointF19;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 19)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF20 = new Point(9 * W / 10 - 10, 7 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell20";
+                                    txt.Text = "";
+                                    txt.Location = pointF20;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 20)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF21 = new Point(W / 10 - 10, 9 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell21";
+                                    txt.Text = "";
+                                    txt.Location = pointF21;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 21)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF22 = new Point(3 * W / 10 - 10, 9 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell22";
+                                    txt.Text = "";
+                                    txt.Location = pointF22;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 22)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF23 = new Point(5 * W / 10 - 10, 9 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell23";
+                                    txt.Text = "";
+                                    txt.Location = pointF23;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 23)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF24 = new Point(7 * W / 10 - 10, 9 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell24";
+                                    txt.Text = "";
+                                    txt.Location = pointF24;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
+                                else if(i == 24)
+                                {
+                                    //it is zero, so user has to figure out what the value is
+                                    Point pointF25 = new Point(9 * W / 10 - 10, 9 * L / 10);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell25";
+                                    txt.Text = "";
+                                    txt.Location = pointF25;
+                                    txt.Height = 30;
+                                    txt.Width = 30;
+                                    //txt.Font.Size = 24;
+                                    canvas.Controls.Add(txt);
+                                    generatedMedTextboxes.Add(txt);
+                                }
                             
                             }
                         }
@@ -606,7 +898,6 @@ namespace JennyCasey_Assignment5
                 }
             }
         }
-
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
             isDown = true;
