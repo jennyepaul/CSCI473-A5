@@ -20,6 +20,7 @@ namespace JennyCasey_Assignment5
 
         private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
         private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
+        private static List<TextBox> generatedHardTextboxes = new List<TextBox>();
 
 
         public static int L;
@@ -62,11 +63,13 @@ namespace JennyCasey_Assignment5
         private void canvas_Paint(object sender, PaintEventArgs e)
         {
 
-            string gameRecordEasy1, gameRecordMedium1;
+            string gameRecordEasy1, gameRecordMedium1, gameRecordHard1;
             List<string> gameStatsEasy1 = new List<string>();
             List<string> gameStatsMedium1 = new List<string>();
+            List<string> gameStatsHard1 = new List<string>();
 
             List<char> gameValuesMedium1 = new List<char>();
+            List<char> gameValuesHard1 = new List<char>();
 
             //read in the info from an easy 1  file and store into a list
             using (StreamReader inFile = new StreamReader("../../easy/e1.txt"))
@@ -82,6 +85,14 @@ namespace JennyCasey_Assignment5
                 while ((gameRecordMedium1 = inFile.ReadLine()) != null)
                 {
                     gameStatsMedium1.Add(gameRecordMedium1);
+                }
+            }
+            //read in the info from an hard 1  file and store into a list
+            using (StreamReader inFile = new StreamReader("../../hard/h1.txt"))
+            {
+                while ((gameRecordHard1 = inFile.ReadLine()) != null)
+                {
+                    gameStatsHard1.Add(gameRecordHard1);
                 }
             }
             //store each value of the easy file into a char
@@ -109,6 +120,15 @@ namespace JennyCasey_Assignment5
                 }
             }
            
+            //add the individual values to a list to iterate through later
+            for(int n = 0; n < 7; n++)
+            {
+                for(int j = 0; j < 7; j++)
+                {
+                    gameValuesHard1.Add(gameStatsHard1[n][j]);
+                }
+            }
+
             Graphics graphics = e.Graphics;
             if (isDown)
             {
@@ -126,8 +146,9 @@ namespace JennyCasey_Assignment5
                     //if user wanted to play an easy game, then paint a 3x3 
                     if (isEasyGame)
                     {
-                        //get rid of any textboxes from medium game
+                        //get rid of any textboxes from medium or hard game
                         resetMediumPuzzleTextboxes();
+                        resetHardPuzzleTextboxes();
 
                         //draw our vertical lines 
                         graphics.DrawLine(gamePen, W / 3, 0, W / 3, L);
@@ -351,8 +372,9 @@ namespace JennyCasey_Assignment5
                     }
                     else if (isMediumGame)
                     {
-                        //get rid of any textboxes from hard game
+                        //get rid of any textboxes from hard or easy game
                         resetEasyPuzzleTextboxes();
+                        resetHardPuzzleTextboxes();
 
                         //draw our vertical lines s
                         graphics.DrawLine(gamePen, W / 5, 0, W / 5, L);
@@ -894,6 +916,24 @@ namespace JennyCasey_Assignment5
                         {
                             graphics.DrawLine(gamePen, 0, (i * L / 7), W, (i * L / 7));
                         }
+
+                        //go through the char list to populate values into board
+                        for(int i =0; i < gameValuesHard1.Count; i++)
+                        {
+                            //if the value is not a zero, then we want to print it on the board
+                            if (gameValuesHard1[i] != '0')
+                            {
+                                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                                {
+                                    //have to set each cell that has a value, which is split into 7 rows of 7
+                                }
+                            }
+                            //else it IS a 0, so we want to allow the user to guess what the value could be
+                            else
+                            {
+                                //have to set each cell that has a value of 0 to a textbox, which is split into 7 rows of 7
+                            }
+                        }
                     }
                 }
             }
@@ -933,6 +973,16 @@ namespace JennyCasey_Assignment5
             }
             generatedMedTextboxes.Clear();
 
+        }
+
+        private void resetHardPuzzleTextboxes()
+        {
+            //remove the areas user can enter value for medium textboxes
+            for (int i = 0; i < generatedHardTextboxes.Count; i++)
+            {
+                canvas.Controls.Remove(generatedHardTextboxes[i]);
+            }
+            generatedHardTextboxes.Clear();
         }
     }
 }
