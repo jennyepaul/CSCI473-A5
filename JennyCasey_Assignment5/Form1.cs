@@ -917,17 +917,33 @@ namespace JennyCasey_Assignment5
                             graphics.DrawLine(gamePen, 0, (i * L / 7), W, (i * L / 7));
                         }
 
-                        //go through the char list to populate values into board
-                        for(int i =0; i < gameValuesHard1.Count; i++)
+                        PointF pointF1;
+
+                        //we'll have 49 points to place either a textbox or a value on the board
+                        PointF[] hardGamePoints = new PointF[50];
+
+                        //FOR TESTING PURPOSES, DELETE LATER:
+                        for (int k = 0; k < hardGamePoints.Length; k++)
                         {
+                            richTextBox1.AppendText("point " + k + " :" + hardGamePoints[k] + "\n");
+                        }
+
+
+                        //go through the char list to populate values into board
+                        for (int i =0; i < gameValuesHard1.Count; i++)
+                        {
+                            
                             //if the value is not a zero, then we want to print it on the board
                             if (gameValuesHard1[i] != '0')
                             {
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                                 {
-                                    //have to set each cell that has a value, which is split into 7 rows of 7
+
+                                       //   TRYING TO FIND A WAY TO EASILY GET EACH POINT
+
                                 }
                             }
+
                             //else it IS a 0, so we want to allow the user to guess what the value could be
                             else
                             {
