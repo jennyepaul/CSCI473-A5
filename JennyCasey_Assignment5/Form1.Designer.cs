@@ -108,8 +108,6 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.Button newGameButton;
         private System.Windows.Forms.ComboBox gameDifficultyDropDown;
         private System.Windows.Forms.ToolTip difficultyToolTip;
-
-        
     }
 }
 
