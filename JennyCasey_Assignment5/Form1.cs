@@ -414,15 +414,5 @@ namespace JennyCasey_Assignment5
             generatedEasyTextboxes.Clear();
 
         }
-        private void addValuesToEasyBoard(char a, char b, char c, char d, char e, char f, char g, char h, char i)
-        {
-            //MAYBE ADD IT SO THAT USER CAN EDIT THE LABELS? OR ADD A TEXT AREA/ SET THE VALUES THAT ARE SET AND DISABLE EDITING
-            //USE DRAW STRING --> ON ASSIGNMENT DIRECTIONS
-
-
-            if (isDown)
-            {
-            }
-        }
     }
 }
