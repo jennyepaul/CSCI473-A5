@@ -36,7 +36,6 @@ namespace JennyCasey_Assignment5
             this.newGameButton = new System.Windows.Forms.Button();
             this.gameDifficultyDropDown = new System.Windows.Forms.ComboBox();
             this.difficultyToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,7 +44,7 @@ namespace JennyCasey_Assignment5
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1371, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1371, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -84,20 +83,11 @@ namespace JennyCasey_Assignment5
             // 
             this.difficultyToolTip.AutomaticDelay = 100;
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(932, 448);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(427, 215);
-            this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
-            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.gameDifficultyDropDown);
             this.Controls.Add(this.newGameButton);
             this.Controls.Add(this.canvas);
@@ -118,7 +108,6 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.Button newGameButton;
         private System.Windows.Forms.ComboBox gameDifficultyDropDown;
         private System.Windows.Forms.ToolTip difficultyToolTip;
-        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 
