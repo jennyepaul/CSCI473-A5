@@ -506,7 +506,7 @@ namespace JennyCasey_Assignment5
                         int xSub = z;
                         int ySub = 0;
                         //go through the char list to populate values into board
-                        for (z = 0; z < 49; z++) // gameValuesHard1.Count; i++)
+                        for (z = 0; z < 49; z++)
                         {
                             //if the value is not a zero, then we want to print it on the board
                             if (gameValuesHard1[z] != '0')
@@ -589,7 +589,7 @@ namespace JennyCasey_Assignment5
 
         private void resetHardPuzzleTextboxes()
         {
-            //remove the areas user can enter value for medium textboxes
+            //remove the areas user can enter value for hard textboxes
             for (int i = 0; i < generatedHardTextboxes.Count; i++)
             {
                 canvas.Controls.Remove(generatedHardTextboxes[i]);
