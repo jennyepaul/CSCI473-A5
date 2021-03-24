@@ -134,7 +134,7 @@ namespace JennyCasey_Assignment5
             {
                 using (Pen gamePen = new Pen(Color.Black))
                 {
-                    gamePen.Width = 3;
+                    gamePen.Width = 5;
 
                     //draw the perimeter lines
                     graphics.DrawLine(gamePen, 0, 0, W, 0);
