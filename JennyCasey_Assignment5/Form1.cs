@@ -18,7 +18,7 @@ namespace JennyCasey_Assignment5
         private static bool isHardGame = false;
         private static bool isDown = false;
 
-        private static int row1EasySum;
+        public static int row1EasySum;// = 0;
         public static int row2EasySum;
         public static int row3EasySum;
 
@@ -50,20 +50,12 @@ namespace JennyCasey_Assignment5
             gameDifficultyDropDown.Items.Add("Medium");
             gameDifficultyDropDown.Items.Add("Hard");
 
+            row1EasySum = 0;
+
             //resetEasyPuzzleTextboxes();
         }
 
-        public int Row1EasySum
-        {
-            get
-            {
-                return row1EasySum;
-            }
-            set
-            {
-                row1EasySum = value;
-            }
-        }
+    
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             //NOTE --> WHENEVER THE USER CHANGES TO ANOTHER GAME, SOME PARTS OF THE LINES ARE FADED FROM WHERE OLD TEXTBOX USED TO BE?
@@ -128,8 +120,15 @@ namespace JennyCasey_Assignment5
             //store each value of the easy file into a char
             gameStatsEasy1[0].Split('0');
             char val = gameStatsEasy1[0][0];
+
+            //int intVal = Convert.ToInt32(val);
+
+
             char val2 = gameStatsEasy1[0][1];
+            //int intVal2 = int.Parse(val2.ToString());
+
             char val3 = gameStatsEasy1[0][2];
+            //int intVal3 = int.Parse(val3.ToString());
 
             gameStatsEasy1[1].Split('0');
             char val4 = gameStatsEasy1[1][0];
@@ -142,8 +141,13 @@ namespace JennyCasey_Assignment5
             char val8 = gameStatsEasy1[2][1];
             char val9 = gameStatsEasy1[2][2];
 
+            //row1EasySum += intVal; 
+            //row1EasySum += intVal2;
+            //row1EasySum += intVal3;
+
+
             //get the row sum
-            Row1EasySum = computeEasySum(val, val2, val3);
+           // Row1EasySum = computeEasySum(val, val2, val3);
             row2EasySum = computeEasySum(val4, val5, val6);
             row3EasySum = computeEasySum(val7, val8, val9);
 
@@ -209,6 +213,7 @@ namespace JennyCasey_Assignment5
                                 //we have a value so print that to the board
                                 PointF pointF1 = new PointF(W / 6, L / 6);
                                 e.Graphics.DrawString(val.ToString(), font1, Brushes.Black, pointF1);
+                                //row1EasySum += (int)val;
                             }
                             else
                             {
@@ -233,6 +238,7 @@ namespace JennyCasey_Assignment5
                             {
                                 PointF pointF2 = new PointF(3 * (W / 6), (L / 6));
                                 e.Graphics.DrawString(val2.ToString(), font1, Brushes.Black, pointF2);
+                                //row1EasySum += (int)val2;
                             }
                             else
                             {
@@ -253,6 +259,7 @@ namespace JennyCasey_Assignment5
                             {
                                 PointF pointF3 = new PointF(5 * (W / 6), (L / 6));
                                 e.Graphics.DrawString(val3.ToString(), font1, Brushes.Black, pointF3);
+                                //row1EasySum += (int)val3;
                             }
                             else
                             {
@@ -592,12 +599,12 @@ namespace JennyCasey_Assignment5
         //sample method to see if we can get the sum value to chagne
         private int updateRow1Sum(int val)
         {
-            MessageBox.Show("old row 1 sum is: " + Row1EasySum);
+            MessageBox.Show("old row 1 sum is: " + row1EasySum);
 
-            Row1EasySum += val;
+            row1EasySum += val;
 
-            MessageBox.Show("new row 1 sum value is: " + Row1EasySum);
-            return Row1EasySum;
+            MessageBox.Show("new row 1 sum value is: " + row1EasySum);
+            return row1EasySum;
 
         }
         private void numberInput(object sender, EventArgs e)
@@ -607,6 +614,8 @@ namespace JennyCasey_Assignment5
             int value = int.Parse(textbox.Text);
 
             updateRow1Sum(value);
+
+            rowSumBox.Refresh();
 
         }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
@@ -672,7 +681,7 @@ namespace JennyCasey_Assignment5
         {
             Graphics graphics = e.Graphics;
 
-            string row1Sum = Row1EasySum.ToString();
+            string row1Sum = row1EasySum.ToString();
             string row2Sum = row2EasySum.ToString();
             string row3Sum = row3EasySum.ToString();
 
