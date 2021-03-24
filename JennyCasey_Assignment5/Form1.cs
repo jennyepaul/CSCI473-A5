@@ -18,6 +18,10 @@ namespace JennyCasey_Assignment5
         private static bool isHardGame = false;
         private static bool isDown = false;
 
+        private static int row1EasySum;
+        private static int row2EasySum;
+        private static int row3EasySum;
+
         private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
         private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
         private static List<TextBox> generatedHardTextboxes = new List<TextBox>();
@@ -110,15 +114,26 @@ namespace JennyCasey_Assignment5
             char val2 = gameStatsEasy1[0][1];
             char val3 = gameStatsEasy1[0][2];
 
+            //get thr first row sum
+            row1EasySum = computeEasySum(val, val2, val3);
+
+            //MessageBox.Show(row1EasySum.ToString());
+
             gameStatsEasy1[1].Split('0');
             char val4 = gameStatsEasy1[1][0];
             char val5 = gameStatsEasy1[1][1];
             char val6 = gameStatsEasy1[1][2];
 
+            //get the second row sum
+            row2EasySum = computeEasySum(val4, val5, val6);
+
             gameStatsEasy1[2].Split('0');
             char val7 = gameStatsEasy1[2][0];
             char val8 = gameStatsEasy1[2][1];
             char val9 = gameStatsEasy1[2][2];
+
+            //get the third row sum
+            row3EasySum = computeEasySum(val7, val8, val9);
 
             //add the individual values to a list to iterate through later
             for (int n = 0; n < 5; n++)
@@ -553,6 +568,18 @@ namespace JennyCasey_Assignment5
             canvas.Refresh();
         }
 
+        private int computeEasySum(char a, char b, char c)
+        {
+            int A, B, C;
+
+            A = int.Parse(a.ToString());
+            B = int.Parse(b.ToString());
+            C = int.Parse(c.ToString());
+
+            int sum = A + B + C; 
+            return sum;
+        }
+
         private void newGameButton_MouseUp(object sender, MouseEventArgs e)
         {
             //reset all flags
@@ -592,6 +619,24 @@ namespace JennyCasey_Assignment5
                 canvas.Controls.Remove(generatedHardTextboxes[i]);
             }
             generatedHardTextboxes.Clear();
+        }
+
+        private void rowSumBox_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics graphics = e.Graphics;
+
+            string row1Sum = row1EasySum.ToString();
+
+            //MessageBox.Show(row1Sum);
+            string row2Sum = row2EasySum.ToString();
+            string row3Sum = row3EasySum.ToString();
+
+            using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+            {
+                PointF pointF1 = new PointF(rowSumBox.Width / 6, rowSumBox.Height / 6);
+                e.Graphics.DrawString(row1Sum, font1, Brushes.Black, pointF1);
+            }
+            
         }
     }
 }

@@ -36,7 +36,11 @@ namespace JennyCasey_Assignment5
             this.newGameButton = new System.Windows.Forms.Button();
             this.gameDifficultyDropDown = new System.Windows.Forms.ComboBox();
             this.difficultyToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.rowSumBox = new System.Windows.Forms.PictureBox();
+            this.columnSumBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -50,7 +54,7 @@ namespace JennyCasey_Assignment5
             // 
             // canvas
             // 
-            this.canvas.Location = new System.Drawing.Point(171, 92);
+            this.canvas.Location = new System.Drawing.Point(163, 63);
             this.canvas.Name = "canvas";
             this.canvas.Size = new System.Drawing.Size(1030, 503);
             this.canvas.TabIndex = 1;
@@ -83,11 +87,30 @@ namespace JennyCasey_Assignment5
             // 
             this.difficultyToolTip.AutomaticDelay = 100;
             // 
+            // rowSumBox
+            // 
+            this.rowSumBox.Location = new System.Drawing.Point(1199, 63);
+            this.rowSumBox.Name = "rowSumBox";
+            this.rowSumBox.Size = new System.Drawing.Size(116, 503);
+            this.rowSumBox.TabIndex = 4;
+            this.rowSumBox.TabStop = false;
+            this.rowSumBox.Paint += new System.Windows.Forms.PaintEventHandler(this.rowSumBox_Paint);
+            // 
+            // columnSumBox
+            // 
+            this.columnSumBox.Location = new System.Drawing.Point(163, 572);
+            this.columnSumBox.Name = "columnSumBox";
+            this.columnSumBox.Size = new System.Drawing.Size(1034, 82);
+            this.columnSumBox.TabIndex = 5;
+            this.columnSumBox.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
+            this.Controls.Add(this.columnSumBox);
+            this.Controls.Add(this.rowSumBox);
             this.Controls.Add(this.gameDifficultyDropDown);
             this.Controls.Add(this.newGameButton);
             this.Controls.Add(this.canvas);
@@ -96,6 +119,8 @@ namespace JennyCasey_Assignment5
             this.Name = "Form1";
             this.Text = "Jenny and Casey\'s Sudoku Game";
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -108,6 +133,8 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.Button newGameButton;
         private System.Windows.Forms.ComboBox gameDifficultyDropDown;
         private System.Windows.Forms.ToolTip difficultyToolTip;
+        private System.Windows.Forms.PictureBox rowSumBox;
+        private System.Windows.Forms.PictureBox columnSumBox;
     }
 }
 
