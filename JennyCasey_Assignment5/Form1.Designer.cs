@@ -60,6 +60,7 @@ namespace JennyCasey_Assignment5
             this.canvas.TabIndex = 1;
             this.canvas.TabStop = false;
             this.canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.canvas_Paint);
+
             // 
             // newGameButton
             // 
@@ -103,6 +104,7 @@ namespace JennyCasey_Assignment5
             this.columnSumBox.Size = new System.Drawing.Size(1034, 82);
             this.columnSumBox.TabIndex = 5;
             this.columnSumBox.TabStop = false;
+            this.columnSumBox.Paint += new System.Windows.Forms.PaintEventHandler(this.columnSumBox_Paint);
             // 
             // Form1
             // 

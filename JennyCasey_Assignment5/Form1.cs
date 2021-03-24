@@ -18,9 +18,15 @@ namespace JennyCasey_Assignment5
         private static bool isHardGame = false;
         private static bool isDown = false;
 
-        private static int row1EasySum;
-        private static int row2EasySum;
-        private static int row3EasySum;
+        public static int row1EasySum;
+        public static int row2EasySum;
+        public static int row3EasySum;
+
+        public static int testerTotal;
+
+        private static int col1EasySum;
+        private static int col2EasySum;
+        private static int col3EasySum;
 
         private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
         private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
@@ -114,26 +120,26 @@ namespace JennyCasey_Assignment5
             char val2 = gameStatsEasy1[0][1];
             char val3 = gameStatsEasy1[0][2];
 
-            //get thr first row sum
-            row1EasySum = computeEasySum(val, val2, val3);
-
-            //MessageBox.Show(row1EasySum.ToString());
-
             gameStatsEasy1[1].Split('0');
             char val4 = gameStatsEasy1[1][0];
             char val5 = gameStatsEasy1[1][1];
             char val6 = gameStatsEasy1[1][2];
 
-            //get the second row sum
-            row2EasySum = computeEasySum(val4, val5, val6);
 
             gameStatsEasy1[2].Split('0');
             char val7 = gameStatsEasy1[2][0];
             char val8 = gameStatsEasy1[2][1];
             char val9 = gameStatsEasy1[2][2];
 
-            //get the third row sum
+            //get the row sum
+            row1EasySum = computeEasySum(val, val2, val3);
+            row2EasySum = computeEasySum(val4, val5, val6);
             row3EasySum = computeEasySum(val7, val8, val9);
+
+            //get the column sums
+            col1EasySum = computeEasySum(val, val4, val7);
+            col2EasySum = computeEasySum(val2, val5, val8);
+            col3EasySum = computeEasySum(val3, val6, val9);
 
             //add the individual values to a list to iterate through later
             for (int n = 0; n < 5; n++)
@@ -156,6 +162,10 @@ namespace JennyCasey_Assignment5
             Graphics graphics = e.Graphics;
             if (isDown)
             {
+                //print the current totals (IE- any blanks are not added to the sum, only visible values)
+                rowSumBox.Refresh();
+                columnSumBox.Refresh();
+
                 using (Pen gamePen = new Pen(Color.Black))
                 {
                     gamePen.Width = 5;
@@ -177,6 +187,7 @@ namespace JennyCasey_Assignment5
                         //draw horizontal lines
                         graphics.DrawLine(gamePen, 0, (L / 3), W, (L / 3));
                         graphics.DrawLine(gamePen, 0, (2 * L / 3), W, (2 * L / 3));
+
 
                         using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                         {
@@ -202,6 +213,9 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
 
                                 generatedEasyTextboxes.Add(txt);
+                                txt.TextChanged += numberInput;
+
+
                             }
                             //cell 2
                             if (val2 != '0')
@@ -221,7 +235,7 @@ namespace JennyCasey_Assignment5
                                 txt.Width = 30;
                                 canvas.Controls.Add(txt);
                                 generatedEasyTextboxes.Add(txt);
-
+                                txt.TextChanged += numberInput;
                             }
                             //cell3 
                             if (val3 != '0')
@@ -242,7 +256,7 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
 
                                 generatedEasyTextboxes.Add(txt);
-
+                                txt.TextChanged += numberInput;
                             }
 
                             //SECOND ROW OF VALUES
@@ -265,7 +279,7 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
 
                                 generatedEasyTextboxes.Add(txt);
-
+                                txt.TextChanged += numberInput;
                             }
                             //cell 5
                             if (val5 != '0')
@@ -287,7 +301,7 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
 
                                 generatedEasyTextboxes.Add(txt);
-
+                                txt.TextChanged += numberInput;
                             }
                             //cell6 
                             if (val6 != '0')
@@ -309,7 +323,7 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
 
                                 generatedEasyTextboxes.Add(txt);
-
+                                txt.TextChanged += numberInput;
                             }
                             //THIRD ROW OF VALUES
                             //cell 7
@@ -331,7 +345,7 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
 
                                 generatedEasyTextboxes.Add(txt);
-
+                                txt.TextChanged += numberInput;
                             }
                             //cell 8
                             if (val8 != '0')
@@ -352,7 +366,7 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
 
                                 generatedEasyTextboxes.Add(txt);
-
+                                txt.TextChanged += numberInput;
                             }
                             //cell 9
                             if (val9 != '0')
@@ -373,11 +387,8 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
 
                                 generatedEasyTextboxes.Add(txt);
-
+                                txt.TextChanged += numberInput;
                             }
-
-
-
                         }
                     }
                     else if (isMediumGame)
@@ -451,11 +462,11 @@ namespace JennyCasey_Assignment5
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
+                                txt.Font = new Font(txt.Font.FontFamily, 14);
                                 //txt.Font.Size = 24
                                 canvas.Controls.Add(txt);
                                 generatedMedTextboxes.Add(txt);
-                               
-
+                                txt.TextChanged += numberInput;
                             }
                             //increment the x subscript
                             xSub++;
@@ -536,17 +547,21 @@ namespace JennyCasey_Assignment5
                             {
                                 
                                 //it is zero, so user has to figure out what the value is, so we need to add a textbox
-                                Point point2 = new Point(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
+                               Point point2 = new Point(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
                                TextBox txt = new TextBox();
                                txt.Name = "hardPuzzleCell" + z;
                                txt.Text = "";
                                txt.Location = point2;
                                txt.Height = 30;
                                txt.Width = 30;
-                               //txt.Font.Size = 24
+                               txt.Font = new Font(txt.Font.FontFamily, 14);
                                canvas.Controls.Add(txt);
                                generatedHardTextboxes.Add(txt);
-                               
+
+                                //add event when the user enters a number
+                                txt.TextChanged += numberInput;
+
+
                             }
                             //increment the x subscript
                             xSub++;
@@ -561,6 +576,30 @@ namespace JennyCasey_Assignment5
                     }
                 }
             }
+        }
+        
+        //sample method to see if we can get the sum value to chagne
+        private int updateRow1Sum(int val)
+        {
+            int rowTotal = row1EasySum;
+            MessageBox.Show("old sum value is " + rowTotal);
+            rowTotal += val;
+
+            MessageBox.Show("sum now is " + rowTotal);
+            row1EasySum = rowTotal;
+            //return rowTotal;
+
+            return row1EasySum;
+
+        }
+        private void numberInput(object sender, EventArgs e)
+        {
+            
+            TextBox textbox = (TextBox)sender;
+            int value = int.Parse(textbox.Text);
+
+            MessageBox.Show("new total: " + updateRow1Sum(value));
+
         }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
@@ -626,17 +665,61 @@ namespace JennyCasey_Assignment5
             Graphics graphics = e.Graphics;
 
             string row1Sum = row1EasySum.ToString();
-
-            //MessageBox.Show(row1Sum);
             string row2Sum = row2EasySum.ToString();
             string row3Sum = row3EasySum.ToString();
 
-            using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+            //if the button is down and we are at easy level, print the current sum (negating all blanks) to the right
+            if (isDown)
             {
-                PointF pointF1 = new PointF(rowSumBox.Width / 6, rowSumBox.Height / 6);
-                e.Graphics.DrawString(row1Sum, font1, Brushes.Black, pointF1);
+                //if it is an easy game, then we have 3 rows, so print the current totals
+                if (isEasyGame)
+                {
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(rowSumBox.Width / 6, rowSumBox.Height / 6);
+                        e.Graphics.DrawString(row1Sum, font1, Brushes.Black, pointF1);
+
+                        PointF pointF2 = new PointF(rowSumBox.Width / 6, 3 * rowSumBox.Height / 6);
+                        e.Graphics.DrawString(row2Sum, font1, Brushes.Black, pointF2);
+
+                        PointF pointF3 = new PointF(rowSumBox.Width / 6, 5 * rowSumBox.Height / 6);
+                        e.Graphics.DrawString(row3Sum, font1, Brushes.Black, pointF3);
+                    }
+                }
             }
-            
+        }
+
+        private void columnSumBox_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics graphics = e.Graphics;
+
+            string col1Sum = col1EasySum.ToString();
+            string col2Sum = col2EasySum.ToString();
+            string col3Sum = col3EasySum.ToString();
+
+            //if the button is down and we are at easy level, print the current sum (negating all blanks) to the right
+            if (isDown)
+            {
+                //if it is an easy game, then we have 3 rows, so print the current totals
+                if (isEasyGame)
+                {
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 6);
+                        e.Graphics.DrawString(col1Sum, font1, Brushes.Black, pointF1);
+
+                        PointF pointF2 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 6);
+                        e.Graphics.DrawString(col2Sum, font1, Brushes.Black, pointF2);
+
+                        PointF pointF3 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 6);
+                        e.Graphics.DrawString(col3Sum, font1, Brushes.Black, pointF3);
+                        
+                    }
+
+                }
+            }
+
+
         }
     }
 }
