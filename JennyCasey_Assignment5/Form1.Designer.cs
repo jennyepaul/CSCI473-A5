@@ -44,7 +44,7 @@ namespace JennyCasey_Assignment5
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1371, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1371, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -61,7 +61,7 @@ namespace JennyCasey_Assignment5
             // 
             this.newGameButton.Location = new System.Drawing.Point(139, 0);
             this.newGameButton.Name = "newGameButton";
-            this.newGameButton.Size = new System.Drawing.Size(127, 32);
+            this.newGameButton.Size = new System.Drawing.Size(145, 40);
             this.newGameButton.TabIndex = 2;
             this.newGameButton.Text = "Start New Puzzle";
             this.newGameButton.UseVisualStyleBackColor = true;

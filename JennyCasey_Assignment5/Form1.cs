@@ -40,7 +40,7 @@ namespace JennyCasey_Assignment5
             gameDifficultyDropDown.Items.Add("Medium");
             gameDifficultyDropDown.Items.Add("Hard");
 
-            resetEasyPuzzleTextboxes();
+            //resetEasyPuzzleTextboxes();
         }
 
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
@@ -53,15 +53,20 @@ namespace JennyCasey_Assignment5
             if (gameDifficultyDropDown.Text == "Easy")
             {
                 isEasyGame = true;
+                resetMediumPuzzleTextboxes();
+                resetHardPuzzleTextboxes();
             }
             else if (gameDifficultyDropDown.Text == "Medium")
             {
                 isMediumGame = true;
-
+                resetEasyPuzzleTextboxes();
+                resetHardPuzzleTextboxes();
             }
             else if (gameDifficultyDropDown.Text == "Hard")
             {
                 isHardGame = true;
+                resetEasyPuzzleTextboxes();
+                resetMediumPuzzleTextboxes();
             }
         }
         private void canvas_Paint(object sender, PaintEventArgs e)
@@ -149,11 +154,7 @@ namespace JennyCasey_Assignment5
 
                     //if user wanted to play an easy game, then paint a 3x3 
                     if (isEasyGame)
-                    {
-                        //get rid of any textboxes from medium or hard game
-                        resetMediumPuzzleTextboxes();
-                        resetHardPuzzleTextboxes();
-
+                    { 
                         //draw our vertical lines 
                         graphics.DrawLine(gamePen, W / 3, 0, W / 3, L);
                         graphics.DrawLine(gamePen, (2 * W / 3), 0, (2 * W / 3), L);
@@ -366,10 +367,6 @@ namespace JennyCasey_Assignment5
                     }
                     else if (isMediumGame)
                     {
-                        //get rid of any textboxes from hard or easy game
-                        resetEasyPuzzleTextboxes();
-                        resetHardPuzzleTextboxes();
-
                         //draw our vertical lines s
                         graphics.DrawLine(gamePen, W / 5, 0, W / 5, L);
                         for (int i = 2; i < 5; i++)
@@ -458,10 +455,6 @@ namespace JennyCasey_Assignment5
                     }
                     else if (isHardGame)
                     {
-                        //get rid of any textboxes from medium and easy game
-                        resetEasyPuzzleTextboxes();
-                        resetMediumPuzzleTextboxes();
-
                         //draw our vertical lines 
                         graphics.DrawLine(gamePen, W / 7, 0, W / 7, L);
                         for (int i = 2; i < 7; i++)
