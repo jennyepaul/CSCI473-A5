@@ -45,6 +45,10 @@ namespace JennyCasey_Assignment5
 
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //NOTE --> WHENEVER THE USER CHANGES TO ANOTHER GAME, SOME PARTS OF THE LINES ARE FADED FROM WHERE OLD TEXTBOX USED TO BE?
+            // TRY AND FIX THIS!!
+
+
             //depending what difficulty the user entered, we need to draw the corresponding playing field
             if (gameDifficultyDropDown.Text == "Easy")
             {
