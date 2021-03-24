@@ -18,7 +18,7 @@ namespace JennyCasey_Assignment5
         private static bool isHardGame = false;
         private static bool isDown = false;
 
-        public static int row1EasySum;
+        private static int row1EasySum;
         public static int row2EasySum;
         public static int row3EasySum;
 
@@ -53,6 +53,17 @@ namespace JennyCasey_Assignment5
             //resetEasyPuzzleTextboxes();
         }
 
+        public int Row1EasySum
+        {
+            get
+            {
+                return row1EasySum;
+            }
+            set
+            {
+                row1EasySum = value;
+            }
+        }
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             //NOTE --> WHENEVER THE USER CHANGES TO ANOTHER GAME, SOME PARTS OF THE LINES ARE FADED FROM WHERE OLD TEXTBOX USED TO BE?
@@ -132,7 +143,7 @@ namespace JennyCasey_Assignment5
             char val9 = gameStatsEasy1[2][2];
 
             //get the row sum
-            row1EasySum = computeEasySum(val, val2, val3);
+            Row1EasySum = computeEasySum(val, val2, val3);
             row2EasySum = computeEasySum(val4, val5, val6);
             row3EasySum = computeEasySum(val7, val8, val9);
 
@@ -581,15 +592,12 @@ namespace JennyCasey_Assignment5
         //sample method to see if we can get the sum value to chagne
         private int updateRow1Sum(int val)
         {
-            int rowTotal = row1EasySum;
-            MessageBox.Show("old sum value is " + rowTotal);
-            rowTotal += val;
+            MessageBox.Show("old row 1 sum is: " + Row1EasySum);
 
-            MessageBox.Show("sum now is " + rowTotal);
-            row1EasySum = rowTotal;
-            //return rowTotal;
+            Row1EasySum += val;
 
-            return row1EasySum;
+            MessageBox.Show("new row 1 sum value is: " + Row1EasySum);
+            return Row1EasySum;
 
         }
         private void numberInput(object sender, EventArgs e)
@@ -598,7 +606,7 @@ namespace JennyCasey_Assignment5
             TextBox textbox = (TextBox)sender;
             int value = int.Parse(textbox.Text);
 
-            MessageBox.Show("new total: " + updateRow1Sum(value));
+            updateRow1Sum(value);
 
         }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
@@ -664,7 +672,7 @@ namespace JennyCasey_Assignment5
         {
             Graphics graphics = e.Graphics;
 
-            string row1Sum = row1EasySum.ToString();
+            string row1Sum = Row1EasySum.ToString();
             string row2Sum = row2EasySum.ToString();
             string row3Sum = row3EasySum.ToString();
 
