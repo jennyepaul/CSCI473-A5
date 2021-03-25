@@ -1002,8 +1002,6 @@ namespace JennyCasey_Assignment5
                     }
                 }
             }
-        }
-
-       
+        }    
     }
 }
