@@ -17,10 +17,12 @@ namespace JennyCasey_Assignment5
         private static bool isMediumGame = false;
         private static bool isHardGame = false;
         private static bool isDown = false;
+        private static bool isBoardLoaded = false;
+        private static bool isEasyBoardChanged = false;
 
-        public static int row1EasySum;// = 0;
-        public static int row2EasySum;
-        public static int row3EasySum;
+        public static int row1EasySum = 0;
+        public static int row2EasySum = 0;
+        public static int row3EasySum = 0;
 
         public static int testerTotal;
 
@@ -31,6 +33,13 @@ namespace JennyCasey_Assignment5
         private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
         private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
         private static List<TextBox> generatedHardTextboxes = new List<TextBox>();
+        private static List<string> gameStatsEasy1 = new List<string>();
+        private static List<string> gameStatsMedium1 = new List<string>();
+        private static List<string> gameStatsHard1 = new List<string>();
+
+        public static List<char> gameValuesEasy1 = new List<char>();
+        public static List<char> gameValuesMedium1 = new List<char>();
+        public static List<char> gameValuesHard1 = new List<char>();
 
 
         public static int L;
@@ -49,10 +58,6 @@ namespace JennyCasey_Assignment5
             gameDifficultyDropDown.Items.Add("Easy");
             gameDifficultyDropDown.Items.Add("Medium");
             gameDifficultyDropDown.Items.Add("Hard");
-
-            row1EasySum = 0;
-
-            //resetEasyPuzzleTextboxes();
         }
 
     
@@ -86,13 +91,6 @@ namespace JennyCasey_Assignment5
         {
 
             string gameRecordEasy1, gameRecordMedium1, gameRecordHard1;
-            List<string> gameStatsEasy1 = new List<string>();
-            List<string> gameStatsMedium1 = new List<string>();
-            List<string> gameStatsHard1 = new List<string>();
-
-            List<char> gameValuesMedium1 = new List<char>();
-            List<char> gameValuesHard1 = new List<char>();
-
             //read in the info from an easy 1  file and store into a list
             using (StreamReader inFile = new StreamReader("../../easy/e1.txt"))
             {
@@ -117,46 +115,17 @@ namespace JennyCasey_Assignment5
                     gameStatsHard1.Add(gameRecordHard1);
                 }
             }
-            //store each value of the easy file into a char
-            gameStatsEasy1[0].Split('0');
-            char val = gameStatsEasy1[0][0];
 
-            //int intVal = Convert.ToInt32(val);
-
-
-            char val2 = gameStatsEasy1[0][1];
-            //int intVal2 = int.Parse(val2.ToString());
-
-            char val3 = gameStatsEasy1[0][2];
-            //int intVal3 = int.Parse(val3.ToString());
-
-            gameStatsEasy1[1].Split('0');
-            char val4 = gameStatsEasy1[1][0];
-            char val5 = gameStatsEasy1[1][1];
-            char val6 = gameStatsEasy1[1][2];
-
-
-            gameStatsEasy1[2].Split('0');
-            char val7 = gameStatsEasy1[2][0];
-            char val8 = gameStatsEasy1[2][1];
-            char val9 = gameStatsEasy1[2][2];
-
-            //row1EasySum += intVal; 
-            //row1EasySum += intVal2;
-            //row1EasySum += intVal3;
-
-
-            //get the row sum
-           // Row1EasySum = computeEasySum(val, val2, val3);
-            row2EasySum = computeEasySum(val4, val5, val6);
-            row3EasySum = computeEasySum(val7, val8, val9);
-
-            //get the column sums
-            col1EasySum = computeEasySum(val, val4, val7);
-            col2EasySum = computeEasySum(val2, val5, val8);
-            col3EasySum = computeEasySum(val3, val6, val9);
-
-            //add the individual values to a list to iterate through later
+            //add the individual easy difficulty alues to a list to iterate through later
+            for (int n = 0; n < 3; n++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    gameValuesEasy1.Add(gameStatsEasy1[n][j]);
+                   
+                }
+            }
+            //add the individual medium values to a list to iterate through later
             for (int n = 0; n < 5; n++)
             {
                 for (int j = 0; j < 5; j++)
@@ -165,7 +134,7 @@ namespace JennyCasey_Assignment5
                 }
             }
            
-            //add the individual values to a list to iterate through later
+            //add the individual hard values to a list to iterate through later
             for(int n = 0; n < 7; n++)
             {
                 for(int j = 0; j < 7; j++)
@@ -177,9 +146,10 @@ namespace JennyCasey_Assignment5
             Graphics graphics = e.Graphics;
             if (isDown)
             {
+                //row1SumEasyText.Text = row1EasySum;
                 //print the current totals (IE- any blanks are not added to the sum, only visible values)
-                rowSumBox.Refresh();
-                columnSumBox.Refresh();
+                //rowSumBox.Refresh();
+                //columnSumBox.Refresh();
 
                 using (Pen gamePen = new Pen(Color.Black))
                 {
@@ -203,211 +173,78 @@ namespace JennyCasey_Assignment5
                         graphics.DrawLine(gamePen, 0, (L / 3), W, (L / 3));
                         graphics.DrawLine(gamePen, 0, (2 * L / 3), W, (2 * L / 3));
 
+                        //PointF point;
+                        int x, y;
+                        int[] xPoints = new int[6];
+                        int[] yPoints = new int[6];
 
-                        using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                        //we'll have 10 points to place either a textbox or a value on the board
+                        PointF[] easyGamePoints = new PointF[10];
+                        int l = 0;
+                        int b = 0;
+
+                        //set our array of x values being 1, 3, 
+                        //need this to multiply by width / 10 since we want the middle of each block
+                        //to have the label/textbox
+                        for (int length = 1; length < 6; length += 2)
                         {
-                            //FIRST ROW OF VALUES
-                            //cell 1
-                            if (val != '0')
+                            x = length;
+                            xPoints[l] = x;
+
+                            l++;
+                        }
+                        //set out array of y values being 1, 3, 5
+                        //need this to multiply by length / 10 since we want the middle of each block
+                        //to have the label/textbox
+                        for (int width = 1; width < 6; width += 2)
+                        {
+                            y = width;
+                            yPoints[b] = y;
+
+                            b++;
+                        }
+                        int c = 0;
+                        int xSub = c;
+                        int ySub = 0;
+
+                        for (c = 0; c < 9; c++)
+                        {
+                            if (gameValuesEasy1[c] != '0')
                             {
-                                //we have a value so print that to the board
-                                PointF pointF1 = new PointF(W / 6, L / 6);
-                                e.Graphics.DrawString(val.ToString(), font1, Brushes.Black, pointF1);
-                                //row1EasySum += (int)val;
+                                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                                {
+                                    //we have a value so print that to the board
+                                    PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
+                                    e.Graphics.DrawString(gameValuesEasy1[c].ToString(), font1, Brushes.Black, point);
+                                }
+
                             }
                             else
                             {
-                                //it is zero, so user has to figure out what the value is
-                                Point pointF1 = new Point((W / 6) - 20, L / 6);
+                                Point point2 = new Point(xPoints[xSub] * (W / 6) - 10, yPoints[ySub] * (L / 6));
                                 TextBox txt = new TextBox();
-                                txt.Name = "easyPuzzleCell1";
+                                txt.Name = "easyPuzzleCell" + c;
                                 txt.Text = "";
-                                txt.Location = pointF1;
+                                txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
-                                //txt.Font.Size = 24;
-                                canvas.Controls.Add(txt);
-
-                                generatedEasyTextboxes.Add(txt);
-                                txt.TextChanged += numberInput;
-
-
-                            }
-                            //cell 2
-                            if (val2 != '0')
-                            {
-                                PointF pointF2 = new PointF(3 * (W / 6), (L / 6));
-                                e.Graphics.DrawString(val2.ToString(), font1, Brushes.Black, pointF2);
-                                //row1EasySum += (int)val2;
-                            }
-                            else
-                            {
-                                //it is zero, so user has to figure out what the value is
-                                Point pointF2 = new Point((3 * W / 6) - 20, L / 6);
-                                TextBox txt = new TextBox();
-                                txt.Name = "easyPuzzleCell2";
-                                txt.Text = "";
-                                txt.Location = pointF2;
-                                txt.Height = 30;
-                                txt.Width = 30;
+                                txt.Font = new Font(txt.Font.FontFamily, 14);
+                                //txt.Font.Size = 24
                                 canvas.Controls.Add(txt);
                                 generatedEasyTextboxes.Add(txt);
                                 txt.TextChanged += numberInput;
                             }
-                            //cell3 
-                            if (val3 != '0')
+                            //increment the x subscript
+                            xSub++;
+                            //if the subcript is at 3, we finished a row, so reset the xsubscript
+                            //and increment the y since we are going down to another row
+                            if (xSub == 3)
                             {
-                                PointF pointF3 = new PointF(5 * (W / 6), (L / 6));
-                                e.Graphics.DrawString(val3.ToString(), font1, Brushes.Black, pointF3);
-                                //row1EasySum += (int)val3;
-                            }
-                            else
-                            {
-                                //it is zero, so user has to figure out what the value is
-                                Point pointF3 = new Point((5 * W / 6) - 20, L / 6);
-                                TextBox txt = new TextBox();
-                                txt.Name = "easyPuzzleCell3";
-                                txt.Text = "";
-                                txt.Location = pointF3;
-                                txt.Height = 30;
-                                txt.Width = 30;
-                                canvas.Controls.Add(txt);
-
-                                generatedEasyTextboxes.Add(txt);
-                                txt.TextChanged += numberInput;
-                            }
-
-                            //SECOND ROW OF VALUES
-                            //cell 4
-                            if (val4 != '0')
-                            {
-                                PointF pointF4 = new PointF(W / 6, (3 * L / 6));
-                                e.Graphics.DrawString(val4.ToString(), font1, Brushes.Black, pointF4);
-                            }
-                            else
-                            {
-                                //it is zero, so user has to figure out what the value is
-                                Point pointF4 = new Point(W / 6 - 20, (3 * L / 6));
-                                TextBox txt = new TextBox();
-                                txt.Name = "easyPuzzleCell4";
-                                txt.Text = "";
-                                txt.Location = pointF4;
-                                txt.Height = 30;
-                                txt.Width = 30;
-                                canvas.Controls.Add(txt);
-
-                                generatedEasyTextboxes.Add(txt);
-                                txt.TextChanged += numberInput;
-                            }
-                            //cell 5
-                            if (val5 != '0')
-                            {
-                                PointF pointF5 = new PointF(3 * (W / 6), (3 * L / 6));
-                                e.Graphics.DrawString(val5.ToString(), font1, Brushes.Black, pointF5);
-                            }
-                            else
-                            {
-
-                                //it is zero, so user has to figure out what the value is
-                                Point pointF5 = new Point(3 * (W / 6) - 20, (3 * L / 6));
-                                TextBox txt = new TextBox();
-                                txt.Name = "easyPuzzleCell5";
-                                txt.Text = "";
-                                txt.Location = pointF5;
-                                txt.Height = 30;
-                                txt.Width = 30;
-                                canvas.Controls.Add(txt);
-
-                                generatedEasyTextboxes.Add(txt);
-                                txt.TextChanged += numberInput;
-                            }
-                            //cell6 
-                            if (val6 != '0')
-                            {
-                                PointF pointF6 = new PointF(5 * (W / 6), (3 * L / 6));
-                                e.Graphics.DrawString(val6.ToString(), font1, Brushes.Black, pointF6);
-                            }
-                            else
-                            {
-
-                                //it is zero, so user has to figure out what the value is
-                                Point pointF6 = new Point((5 * W / 6) - 20, (3 * L / 6));
-                                TextBox txt = new TextBox();
-                                txt.Name = "easyPuzzleCell6";
-                                txt.Text = "";
-                                txt.Location = pointF6;
-                                txt.Height = 30;
-                                txt.Width = 30;
-                                canvas.Controls.Add(txt);
-
-                                generatedEasyTextboxes.Add(txt);
-                                txt.TextChanged += numberInput;
-                            }
-                            //THIRD ROW OF VALUES
-                            //cell 7
-                            if (val7 != '0')
-                            {
-                                PointF pointF7 = new PointF(W / 6, (5 * L / 6));
-                                e.Graphics.DrawString(val7.ToString(), font1, Brushes.Black, pointF7);
-                            }
-                            else
-                            {
-                                //it is zero, so user has to figure out what the value is
-                                Point pointF7 = new Point(W / 6 - 20, (5 * L / 6));
-                                TextBox txt = new TextBox();
-                                txt.Name = "easyPuzzleCell7";
-                                txt.Text = "";
-                                txt.Location = pointF7;
-                                txt.Height = 30;
-                                txt.Width = 30;
-                                canvas.Controls.Add(txt);
-
-                                generatedEasyTextboxes.Add(txt);
-                                txt.TextChanged += numberInput;
-                            }
-                            //cell 8
-                            if (val8 != '0')
-                            {
-                                PointF pointF8 = new PointF(3 * (W / 6), (5 * L / 6));
-                                e.Graphics.DrawString(val8.ToString(), font1, Brushes.Black, pointF8);
-                            }
-                            else
-                            {
-                                //it is zero, so user has to figure out what the value is
-                                Point pointF8 = new Point(3 * (W / 6) - 20, (5 * L / 6));
-                                TextBox txt = new TextBox();
-                                txt.Name = "easyPuzzleCell8";
-                                txt.Text = "";
-                                txt.Location = pointF8;
-                                txt.Height = 30;
-                                txt.Width = 30;
-                                canvas.Controls.Add(txt);
-
-                                generatedEasyTextboxes.Add(txt);
-                                txt.TextChanged += numberInput;
-                            }
-                            //cell 9
-                            if (val9 != '0')
-                            {
-                                PointF pointF9 = new PointF(5 * (W / 6), (5 * L / 6));
-                                e.Graphics.DrawString(val9.ToString(), font1, Brushes.Black, pointF9);
-                            }
-                            else
-                            {
-                                //it is zero, so user has to figure out what the value is
-                                Point pointF9 = new Point(5 * (W / 6) - 20, (5 * L / 6));
-                                TextBox txt = new TextBox();
-                                txt.Name = "easyPuzzleCell9";
-                                txt.Text = "";
-                                txt.Location = pointF9;
-                                txt.Height = 30;
-                                txt.Width = 30;
-                                canvas.Controls.Add(txt);
-
-                                generatedEasyTextboxes.Add(txt);
-                                txt.TextChanged += numberInput;
+                                xSub = 0;
+                                ySub++;
                             }
                         }
+                        
                     }
                     else if (isMediumGame)
                     {
@@ -594,46 +431,122 @@ namespace JennyCasey_Assignment5
                     }
                 }
             }
+            isBoardLoaded = true;
+            
         }
-        
-        //sample method to see if we can get the sum value to chagne
-        private int updateRow1Sum(int val)
+     
+        private void calculateInitialEasyRowSums(List<char> list1)
         {
-            MessageBox.Show("old row 1 sum is: " + row1EasySum);
+            int val;
+       
+            //go through the easy board
+            for (int i = 0; i < 3; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row1EasySum += val;
+            }
+            
+            for(int i = 3; i < 6; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row2EasySum += val;
+            }
 
-            row1EasySum += val;
+            for(int i = 6; i < 9; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row3EasySum += val;
+            }
+            
+        }
+        private void calculateInitialEasyColSums(List<char> list1)
+        {
+            int val;
 
-            MessageBox.Show("new row 1 sum value is: " + row1EasySum);
-            return row1EasySum;
+            //go through the easy board
+            for (int i = 0; i < 9; i+=3)
+            {
+                val = int.Parse(list1[i].ToString());
+                col1EasySum += val;
+            }
+
+            for (int i = 1; i < 9; i+=3)
+            {
+                val = int.Parse(list1[i].ToString());
+                col2EasySum += val;
+            }
+
+            for (int i = 2; i < 9; i+=3)
+            {
+                val = int.Parse(list1[i].ToString());
+                col3EasySum += val;
+            }
 
         }
         private void numberInput(object sender, EventArgs e)
         {
-            
             TextBox textbox = (TextBox)sender;
             int value = int.Parse(textbox.Text);
+            //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
+            if(textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
+                                || textbox.Name.Contains("2"))
+            {
+                row1EasySum += int.Parse(textbox.Text);
+                rowSumBox.Refresh();
+            }
+            //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
+            if (textbox.Name.Contains("easy") && textbox.Name.Contains("3") || textbox.Name.Contains("4")
+                                || textbox.Name.Contains("5"))
+            {
+                row2EasySum += int.Parse(textbox.Text);
+                rowSumBox.Refresh();
 
-            updateRow1Sum(value);
-
-            rowSumBox.Refresh();
+            }
+            //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
+            if (textbox.Name.Contains("easy") && textbox.Name.Contains("6") || textbox.Name.Contains("7")
+                                || textbox.Name.Contains("8"))
+            {
+                row3EasySum += int.Parse(textbox.Text);
+                rowSumBox.Refresh();
+            }
+            //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+            if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("3")
+                                || textbox.Name.Contains("6"))
+            {
+                col1EasySum += int.Parse(textbox.Text);
+                columnSumBox.Refresh();
+            }
+            //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+            if (textbox.Name.Contains("easy") && textbox.Name.Contains("1") || textbox.Name.Contains("4")
+                                || textbox.Name.Contains("7"))
+            {
+                col2EasySum += int.Parse(textbox.Text);
+                columnSumBox.Refresh();
+            }
+            //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+            if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("5")
+                                || textbox.Name.Contains("8"))
+            {
+                col3EasySum += int.Parse(textbox.Text);
+                columnSumBox.Refresh();
+            }
 
         }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
             isDown = true;
             canvas.Refresh();
-        }
+            if (isBoardLoaded)
+            {
+                //load the totals for the easy game board rows
+                calculateInitialEasyRowSums(gameValuesEasy1);
+                rowSumBox.Refresh();
 
-        private int computeEasySum(char a, char b, char c)
-        {
-            int A, B, C;
+                //load the totals for the easy game board columns
+                calculateInitialEasyColSums(gameValuesEasy1);
+                columnSumBox.Refresh();
+            }
 
-            A = int.Parse(a.ToString());
-            B = int.Parse(b.ToString());
-            C = int.Parse(c.ToString());
-
-            int sum = A + B + C; 
-            return sum;
         }
 
         private void newGameButton_MouseUp(object sender, MouseEventArgs e)
@@ -676,67 +589,53 @@ namespace JennyCasey_Assignment5
             }
             generatedHardTextboxes.Clear();
         }
-
         private void rowSumBox_Paint(object sender, PaintEventArgs e)
         {
+
             Graphics graphics = e.Graphics;
 
-            string row1Sum = row1EasySum.ToString();
-            string row2Sum = row2EasySum.ToString();
-            string row3Sum = row3EasySum.ToString();
-
-            //if the button is down and we are at easy level, print the current sum (negating all blanks) to the right
-            if (isDown)
+            if (isBoardLoaded)
             {
-                //if it is an easy game, then we have 3 rows, so print the current totals
-                if (isEasyGame)
-                {
-                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         PointF pointF1 = new PointF(rowSumBox.Width / 6, rowSumBox.Height / 6);
-                        e.Graphics.DrawString(row1Sum, font1, Brushes.Black, pointF1);
+                        e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.Black, pointF1);
+
 
                         PointF pointF2 = new PointF(rowSumBox.Width / 6, 3 * rowSumBox.Height / 6);
-                        e.Graphics.DrawString(row2Sum, font1, Brushes.Black, pointF2);
+                        e.Graphics.DrawString(row2EasySum.ToString(), font1, Brushes.Black, pointF2);
 
                         PointF pointF3 = new PointF(rowSumBox.Width / 6, 5 * rowSumBox.Height / 6);
-                        e.Graphics.DrawString(row3Sum, font1, Brushes.Black, pointF3);
+                        e.Graphics.DrawString(row3EasySum.ToString(), font1, Brushes.Black, pointF3);
+
                     }
                 }
-            }
+            
+
         }
 
         private void columnSumBox_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
 
-            string col1Sum = col1EasySum.ToString();
-            string col2Sum = col2EasySum.ToString();
-            string col3Sum = col3EasySum.ToString();
-
-            //if the button is down and we are at easy level, print the current sum (negating all blanks) to the right
-            if (isDown)
+            if (isBoardLoaded)
             {
-                //if it is an easy game, then we have 3 rows, so print the current totals
-                if (isEasyGame)
-                {
+                
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 6);
-                        e.Graphics.DrawString(col1Sum, font1, Brushes.Black, pointF1);
+                        e.Graphics.DrawString(col1EasySum.ToString(), font1, Brushes.Black, pointF1);
 
                         PointF pointF2 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 6);
-                        e.Graphics.DrawString(col2Sum, font1, Brushes.Black, pointF2);
+                        e.Graphics.DrawString(col2EasySum.ToString(), font1, Brushes.Black, pointF2);
 
                         PointF pointF3 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 6);
-                        e.Graphics.DrawString(col3Sum, font1, Brushes.Black, pointF3);
-                        
+                        e.Graphics.DrawString(col3EasySum.ToString(), font1, Brushes.Black, pointF3);
+
                     }
-
                 }
-            }
 
-
+            
         }
     }
 }
