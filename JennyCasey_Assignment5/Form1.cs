@@ -19,20 +19,31 @@ namespace JennyCasey_Assignment5
         private static bool isDown = false;
         private static bool isBoardLoaded = false;
         private static bool isEasyBoard = false;
+        private static bool isMediumBoard = false;
 
+        //all totals variables  for an easy board
         private static int row1EasySum = 0;
         private static int row2EasySum = 0;
         private static int row3EasySum = 0;
-
         private static int diagnal1EasySum = 0;
         private static int diagnal2EasySum = 0;
-
-
-        public static int testerTotal;
-
         private static int col1EasySum = 0;
         private static int col2EasySum = 0;
         private static int col3EasySum = 0;
+
+        //all totals variables for a medium board
+        private static int row1MediumSum = 0;
+        private static int row2MediumSum = 0;
+        private static int row3MediumSum = 0;
+        private static int row4MediumSum = 0;
+        private static int row5MediumSum = 0;
+        private static int col1MediumSum = 0;
+        private static int col2MediumSum = 0;
+        private static int col3MediumSum = 0;
+        private static int col4MediumSum = 0;
+        private static int col5MediumSum = 0;
+        private static int diagnal1MediumSum = 0;
+        private static int diagnal2MediumSum = 0;
 
         private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
         private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
@@ -253,6 +264,7 @@ namespace JennyCasey_Assignment5
                     }
                     else if (isMediumGame)
                     {
+                        isMediumBoard = true;
                         //draw our vertical lines s
                         graphics.DrawLine(gamePen, W / 5, 0, W / 5, L);
                         for (int i = 2; i < 5; i++)
@@ -509,6 +521,91 @@ namespace JennyCasey_Assignment5
 
 
         }
+
+        private void calculateInitialMediumRowSums(List<char> list1)
+        {
+            int val;
+            //go through the medium board
+            for (int i = 0; i < 5; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row1MediumSum += val;
+            }
+
+            for (int i = 5; i < 9; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row2MediumSum += val;
+            }
+
+            for (int i = 10; i < 14; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row3MediumSum += val;
+            }
+            for (int i = 15; i < 19; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row4MediumSum += val;
+            }
+            for (int i = 20; i < 24; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row5MediumSum += val;
+            }
+
+        }
+
+        private void calculateInitialMediumColSums(List<char> list1)
+        {
+            int val;
+            //go through the medium board
+            for (int i = 0; i < 21; i+=5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col1MediumSum += val;
+            }
+
+            for (int i = 1; i < 22; i+=5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col2MediumSum += val;
+            }
+
+            for (int i = 2; i < 23; i+=5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col3MediumSum += val;
+            }
+            for (int i = 3; i < 24; i+=5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col4MediumSum += val;
+            }
+            for (int i = 4; i < 25; i+=5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col5MediumSum += val;
+            }
+        }
+        private void calculateInitialMediumDiagnalSums(List<char> list1)
+        {
+            int val;
+
+            //go through the medium board
+            for (int i = 4; i < 25; i += 4)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal1MediumSum += val;
+            }
+
+            //go through the medium board
+            for (int i = 0; i < 25; i += 6)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal2MediumSum += val;
+            }
+        }
         private void numberInput(object sender, EventArgs e)
         {
             TextBox textbox = (TextBox)sender;
@@ -516,6 +613,12 @@ namespace JennyCasey_Assignment5
             if (textbox.Name.Contains("easy"))
             {
                 isEasyBoard = true;
+                isMediumBoard = false;
+            }
+            if(textbox.Name.Contains("med"))
+            {
+                isMediumBoard = true;
+                isEasyBoard = false;
             }
             //row changing total values
             //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
@@ -590,6 +693,70 @@ namespace JennyCasey_Assignment5
                 diagnal1SumBox.Refresh();
             }
 
+            //MEDIUM BOARD CALCULTIONS IF CHANGE IN TEXT BOXES
+            //5 ROWS OF MEDIUM TABLE
+            if(textbox.Name.Contains("med") && textbox.Name.Contains("0") || textbox.Name.Contains("1") || textbox.Name.Contains("2")
+                                    || textbox.Name.Contains("3") || textbox.Name.Contains("4"))
+            {
+                row1MediumSum += int.Parse(textbox.Text);
+                rowSumBox.Refresh();
+            }
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("5") || textbox.Name.Contains("6") || textbox.Name.Contains("7")
+                                    || textbox.Name.Contains("8") || textbox.Name.Contains("9"))
+            {
+                row2MediumSum += int.Parse(textbox.Text);
+                rowSumBox.Refresh();
+            }
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("10") || textbox.Name.Contains("11") || textbox.Name.Contains("12")
+                                   || textbox.Name.Contains("13") || textbox.Name.Contains("14"))
+            {
+                row3MediumSum += int.Parse(textbox.Text);
+                rowSumBox.Refresh();
+            }
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("15") || textbox.Name.Contains("16") || textbox.Name.Contains("17")
+                                 || textbox.Name.Contains("18") || textbox.Name.Contains("19"))
+            {
+                row4MediumSum += int.Parse(textbox.Text);
+                rowSumBox.Refresh();
+            }
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("20") || textbox.Name.Contains("21") || textbox.Name.Contains("22")
+                                 || textbox.Name.Contains("23") || textbox.Name.Contains("24"))
+            {
+                row5MediumSum += int.Parse(textbox.Text);
+                rowSumBox.Refresh();
+            }
+
+            //COLUMNS OF MEDIUM TABLE
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("0") || textbox.Name.Contains("5") || textbox.Name.Contains("10")
+                                    || textbox.Name.Contains("15") || textbox.Name.Contains("20"))
+            {
+                col1MediumSum += int.Parse(textbox.Text);
+                columnSumBox.Refresh();
+            }
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("1") || textbox.Name.Contains("6") || textbox.Name.Contains("11")
+                                     || textbox.Name.Contains("16") || textbox.Name.Contains("21"))
+            {
+                col2MediumSum += int.Parse(textbox.Text);
+                columnSumBox.Refresh();
+            }
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("2") || textbox.Name.Contains("7") || textbox.Name.Contains("12")
+                                    || textbox.Name.Contains("17") || textbox.Name.Contains("22"))
+            {
+                col3MediumSum += int.Parse(textbox.Text);
+                columnSumBox.Refresh();
+            }
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("3") || textbox.Name.Contains("8") || textbox.Name.Contains("13")
+                                  || textbox.Name.Contains("18") || textbox.Name.Contains("23"))
+            {
+                col4MediumSum += int.Parse(textbox.Text);
+                columnSumBox.Refresh();
+            }
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("4") || textbox.Name.Contains("9") || textbox.Name.Contains("14")
+                                 || textbox.Name.Contains("19") || textbox.Name.Contains("24"))
+            {
+                col5MediumSum += int.Parse(textbox.Text);
+                columnSumBox.Refresh();
+            }
 
         }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
@@ -598,18 +765,36 @@ namespace JennyCasey_Assignment5
             canvas.Refresh();
             if (isBoardLoaded)
             {
-                //load the totals for the easy game board rows
-                calculateInitialEasyRowSums(gameValuesEasy1);
-                rowSumBox.Refresh();
+                if (isEasyBoard)
+                {
+                    //load the totals for the easy game board rows
+                    calculateInitialEasyRowSums(gameValuesEasy1);
+                    rowSumBox.Refresh();
 
-                //load the totals for the easy game board columns
-                calculateInitialEasyColSums(gameValuesEasy1);
-                columnSumBox.Refresh();
+                    //load the totals for the easy game board columns
+                    calculateInitialEasyColSums(gameValuesEasy1);
+                    columnSumBox.Refresh();
 
-                //
-                calculateInitialEasyDiagnalSums(gameValuesEasy1);
-                diagnal1SumBox.Refresh();
-                diagnal2SumBox.Refresh();
+                    //load the diagnal totals for easy board
+                    calculateInitialEasyDiagnalSums(gameValuesEasy1);
+                    diagnal1SumBox.Refresh();
+                    diagnal2SumBox.Refresh();
+                }
+                if(isMediumBoard)
+                {
+                    //load the row totals for medium board
+                    calculateInitialMediumRowSums(gameValuesMedium1);
+                    rowSumBox.Refresh();
+
+                    //load the column totals for medium board
+                    calculateInitialMediumColSums(gameValuesMedium1);
+                    columnSumBox.Refresh();
+
+                    //load the diagnal totals for medium board
+                    calculateInitialMediumDiagnalSums(gameValuesMedium1);
+                    diagnal1SumBox.Refresh();
+                    diagnal2SumBox.Refresh();
+                }
             }
 
         }
@@ -622,6 +807,7 @@ namespace JennyCasey_Assignment5
             isMediumGame = false;
             isHardGame = false;
             isEasyBoard = false;
+            isMediumBoard = false;
         }
 
         private void resetEasyPuzzleTextboxes()
@@ -678,9 +864,28 @@ namespace JennyCasey_Assignment5
 
                     }
                 }
+                if(isMediumBoard)
+                {
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(rowSumBox.Width / 10, rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row1MediumSum.ToString(), font1, Brushes.Black, pointF1);
+
+                        PointF pointF2 = new PointF(rowSumBox.Width / 10, 3 * rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row2MediumSum.ToString(), font1, Brushes.Black, pointF2);
+
+                        PointF pointF3 = new PointF(rowSumBox.Width / 10, 5 * rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row3MediumSum.ToString(), font1, Brushes.Black, pointF3);
+
+                        PointF pointF4 = new PointF(rowSumBox.Width / 10, 7 * rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row4MediumSum.ToString(), font1, Brushes.Black, pointF4);
+
+                        PointF pointF5 = new PointF(rowSumBox.Width / 10, 9 * rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row5MediumSum.ToString(), font1, Brushes.Black, pointF5);
+
+                    }
+                }
             }
-
-
         }
 
         private void columnSumBox_Paint(object sender, PaintEventArgs e)
@@ -704,6 +909,27 @@ namespace JennyCasey_Assignment5
 
                     }
                 }
+                if(isMediumBoard)
+                {
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(columnSumBox.Width / 10, columnSumBox.Height / 10);
+                        e.Graphics.DrawString(col1MediumSum.ToString(), font1, Brushes.Black, pointF1);
+
+                        PointF pointF2 = new PointF(3 * columnSumBox.Width / 10, columnSumBox.Height / 10);
+                        e.Graphics.DrawString(col2MediumSum.ToString(), font1, Brushes.Black, pointF2);
+
+                        PointF pointF3 = new PointF(5 * columnSumBox.Width / 10, columnSumBox.Height / 10);
+                        e.Graphics.DrawString(col3MediumSum.ToString(), font1, Brushes.Black, pointF3);
+
+                        PointF pointF4 = new PointF(7 * columnSumBox.Width / 10, columnSumBox.Height / 10);
+                        e.Graphics.DrawString(col4MediumSum.ToString(), font1, Brushes.Black, pointF4);
+
+                        PointF pointF5 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 10);
+                        e.Graphics.DrawString(col5MediumSum.ToString(), font1, Brushes.Black, pointF5);
+
+                    }
+                }
                 
             }
 
@@ -722,7 +948,16 @@ namespace JennyCasey_Assignment5
                         e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.Black, pointF1);
                     }
                 }
-                
+                if (isMediumBoard)
+                {
+                    //paint the sum for the top diagnal total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal1SumBox.Width / 3, diagnal1SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal1MediumSum.ToString(), font1, Brushes.Black, pointF1);
+                    }
+                }
+
             }
         }
 
@@ -737,6 +972,15 @@ namespace JennyCasey_Assignment5
                     {
                         PointF pointF1 = new PointF(diagnal2SumBox.Width / 3, diagnal2SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal2EasySum.ToString(), font1, Brushes.Black, pointF1);
+                    }
+                }
+                if (isMediumBoard)
+                {
+                    //paint the sum for the bottom diagnal total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal2SumBox.Width / 3, diagnal2SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal2MediumSum.ToString(), font1, Brushes.Black, pointF1);
                     }
                 }
             }
