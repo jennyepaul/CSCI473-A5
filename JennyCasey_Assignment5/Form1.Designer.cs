@@ -38,9 +38,13 @@ namespace JennyCasey_Assignment5
             this.difficultyToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.rowSumBox = new System.Windows.Forms.PictureBox();
             this.columnSumBox = new System.Windows.Forms.PictureBox();
+            this.diagnal1SumBox = new System.Windows.Forms.PictureBox();
+            this.diagnal2SumBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.diagnal1SumBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.diagnal2SumBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -48,13 +52,13 @@ namespace JennyCasey_Assignment5
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1371, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1371, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // canvas
             // 
-            this.canvas.Location = new System.Drawing.Point(163, 63);
+            this.canvas.Location = new System.Drawing.Point(167, 63);
             this.canvas.Name = "canvas";
             this.canvas.Size = new System.Drawing.Size(1030, 503);
             this.canvas.TabIndex = 1;
@@ -105,11 +109,31 @@ namespace JennyCasey_Assignment5
             this.columnSumBox.TabStop = false;
             this.columnSumBox.Paint += new System.Windows.Forms.PaintEventHandler(this.columnSumBox_Paint);
             // 
+            // diagnal1SumBox
+            // 
+            this.diagnal1SumBox.Location = new System.Drawing.Point(1203, 12);
+            this.diagnal1SumBox.Name = "diagnal1SumBox";
+            this.diagnal1SumBox.Size = new System.Drawing.Size(66, 50);
+            this.diagnal1SumBox.TabIndex = 6;
+            this.diagnal1SumBox.TabStop = false;
+            this.diagnal1SumBox.Paint += new System.Windows.Forms.PaintEventHandler(this.diagnal1SumBox_Paint);
+            // 
+            // diagnal2SumBox
+            // 
+            this.diagnal2SumBox.Location = new System.Drawing.Point(1199, 560);
+            this.diagnal2SumBox.Name = "diagnal2SumBox";
+            this.diagnal2SumBox.Size = new System.Drawing.Size(66, 59);
+            this.diagnal2SumBox.TabIndex = 7;
+            this.diagnal2SumBox.TabStop = false;
+            this.diagnal2SumBox.Paint += new System.Windows.Forms.PaintEventHandler(this.diagnal2SumBox_Paint);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
+            this.Controls.Add(this.diagnal2SumBox);
+            this.Controls.Add(this.diagnal1SumBox);
             this.Controls.Add(this.columnSumBox);
             this.Controls.Add(this.rowSumBox);
             this.Controls.Add(this.gameDifficultyDropDown);
@@ -122,6 +146,8 @@ namespace JennyCasey_Assignment5
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.diagnal1SumBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.diagnal2SumBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,6 +162,8 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.ToolTip difficultyToolTip;
         private System.Windows.Forms.PictureBox rowSumBox;
         private System.Windows.Forms.PictureBox columnSumBox;
+        private System.Windows.Forms.PictureBox diagnal1SumBox;
+        private System.Windows.Forms.PictureBox diagnal2SumBox;
     }
 }
 

@@ -20,15 +20,19 @@ namespace JennyCasey_Assignment5
         private static bool isBoardLoaded = false;
         private static bool isEasyBoardChanged = false;
 
-        public static int row1EasySum = 0;
-        public static int row2EasySum = 0;
-        public static int row3EasySum = 0;
+        private static int row1EasySum = 0;
+        private static int row2EasySum = 0;
+        private static int row3EasySum = 0;
+
+        private static int diagnal1EasySum = 0;
+        private static int diagnal2EasySum = 0;
+
 
         public static int testerTotal;
 
-        private static int col1EasySum;
-        private static int col2EasySum;
-        private static int col3EasySum;
+        private static int col1EasySum = 0;
+        private static int col2EasySum = 0;
+        private static int col3EasySum = 0;
 
         private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
         private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
@@ -60,7 +64,7 @@ namespace JennyCasey_Assignment5
             gameDifficultyDropDown.Items.Add("Hard");
         }
 
-    
+
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             //NOTE --> WHENEVER THE USER CHANGES TO ANOTHER GAME, SOME PARTS OF THE LINES ARE FADED FROM WHERE OLD TEXTBOX USED TO BE?
@@ -122,7 +126,7 @@ namespace JennyCasey_Assignment5
                 for (int j = 0; j < 3; j++)
                 {
                     gameValuesEasy1.Add(gameStatsEasy1[n][j]);
-                   
+
                 }
             }
             //add the individual medium values to a list to iterate through later
@@ -133,11 +137,11 @@ namespace JennyCasey_Assignment5
                     gameValuesMedium1.Add(gameStatsMedium1[n][j]);
                 }
             }
-           
+
             //add the individual hard values to a list to iterate through later
-            for(int n = 0; n < 7; n++)
+            for (int n = 0; n < 7; n++)
             {
-                for(int j = 0; j < 7; j++)
+                for (int j = 0; j < 7; j++)
                 {
                     gameValuesHard1.Add(gameStatsHard1[n][j]);
                 }
@@ -164,7 +168,7 @@ namespace JennyCasey_Assignment5
 
                     //if user wanted to play an easy game, then paint a 3x3 
                     if (isEasyGame)
-                    { 
+                    {
                         //draw our vertical lines 
                         graphics.DrawLine(gamePen, W / 3, 0, W / 3, L);
                         graphics.DrawLine(gamePen, (2 * W / 3), 0, (2 * W / 3), L);
@@ -244,7 +248,7 @@ namespace JennyCasey_Assignment5
                                 ySub++;
                             }
                         }
-                        
+
                     }
                     else if (isMediumGame)
                     {
@@ -392,26 +396,26 @@ namespace JennyCasey_Assignment5
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                                 {
                                     //we have a value so print that to the board
-                                    PointF point = new PointF(xPoints[xSub] * (W / 14),  yPoints[ySub] * (L / 14)); 
-                                   e.Graphics.DrawString(gameValuesHard1[z].ToString(), font1, Brushes.Black, point);
+                                    PointF point = new PointF(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
+                                    e.Graphics.DrawString(gameValuesHard1[z].ToString(), font1, Brushes.Black, point);
 
                                 }
                             }
                             //else it IS a 0, so we want to allow the user to guess what the value could be
                             else
                             {
-                                
+
                                 //it is zero, so user has to figure out what the value is, so we need to add a textbox
-                               Point point2 = new Point(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
-                               TextBox txt = new TextBox();
-                               txt.Name = "hardPuzzleCell" + z;
-                               txt.Text = "";
-                               txt.Location = point2;
-                               txt.Height = 30;
-                               txt.Width = 30;
-                               txt.Font = new Font(txt.Font.FontFamily, 14);
-                               canvas.Controls.Add(txt);
-                               generatedHardTextboxes.Add(txt);
+                                Point point2 = new Point(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
+                                TextBox txt = new TextBox();
+                                txt.Name = "hardPuzzleCell" + z;
+                                txt.Text = "";
+                                txt.Location = point2;
+                                txt.Height = 30;
+                                txt.Width = 30;
+                                txt.Font = new Font(txt.Font.FontFamily, 14);
+                                canvas.Controls.Add(txt);
+                                generatedHardTextboxes.Add(txt);
 
                                 //add event when the user enters a number
                                 txt.TextChanged += numberInput;
@@ -422,7 +426,7 @@ namespace JennyCasey_Assignment5
                             xSub++;
                             //if the subcript is at 7, we finished a row, so reset the xsubscript
                             //and increment the y since we are going down to another row
-                            if(xSub == 7)
+                            if (xSub == 7)
                             {
                                 xSub = 0;
                                 ySub++;
@@ -432,63 +436,86 @@ namespace JennyCasey_Assignment5
                 }
             }
             isBoardLoaded = true;
-            
+
         }
-     
+
         private void calculateInitialEasyRowSums(List<char> list1)
         {
             int val;
-       
+
             //go through the easy board
             for (int i = 0; i < 3; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row1EasySum += val;
             }
-            
-            for(int i = 3; i < 6; i++)
+
+            for (int i = 3; i < 6; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row2EasySum += val;
             }
 
-            for(int i = 6; i < 9; i++)
+            for (int i = 6; i < 9; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row3EasySum += val;
             }
-            
+
         }
         private void calculateInitialEasyColSums(List<char> list1)
         {
             int val;
 
             //go through the easy board
-            for (int i = 0; i < 9; i+=3)
+            for (int i = 0; i < 9; i += 3)
             {
                 val = int.Parse(list1[i].ToString());
                 col1EasySum += val;
             }
 
-            for (int i = 1; i < 9; i+=3)
+            for (int i = 1; i < 9; i += 3)
             {
                 val = int.Parse(list1[i].ToString());
                 col2EasySum += val;
             }
 
-            for (int i = 2; i < 9; i+=3)
+            for (int i = 2; i < 9; i += 3)
             {
                 val = int.Parse(list1[i].ToString());
                 col3EasySum += val;
             }
 
         }
+        private void calculateInitialEasyDiagnalSums(List<char> list1)
+        {
+            int val;
+
+            //go through the easy board
+            for (int i = 2; i < 9; i += 2)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal1EasySum += val;
+            }
+
+            //go through the easy board
+            for (int i = 0; i < 9; i += 4)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal2EasySum += val;
+            }
+
+
+
+        }
         private void numberInput(object sender, EventArgs e)
         {
             TextBox textbox = (TextBox)sender;
             int value = int.Parse(textbox.Text);
+
+            //row changing total values
             //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
-            if(textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
+            if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
                                 || textbox.Name.Contains("2"))
             {
                 row1EasySum += int.Parse(textbox.Text);
@@ -509,6 +536,7 @@ namespace JennyCasey_Assignment5
                 row3EasySum += int.Parse(textbox.Text);
                 rowSumBox.Refresh();
             }
+            //columns changing total values
             //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
             if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("3")
                                 || textbox.Name.Contains("6"))
@@ -531,6 +559,22 @@ namespace JennyCasey_Assignment5
                 columnSumBox.Refresh();
             }
 
+            //diagnals changing
+            //if the textbox name contains "easy" or have 0, 4, 8 in their name, it is a diagnal
+            if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("4")
+                                || textbox.Name.Contains("8"))
+            {
+                diagnal2EasySum += int.Parse(textbox.Text);
+                diagnal2SumBox.Refresh();
+            }
+            //if the textbox name contains "easy" or have 2, 4, 6 in their name, it is a diagnal
+            if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("4")
+                                || textbox.Name.Contains("6"))
+            {
+                diagnal1EasySum += int.Parse(textbox.Text);
+                diagnal1SumBox.Refresh();
+            }
+
         }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
@@ -545,6 +589,11 @@ namespace JennyCasey_Assignment5
                 //load the totals for the easy game board columns
                 calculateInitialEasyColSums(gameValuesEasy1);
                 columnSumBox.Refresh();
+
+                //
+                calculateInitialEasyDiagnalSums(gameValuesEasy1);
+                diagnal1SumBox.Refresh();
+                diagnal2SumBox.Refresh();
             }
 
         }
@@ -597,20 +646,20 @@ namespace JennyCasey_Assignment5
             if (isBoardLoaded)
             {
                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
-                    {
-                        PointF pointF1 = new PointF(rowSumBox.Width / 6, rowSumBox.Height / 6);
-                        e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.Black, pointF1);
+                {
+                    PointF pointF1 = new PointF(rowSumBox.Width / 6, rowSumBox.Height / 6);
+                    e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.Black, pointF1);
 
 
-                        PointF pointF2 = new PointF(rowSumBox.Width / 6, 3 * rowSumBox.Height / 6);
-                        e.Graphics.DrawString(row2EasySum.ToString(), font1, Brushes.Black, pointF2);
+                    PointF pointF2 = new PointF(rowSumBox.Width / 6, 3 * rowSumBox.Height / 6);
+                    e.Graphics.DrawString(row2EasySum.ToString(), font1, Brushes.Black, pointF2);
 
-                        PointF pointF3 = new PointF(rowSumBox.Width / 6, 5 * rowSumBox.Height / 6);
-                        e.Graphics.DrawString(row3EasySum.ToString(), font1, Brushes.Black, pointF3);
+                    PointF pointF3 = new PointF(rowSumBox.Width / 6, 5 * rowSumBox.Height / 6);
+                    e.Graphics.DrawString(row3EasySum.ToString(), font1, Brushes.Black, pointF3);
 
-                    }
                 }
-            
+            }
+
 
         }
 
@@ -620,22 +669,50 @@ namespace JennyCasey_Assignment5
 
             if (isBoardLoaded)
             {
-                
-                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
-                    {
-                        PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 6);
-                        e.Graphics.DrawString(col1EasySum.ToString(), font1, Brushes.Black, pointF1);
 
-                        PointF pointF2 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 6);
-                        e.Graphics.DrawString(col2EasySum.ToString(), font1, Brushes.Black, pointF2);
+                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                {
+                    PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 6);
+                    e.Graphics.DrawString(col1EasySum.ToString(), font1, Brushes.Black, pointF1);
 
-                        PointF pointF3 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 6);
-                        e.Graphics.DrawString(col3EasySum.ToString(), font1, Brushes.Black, pointF3);
+                    PointF pointF2 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 6);
+                    e.Graphics.DrawString(col2EasySum.ToString(), font1, Brushes.Black, pointF2);
 
-                    }
+                    PointF pointF3 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 6);
+                    e.Graphics.DrawString(col3EasySum.ToString(), font1, Brushes.Black, pointF3);
+
                 }
+            }
 
-            
+
         }
+
+        private void diagnal1SumBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (isBoardLoaded)
+            {
+                //paint the sum for the top diagnal total
+                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                {
+                    PointF pointF1 = new PointF(diagnal1SumBox.Width / 3, diagnal1SumBox.Height / 3);
+                    e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.Black, pointF1);
+                }
+            }
+        }
+
+        private void diagnal2SumBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (isBoardLoaded)
+            {
+                //paint the sum for the bottom diagnal total
+                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                {
+                    PointF pointF1 = new PointF(diagnal2SumBox.Width / 3, diagnal2SumBox.Height / 3);
+                    e.Graphics.DrawString(diagnal2EasySum.ToString(), font1, Brushes.Black, pointF1);
+                }
+            }
+        }
+
+       
     }
 }
