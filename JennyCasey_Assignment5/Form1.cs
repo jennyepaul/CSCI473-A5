@@ -593,7 +593,7 @@ namespace JennyCasey_Assignment5
             int val;
 
             //go through the medium board
-            for (int i = 4; i < 25; i += 4)
+            for (int i = 4; i < 21; i += 4)
             {
                 val = int.Parse(list1[i].ToString());
                 diagnal1MediumSum += val;
@@ -758,6 +758,24 @@ namespace JennyCasey_Assignment5
                 columnSumBox.Refresh();
             }
 
+            //diagnals
+            /*
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("0") || textbox.Name.Contains("6")
+                               || textbox.Name.Contains("12") || textbox.Name.Contains("18") || textbox.Name.Contains("24"))
+            {
+                diagnal2MediumSum += int.Parse(textbox.Text);
+                diagnal2SumBox.Refresh();
+
+            }
+            
+            if (textbox.Name.Contains("med") && textbox.Name.Contains("4") || textbox.Name.Contains("8")
+                               || textbox.Name.Contains("12") || textbox.Name.Contains("16") || textbox.Name.Contains("20"))
+            {
+                diagnal1MediumSum += int.Parse(textbox.Text);
+                diagnal1SumBox.Refresh();
+
+            }
+            */
         }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
