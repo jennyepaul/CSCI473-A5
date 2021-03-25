@@ -18,7 +18,7 @@ namespace JennyCasey_Assignment5
         private static bool isHardGame = false;
         private static bool isDown = false;
         private static bool isBoardLoaded = false;
-        private static bool isEasyBoardChanged = false;
+        private static bool isEasyBoard = false;
 
         private static int row1EasySum = 0;
         private static int row2EasySum = 0;
@@ -169,6 +169,7 @@ namespace JennyCasey_Assignment5
                     //if user wanted to play an easy game, then paint a 3x3 
                     if (isEasyGame)
                     {
+                        isEasyBoard = true;
                         //draw our vertical lines 
                         graphics.DrawLine(gamePen, W / 3, 0, W / 3, L);
                         graphics.DrawLine(gamePen, (2 * W / 3), 0, (2 * W / 3), L);
@@ -248,7 +249,7 @@ namespace JennyCasey_Assignment5
                                 ySub++;
                             }
                         }
-
+                        
                     }
                     else if (isMediumGame)
                     {
@@ -512,15 +513,19 @@ namespace JennyCasey_Assignment5
         {
             TextBox textbox = (TextBox)sender;
             int value = int.Parse(textbox.Text);
-
+            if (textbox.Name.Contains("easy"))
+            {
+                isEasyBoard = true;
+            }
             //row changing total values
             //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
-            if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
+                if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
                                 || textbox.Name.Contains("2"))
             {
                 row1EasySum += int.Parse(textbox.Text);
                 rowSumBox.Refresh();
             }
+
             //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
             if (textbox.Name.Contains("easy") && textbox.Name.Contains("3") || textbox.Name.Contains("4")
                                 || textbox.Name.Contains("5"))
@@ -529,13 +534,16 @@ namespace JennyCasey_Assignment5
                 rowSumBox.Refresh();
 
             }
+
             //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
             if (textbox.Name.Contains("easy") && textbox.Name.Contains("6") || textbox.Name.Contains("7")
                                 || textbox.Name.Contains("8"))
             {
                 row3EasySum += int.Parse(textbox.Text);
                 rowSumBox.Refresh();
+
             }
+
             //columns changing total values
             //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
             if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("3")
@@ -543,20 +551,25 @@ namespace JennyCasey_Assignment5
             {
                 col1EasySum += int.Parse(textbox.Text);
                 columnSumBox.Refresh();
+
             }
+
             //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
             if (textbox.Name.Contains("easy") && textbox.Name.Contains("1") || textbox.Name.Contains("4")
                                 || textbox.Name.Contains("7"))
             {
                 col2EasySum += int.Parse(textbox.Text);
                 columnSumBox.Refresh();
+
             }
+
             //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
             if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("5")
                                 || textbox.Name.Contains("8"))
             {
                 col3EasySum += int.Parse(textbox.Text);
                 columnSumBox.Refresh();
+
             }
 
             //diagnals changing
@@ -566,7 +579,9 @@ namespace JennyCasey_Assignment5
             {
                 diagnal2EasySum += int.Parse(textbox.Text);
                 diagnal2SumBox.Refresh();
+
             }
+
             //if the textbox name contains "easy" or have 2, 4, 6 in their name, it is a diagnal
             if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("4")
                                 || textbox.Name.Contains("6"))
@@ -574,6 +589,7 @@ namespace JennyCasey_Assignment5
                 diagnal1EasySum += int.Parse(textbox.Text);
                 diagnal1SumBox.Refresh();
             }
+
 
         }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
@@ -605,6 +621,7 @@ namespace JennyCasey_Assignment5
             isEasyGame = false;
             isMediumGame = false;
             isHardGame = false;
+            isEasyBoard = false;
         }
 
         private void resetEasyPuzzleTextboxes()
@@ -645,18 +662,21 @@ namespace JennyCasey_Assignment5
 
             if (isBoardLoaded)
             {
-                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                if (isEasyBoard)
                 {
-                    PointF pointF1 = new PointF(rowSumBox.Width / 6, rowSumBox.Height / 6);
-                    e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.Black, pointF1);
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(rowSumBox.Width / 6, rowSumBox.Height / 6);
+                        e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.Black, pointF1);
 
 
-                    PointF pointF2 = new PointF(rowSumBox.Width / 6, 3 * rowSumBox.Height / 6);
-                    e.Graphics.DrawString(row2EasySum.ToString(), font1, Brushes.Black, pointF2);
+                        PointF pointF2 = new PointF(rowSumBox.Width / 6, 3 * rowSumBox.Height / 6);
+                        e.Graphics.DrawString(row2EasySum.ToString(), font1, Brushes.Black, pointF2);
 
-                    PointF pointF3 = new PointF(rowSumBox.Width / 6, 5 * rowSumBox.Height / 6);
-                    e.Graphics.DrawString(row3EasySum.ToString(), font1, Brushes.Black, pointF3);
+                        PointF pointF3 = new PointF(rowSumBox.Width / 6, 5 * rowSumBox.Height / 6);
+                        e.Graphics.DrawString(row3EasySum.ToString(), font1, Brushes.Black, pointF3);
 
+                    }
                 }
             }
 
@@ -669,21 +689,23 @@ namespace JennyCasey_Assignment5
 
             if (isBoardLoaded)
             {
-
-                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                if (isEasyBoard)
                 {
-                    PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 6);
-                    e.Graphics.DrawString(col1EasySum.ToString(), font1, Brushes.Black, pointF1);
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 6);
+                        e.Graphics.DrawString(col1EasySum.ToString(), font1, Brushes.Black, pointF1);
 
-                    PointF pointF2 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 6);
-                    e.Graphics.DrawString(col2EasySum.ToString(), font1, Brushes.Black, pointF2);
+                        PointF pointF2 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 6);
+                        e.Graphics.DrawString(col2EasySum.ToString(), font1, Brushes.Black, pointF2);
 
-                    PointF pointF3 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 6);
-                    e.Graphics.DrawString(col3EasySum.ToString(), font1, Brushes.Black, pointF3);
+                        PointF pointF3 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 6);
+                        e.Graphics.DrawString(col3EasySum.ToString(), font1, Brushes.Black, pointF3);
 
+                    }
                 }
+                
             }
-
 
         }
 
@@ -691,12 +713,16 @@ namespace JennyCasey_Assignment5
         {
             if (isBoardLoaded)
             {
-                //paint the sum for the top diagnal total
-                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                if (isEasyBoard)
                 {
-                    PointF pointF1 = new PointF(diagnal1SumBox.Width / 3, diagnal1SumBox.Height / 3);
-                    e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.Black, pointF1);
+                    //paint the sum for the top diagnal total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal1SumBox.Width / 3, diagnal1SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.Black, pointF1);
+                    }
                 }
+                
             }
         }
 
@@ -704,11 +730,14 @@ namespace JennyCasey_Assignment5
         {
             if (isBoardLoaded)
             {
-                //paint the sum for the bottom diagnal total
-                using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                if (isEasyBoard)
                 {
-                    PointF pointF1 = new PointF(diagnal2SumBox.Width / 3, diagnal2SumBox.Height / 3);
-                    e.Graphics.DrawString(diagnal2EasySum.ToString(), font1, Brushes.Black, pointF1);
+                    //paint the sum for the bottom diagnal total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal2SumBox.Width / 3, diagnal2SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal2EasySum.ToString(), font1, Brushes.Black, pointF1);
+                    }
                 }
             }
         }
