@@ -1407,7 +1407,9 @@ namespace JennyCasey_Assignment5
        
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
-            
+            isEasyBoard = false;
+            isMediumBoard = false;
+            isHardBoard = false;
 
             row1AnswerEasy = 0;
             row1EasySum = 0;
