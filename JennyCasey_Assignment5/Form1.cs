@@ -1094,9 +1094,7 @@ namespace JennyCasey_Assignment5
             int value; 
             if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
             {
-                isDeletedValue = true;
-                //MessageBox.Show("deleted value " + val + " in " + textbox.Name);
-                
+                isDeletedValue = true;                
                 //set flags based on what board we are building
                 if (textbox.Name.Contains("easy"))
                 {
