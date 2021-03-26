@@ -1410,9 +1410,16 @@ namespace JennyCasey_Assignment5
             isDown = true;
             tmrCounter.Enabled = true;
             i = 0;
+
+
+            if (PauseResume_Button.Text == "Resume")
+            {
+                PauseResume_Button.Text = "Pause";
+                Hide_Board = false;
+            }
+
             canvas.Refresh();
-            //start the timer when a player chooses a puzzle
-            
+
             if (isBoardLoaded)
             {
                 if (isEasyBoard)
