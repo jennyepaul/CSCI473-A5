@@ -503,7 +503,7 @@ namespace JennyCasey_Assignment5
                             yPoints[b] = y;
 
                             b++;
-                        }
+                        }                      
                         int z = 0;
                         int xSub = z;
                         int ySub = 0;
@@ -1410,9 +1410,17 @@ namespace JennyCasey_Assignment5
             isDown = true;
             tmrCounter.Enabled = true;
             i = 0;
-            canvas.Refresh();
-            //start the timer when a player chooses a puzzle
             
+
+            if (PauseResume_Button.Text == "Resume")
+            {
+                PauseResume_Button.Text = "Pause";
+                Hide_Board = false;
+            }
+
+            canvas.Refresh();
+
+
             if (isBoardLoaded)
             {
                 if (isEasyBoard)
@@ -1432,6 +1440,7 @@ namespace JennyCasey_Assignment5
                     calculateAnswerEasyDiagnalSums(gameAnswersEasy1);
                     diagnal1SumBox.Refresh();
                     diagnal2SumBox.Refresh();
+
 
                     
                 }
@@ -1518,6 +1527,13 @@ namespace JennyCasey_Assignment5
             generatedHardTextboxes.Clear();
         }
 
+
+        List<string> EasyTimer = new List<string>();
+        List<string> MedTimer = new List<string>();
+        List<string> HardTimer = new List<string>();
+        int easy_itr = 0;
+        int med_itr = 0;
+        int hard_itr = 0;
         //draw the derived and actual totals for rows for all boards
         private void rowSumBox_Paint(object sender, PaintEventArgs e)
         {
@@ -1534,25 +1550,27 @@ namespace JennyCasey_Assignment5
                         //NOTE-> need to adjust color to be grey while they are still guessing, once full row is guessed
                         //then change color (if i read the assignment directions right)
                         //this color changing only works for row 1 of easy board
+
                         if (isRed)
                         {
                             //derived totals
                             PointF pointF1 = new PointF(rowSumBox.Width / 12, rowSumBox.Height / 6);
                             e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.Red, pointF1);
                         }
-                        if(isGreen)
+                        if (isGreen)
                         {
-                            PointF pointF1 = new PointF(rowSumBox.Width / 12,  rowSumBox.Height / 6);
+                            PointF pointF1 = new PointF(rowSumBox.Width / 12, rowSumBox.Height / 6);
                             e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.Green, pointF1);
+
                         }
-                        else if(!isRed && !isGreen)
+                        else if (!isRed && !isGreen)
                         {
                             //derived totals
                             PointF pointF1 = new PointF(rowSumBox.Width / 12, rowSumBox.Height / 6);
                             e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
                         }
-                       
-                        
+
+
 
                         PointF pointF2 = new PointF(rowSumBox.Width / 12, 3 * rowSumBox.Height / 6);
                         e.Graphics.DrawString(row2EasySum.ToString(), font1, Brushes.DarkGray, pointF2);
@@ -1560,7 +1578,7 @@ namespace JennyCasey_Assignment5
                         PointF pointF3 = new PointF(rowSumBox.Width / 12, 5 * rowSumBox.Height / 6);
                         e.Graphics.DrawString(row3EasySum.ToString(), font1, Brushes.DarkGray, pointF3);
 
-                        
+
                         //actual totals
                         PointF pointF4 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 6);
                         e.Graphics.DrawString(row1AnswerEasy.ToString(), font1, Brushes.Black, pointF4);
@@ -1568,12 +1586,63 @@ namespace JennyCasey_Assignment5
                         PointF pointF5 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 6);
                         e.Graphics.DrawString(row2AnswerEasy.ToString(), font1, Brushes.Black, pointF5);
 
-                        PointF pointF6 = new PointF(rowSumBox.Width /2, 5 * rowSumBox.Height / 6);
+                        PointF pointF6 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 6);
                         e.Graphics.DrawString(row3AnswerEasy.ToString(), font1, Brushes.Black, pointF6);
+                        
+                        if (row1EasySum == row1AnswerEasy && row2EasySum == row2AnswerEasy && row3EasySum == row3AnswerEasy)
+                        {
+                            tmrCounter.Enabled = false;
+                            easy_itr++;
+                            string EasyTimeRecord;
+                            if (easy_itr == 1)
+                            {
+                                using (StreamReader inFile = new StreamReader("../../easy/eTimes.txt"))
+                                {
+                                    while ((EasyTimeRecord = inFile.ReadLine()) != null)
+                                    {
+                                        EasyTimer.Add(EasyTimeRecord);
+                                    }
+                                }
+                            }
+
+                            EasyTimer.Add(i.ToString());
+
+                            if (EasyTimer.Count != 0)
+                            {
+                                int average = 0;
+                                int numofTimes = 0;
+                                int smallest = int.Parse(EasyTimer[0]);
+                                foreach (string item in EasyTimer)
+                                {
+                                    int m = int.Parse(item);
+                                    average = m + average;
+                                    numofTimes++;
+                                    if (m < smallest)
+                                    {
+                                        smallest = m;
+                                    }
+                                }
+                                average = average / numofTimes;
+
+                                MessageBox.Show("Completed!" + Timer_Label.Text + " \nAverage for Easy Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
+                            }
+                            else
+                            {
+                                MessageBox.Show("Completed!" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
+                            }
+
+                            using (StreamWriter writer = new StreamWriter("../../easy/eTimes.txt"))
+                            {
+                                foreach (string item in EasyTimer)
+                                {
+                                    writer.WriteLine(item + " ");
+                                }
+                            }
+                        }
 
                     }
                 }
-                if(isMediumBoard)
+                if (isMediumBoard)
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
@@ -1609,9 +1678,63 @@ namespace JennyCasey_Assignment5
                         PointF pointF10 = new PointF(rowSumBox.Width / 2, 9 * rowSumBox.Height / 10);
                         e.Graphics.DrawString(row5AnswerMed.ToString(), font1, Brushes.Black, pointF10);
 
+                        if (row1MediumSum == row1AnswerMed && row2MediumSum == row2AnswerMed &&
+                            row3MediumSum == row3AnswerMed && row4MediumSum == row4AnswerMed && row5MediumSum == row5AnswerMed)
+                        {
+                            MessageBox.Show("Completed!");
+                            tmrCounter.Enabled = false;
+                            med_itr++;
+                            string MedTimeRecord;
+                            if (med_itr == 1)
+                            {
+                                using (StreamReader inFile = new StreamReader("../../medium/mTimes.txt"))
+                                {
+                                    while ((MedTimeRecord = inFile.ReadLine()) != null)
+                                    {
+                                        MedTimer.Add(MedTimeRecord);
+                                    }
+                                }
+                            }
+
+                            MedTimer.Add(i.ToString());
+
+                            if (MedTimer.Count != 0)
+                            {
+                                int average = 0;
+                                int numofTimes = 0;
+                                int smallest = int.Parse(MedTimer[0]);
+                                foreach (string item in MedTimer)
+                                {
+                                    int m = int.Parse(item);
+                                    average = m + average;
+                                    numofTimes++;
+                                    if (m < smallest)
+                                    {
+                                        smallest = m;
+                                    }
+                                }
+                                average = average / numofTimes;
+
+                                MessageBox.Show("Completed!" + Timer_Label.Text + " \nAverage for Medium Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
+                            }
+                            else
+                            {
+                                MessageBox.Show("Completed!" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
+                            }
+
+                            using (StreamWriter writer = new StreamWriter("../../medium/mTimes.txt"))
+                            {
+                                foreach (string item in MedTimer)
+                                {
+                                    writer.WriteLine(item + " ");
+                                }
+                            }
+
+                        }
+
                     }
                 }
-                if(isHardBoard)
+                if (isHardBoard)
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
@@ -1659,6 +1782,58 @@ namespace JennyCasey_Assignment5
                         PointF pointF14 = new PointF(rowSumBox.Width / 2, 13 * rowSumBox.Height / 14);
                         e.Graphics.DrawString(row7AnswerHard.ToString(), font1, Brushes.Black, pointF14);
 
+                        if (row1HardSum == row1AnswerHard && row2HardSum == row2AnswerHard &&
+                            row3HardSum == row3AnswerHard && row4HardSum == row4AnswerHard && row5HardSum == row5AnswerHard &&
+                            row6HardSum == row6AnswerHard && row7HardSum == row7AnswerHard)
+                        {
+                            tmrCounter.Enabled = false;
+                            hard_itr++;
+                            string HardTimeRecord;
+                            if (hard_itr == 1)
+                            {
+                                using (StreamReader inFile = new StreamReader("../../hard/hTimes.txt"))
+                                {
+                                    while ((HardTimeRecord = inFile.ReadLine()) != null)
+                                    {
+                                        HardTimer.Add(HardTimeRecord);
+                                    }
+                                }
+                            }
+
+                            HardTimer.Add(i.ToString());
+
+                            if (HardTimer.Count != 0)
+                            {
+                                int average = 0;
+                                int numofTimes = 0;
+                                int smallest = int.Parse(HardTimer[0]);
+                                foreach (string item in HardTimer)
+                                {
+                                    int m = int.Parse(item);
+                                    average = m + average;
+                                    numofTimes++;
+                                    if (m < smallest)
+                                    {
+                                        smallest = m;
+                                    }
+                                }
+                                average = average / numofTimes;
+
+                                MessageBox.Show("Completed!" + Timer_Label.Text + " \nAverage for Hard Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
+                            }
+                            else
+                            {
+                                MessageBox.Show("Completed!" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
+                            }
+
+                            using (StreamWriter writer = new StreamWriter("../../hard/hTimes.txt"))
+                            {
+                                foreach (string item in HardTimer)
+                                {
+                                    writer.WriteLine(item + " ");
+                                }
+                            }
+                        }
                     }
                 }
             }
