@@ -25,6 +25,7 @@ namespace JennyCasey_Assignment5
         private static bool isGreen = false;
         private static bool Hide_Board = false;
         private static bool Paused = false;
+        private static bool isDeletedValue = false;
 
         //all totals variables  for an easy board
         private static int row1EasySum = 0;
@@ -346,6 +347,7 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
                                 generatedEasyTextboxes.Add(txt);
                                 txt.TextChanged += numberInput;
+                                txt.KeyDown += deletedValue;
                             }
                             //increment the x subscript
                             xSub++;
@@ -445,6 +447,8 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
                                 generatedMedTextboxes.Add(txt);
                                 txt.TextChanged += numberInput;
+                                txt.KeyDown += deletedValue;
+
                             }
                             //increment the x subscript
                             xSub++;
@@ -545,7 +549,7 @@ namespace JennyCasey_Assignment5
                                 txt.Font = new Font(txt.Font.FontFamily, 14);
                                 canvas.Controls.Add(txt);
                                 generatedHardTextboxes.Add(txt);
-
+                                txt.KeyDown += deletedValue;
                                 //add event when the user enters a number
                                 txt.TextChanged += numberInput;
 
@@ -1081,15 +1085,17 @@ namespace JennyCasey_Assignment5
                 diagnal2HardSum += val;
             }
         }
-        /*
-        private void deletedInputValue(object sender, KeyEventArgs e)
+        
+        private void deletedValue(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Back || e.Key = Key.Delete)
+            if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
             {
-                // The user deleted a character
+                isDeletedValue = true;
+                
+                //MessageBox.Show("you deleted a value");
             }
         }
-        */
+      
         //whenever a number input changes on the board, we need to recalculate the derived totals
         private void numberInput(object sender,  EventArgs e)
         {
@@ -1123,11 +1129,13 @@ namespace JennyCasey_Assignment5
                 value = int.Parse(textbox.Text);
                 if (isEasyBoard)
                 {
+                    
                     //row changing total values
                     //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
                     if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
                                     || textbox.Name.Contains("2"))
                     {
+                       
                         row1EasySum += int.Parse(textbox.Text);
                         isGreenOrRed(row1EasySum, row1AnswerEasy);
                         rowSumBox.Refresh();
@@ -1150,6 +1158,7 @@ namespace JennyCasey_Assignment5
                         rowSumBox.Refresh();
 
                     }
+
 
                     //columns changing total values
                     //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
@@ -1404,11 +1413,11 @@ namespace JennyCasey_Assignment5
             //else output an error message
             else
             {
-                MessageBox.Show("Please enter numbers 1-9 only");
-            }
-            if (textbox.Text == "")
-            {
-                value = 0;
+                if (!isDeletedValue)
+                {
+                    MessageBox.Show("Please enter numbers 1-9 only");
+                }
+                isDeletedValue = false;
             }
         }
 
