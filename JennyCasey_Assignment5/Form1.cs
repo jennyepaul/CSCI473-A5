@@ -23,6 +23,8 @@ namespace JennyCasey_Assignment5
         private static bool isHardBoard = false;
         private static bool isRed = false;
         private static bool isGreen = false;
+        private static bool Hide_Board = false;
+        private static bool Paused = false;
 
         //all totals variables  for an easy board
         private static int row1EasySum = 0;
@@ -126,6 +128,8 @@ namespace JennyCasey_Assignment5
 
         public static int L;
         public static int W;
+
+        public static int timerticks;
 
         public Form1()
         {
@@ -311,7 +315,14 @@ namespace JennyCasey_Assignment5
 
                         for (c = 0; c < 9; c++)
                         {
-                            if (gameValuesEasy1[c] != '0')
+                            if (Hide_Board)
+                            {
+                                resetEasyPuzzleTextboxes();
+
+                                PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
+                                e.Graphics.DrawString("?", Font, Brushes.Black, point);
+                            }
+                            else if (gameValuesEasy1[c] != '0')
                             {
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                                 {
@@ -402,7 +413,16 @@ namespace JennyCasey_Assignment5
                         //if they are zero, we need to create a text box so that the user can enter their guesses in
                         for (c = 0; c < 25; c++)
                         {
-                            if (gameValuesMedium1[c] != '0')
+                            if (Hide_Board)
+                            {
+                                //remove all the textboxes from the board 
+                                resetMediumPuzzleTextboxes();
+
+                                //replace all the squares with a "?" to hide the board from the player
+                                PointF point = new PointF(xPoints[xSub] * (W / 10), yPoints[ySub] * (L / 10));
+                                e.Graphics.DrawString("?", Font, Brushes.Black, point);
+                            }
+                            else if (gameValuesMedium1[c] != '0')
                             {
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                                 {
@@ -490,8 +510,17 @@ namespace JennyCasey_Assignment5
                         //go through the char list to populate values into board
                         for (z = 0; z < 49; z++)
                         {
+                            if (Hide_Board)
+                            {
+                                //remove all of the text boxes currently on the board 
+                                resetHardPuzzleTextboxes();
+
+                                //replace each square with a "?" to hide the board from the user
+                                PointF point = new PointF(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
+                                e.Graphics.DrawString("?", Font, Brushes.Black, point);
+                            }
                             //if the value is not a zero, then we want to print it on the board
-                            if (gameValuesHard1[z] != '0')
+                            else if (gameValuesHard1[z] != '0')
                             {
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                                 {
@@ -1379,7 +1408,11 @@ namespace JennyCasey_Assignment5
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
             isDown = true;
+            tmrCounter.Enabled = true;
+            i = 0;
             canvas.Refresh();
+            //start the timer when a player chooses a puzzle
+            
             if (isBoardLoaded)
             {
                 if (isEasyBoard)
@@ -1864,6 +1897,83 @@ namespace JennyCasey_Assignment5
                     }
                 }
             }
-        }    
+        }
+
+        private void PauseResume_Button_Click(object sender, EventArgs e)
+        {
+            //Display the current time when user clicks pause
+            if (PauseResume_Button.Text == "Pause")
+            {
+                Paused = true;
+                tmrCounter.Enabled = false;
+                PauseResume_Button.Text = "Resume";
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    isEasyGame = true;
+                    resetMediumPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    isMediumGame = true;
+                    resetEasyPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    isHardGame = true;
+                    resetEasyPuzzleTextboxes();
+                    resetMediumPuzzleTextboxes();
+                }
+                isDown = true;
+                Hide_Board = true;
+                canvas.Refresh();
+            }
+            else if (PauseResume_Button.Text == "Resume")
+            {
+                PauseResume_Button.Text = "Pause";
+                tmrCounter.Enabled = true;
+                isDown = true;
+                Hide_Board = false;
+                canvas.Refresh();
+                //somehow return to version previous to the pause
+            }
+        }
+
+        static string convertseconds(int seconds)
+        {
+            int totalsecs = seconds;
+            int hours = seconds / 3600;
+            seconds = seconds % 3600;
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            if (totalsecs < 0)
+            {
+                return string.Format("No Time");
+            }
+            else if (totalsecs < 60)
+            {
+                return string.Format("{0:D2} seconds", seconds);
+            }
+            else if (totalsecs < 3599)
+            {
+                return string.Format("{0:D2} minutes and {1:D2} seconds", minutes, seconds);
+            }
+            else
+            {
+                return string.Format("{0:D2} hours, {1:D2} minutes and {2:D2} seconds", hours, minutes, seconds);
+            }
+        }
+
+        int i = 0;
+        private void tmrCounter_Tick(object sender, EventArgs e)
+        {
+            i++;
+            timerticks = i;
+            //every time the counter ticks convert the amount of seconds to hours, minutes and seconds and display the time
+            string time = convertseconds(i);
+            Timer_Label.Text = "Current Time: " + time;
+        }
     }
 }

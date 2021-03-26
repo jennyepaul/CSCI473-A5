@@ -40,6 +40,10 @@ namespace JennyCasey_Assignment5
             this.columnSumBox = new System.Windows.Forms.PictureBox();
             this.diagnal1SumBox = new System.Windows.Forms.PictureBox();
             this.diagnal2SumBox = new System.Windows.Forms.PictureBox();
+            this.PauseResume_Button = new System.Windows.Forms.Button();
+            this.tmrCounter = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.Timer_Label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).BeginInit();
@@ -127,11 +131,47 @@ namespace JennyCasey_Assignment5
             this.diagnal2SumBox.TabStop = false;
             this.diagnal2SumBox.Paint += new System.Windows.Forms.PaintEventHandler(this.diagnal2SumBox_Paint);
             // 
+            // PauseResume_Button
+            // 
+            this.PauseResume_Button.Location = new System.Drawing.Point(327, 2);
+            this.PauseResume_Button.Name = "PauseResume_Button";
+            this.PauseResume_Button.Size = new System.Drawing.Size(117, 38);
+            this.PauseResume_Button.TabIndex = 8;
+            this.PauseResume_Button.Text = "Pause";
+            this.PauseResume_Button.UseVisualStyleBackColor = true;
+            this.PauseResume_Button.Click += new System.EventHandler(this.PauseResume_Button_Click);
+            // 
+            // tmrCounter
+            // 
+            this.tmrCounter.Interval = 1000;
+            this.tmrCounter.Tick += new System.EventHandler(this.tmrCounter_Tick);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "label1";
+            // 
+            // Timer_Label
+            // 
+            this.Timer_Label.AutoSize = true;
+            this.Timer_Label.Font = new System.Drawing.Font("Modern No. 20", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Timer_Label.Location = new System.Drawing.Point(477, 9);
+            this.Timer_Label.Name = "Timer_Label";
+            this.Timer_Label.Size = new System.Drawing.Size(0, 31);
+            this.Timer_Label.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
+            this.Controls.Add(this.Timer_Label);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.PauseResume_Button);
             this.Controls.Add(this.diagnal2SumBox);
             this.Controls.Add(this.diagnal1SumBox);
             this.Controls.Add(this.columnSumBox);
@@ -164,6 +204,10 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.PictureBox columnSumBox;
         private System.Windows.Forms.PictureBox diagnal1SumBox;
         private System.Windows.Forms.PictureBox diagnal2SumBox;
+        private System.Windows.Forms.Button PauseResume_Button;
+        private System.Windows.Forms.Timer tmrCounter;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Timer_Label;
     }
 }
 
