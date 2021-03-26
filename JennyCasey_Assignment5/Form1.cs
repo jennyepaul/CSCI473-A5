@@ -20,6 +20,7 @@ namespace JennyCasey_Assignment5
         private static bool isBoardLoaded = false;
         private static bool isEasyBoard = false;
         private static bool isMediumBoard = false;
+        private static bool isHardBoard = false;
 
         //all totals variables  for an easy board
         private static int row1EasySum = 0;
@@ -44,6 +45,24 @@ namespace JennyCasey_Assignment5
         private static int col5MediumSum = 0;
         private static int diagnal1MediumSum = 0;
         private static int diagnal2MediumSum = 0;
+
+        //all totals variables for a hard board
+        private static int row1HardSum = 0;
+        private static int row2HardSum = 0;
+        private static int row3HardSum = 0;
+        private static int row4HardSum = 0;
+        private static int row5HardSum = 0;
+        private static int row6HardSum = 0;
+        private static int row7HardSum = 0;
+        private static int col1HardSum = 0;
+        private static int col2HardSum = 0;
+        private static int col3HardSum = 0;
+        private static int col4HardSum = 0;
+        private static int col5HardSum = 0;
+        private static int col6HardSum = 0;
+        private static int col7HardSum = 0;
+        private static int diagnal1HardSum = 0;
+        private static int diagnal2HardSum = 0;
 
         private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
         private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
@@ -161,11 +180,6 @@ namespace JennyCasey_Assignment5
             Graphics graphics = e.Graphics;
             if (isDown)
             {
-                //row1SumEasyText.Text = row1EasySum;
-                //print the current totals (IE- any blanks are not added to the sum, only visible values)
-                //rowSumBox.Refresh();
-                //columnSumBox.Refresh();
-
                 using (Pen gamePen = new Pen(Color.Black))
                 {
                     gamePen.Width = 5;
@@ -353,6 +367,7 @@ namespace JennyCasey_Assignment5
                     }
                     else if (isHardGame)
                     {
+                        isHardBoard = true;
                         //draw our vertical lines 
                         graphics.DrawLine(gamePen, W / 7, 0, W / 7, L);
                         for (int i = 2; i < 7; i++)
@@ -419,7 +434,7 @@ namespace JennyCasey_Assignment5
                             {
 
                                 //it is zero, so user has to figure out what the value is, so we need to add a textbox
-                                Point point2 = new Point(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
+                                Point point2 = new Point(xPoints[xSub] * (W / 14) - 10, yPoints[ySub] * (L / 14) - 10);
                                 TextBox txt = new TextBox();
                                 txt.Name = "hardPuzzleCell" + z;
                                 txt.Text = "";
@@ -606,19 +621,132 @@ namespace JennyCasey_Assignment5
                 diagnal2MediumSum += val;
             }
         }
+        
+        private void calculateInitialHardRowSums(List<char> list1)
+        {
+            int val;
+            //go through the hard board rows and calculate the initial values
+            for (int i = 0; i < 7; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row1HardSum += val;
+            }
+
+            for (int i = 7; i < 14; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row2HardSum += val;
+            }
+
+            for (int i = 14; i < 21; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row3HardSum += val;
+            }
+            for (int i = 21; i < 28; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row4HardSum += val;
+            }
+            for (int i = 28; i < 35; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row5HardSum += val;
+            }
+            for (int i = 35; i < 42; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row6HardSum += val;
+            }
+            for (int i = 42; i < 49; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row7HardSum += val;
+            }
+        }
+
+        private void calculateInitialHardColSums(List<char> list1)
+        {
+            int val;
+            //go through the hard board columns and calculate the initial values 
+            for (int i = 0; i < 43; i+=7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col1HardSum += val;
+            }
+
+            for (int i = 1; i < 44; i+=7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col2HardSum += val;
+            }
+
+            for (int i = 2; i < 45; i+=7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col3HardSum += val;
+            }
+            for (int i = 3; i < 46; i+=7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col4HardSum += val;
+            }
+            for (int i = 4; i < 47; i+=7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col5HardSum += val;
+            }
+            for (int i = 5; i < 48; i+=7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col6HardSum += val;
+            }
+            for (int i = 6; i < 49; i+=7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col7HardSum += val;
+            }
+        }
+        private void calculateInitialHardDiagnalSums(List <char> list1)
+        {
+            int val;
+
+            //go through the medium board
+            for (int i = 6; i < 43; i += 6)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal1HardSum += val;
+            }
+
+            //go through the medium board
+            for (int i = 0; i < 49; i += 8)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal2HardSum += val;
+            }
+        }
         private void numberInput(object sender, EventArgs e)
         {
             TextBox textbox = (TextBox)sender;
             int value = int.Parse(textbox.Text);
 
+            //set flags based on what board we are building
             if (textbox.Name.Contains("easy"))
             {
                 isEasyBoard = true;
                 isMediumBoard = false;
+                isHardBoard = false;
             }
             if(textbox.Name.Contains("med"))
             {
                 isMediumBoard = true;
+                isEasyBoard = false;
+                isHardBoard = false;
+            }
+            if(textbox.Name.Contains("hard"))
+            {
+                isHardBoard = true;
+                isMediumBoard = false;
                 isEasyBoard = false;
             }
 
@@ -779,6 +907,127 @@ namespace JennyCasey_Assignment5
                 }
 
             }
+            //HARD BOARD CALCULATIONS IF CHANGE IN TeXT BOXES
+            if(isHardBoard)
+            {
+                //7 ROWS FOR HARD BOARD
+                if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell2"
+                                || textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell5"
+                                || textbox.Name == "hardPuzzleCell6")
+                {
+                    row1HardSum += int.Parse(textbox.Text);
+                    rowSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell9"
+                                || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell12"
+                                || textbox.Name == "hardPuzzleCell13")
+                {
+                    row2HardSum += int.Parse(textbox.Text);
+                    rowSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell14" || textbox.Name == "hardPuzzleCell15" || textbox.Name == "hardPuzzleCell16"
+                               || textbox.Name == "hardPuzzleCell17" || textbox.Name == "hardPuzzleCell18" || textbox.Name == "hardPuzzleCell19"
+                               || textbox.Name == "hardPuzzleCell20")
+                {
+                    row3HardSum += int.Parse(textbox.Text);
+                    rowSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell21" || textbox.Name == "hardPuzzleCell22" || textbox.Name == "hardPuzzleCell23"
+                               || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell25" || textbox.Name == "hardPuzzleCell26"
+                               || textbox.Name == "hardPuzzleCell27")
+                {
+                    row4HardSum += int.Parse(textbox.Text);
+                    rowSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell30"
+                             || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell33"
+                             || textbox.Name == "hardPuzzleCell34")
+                {
+                    row5HardSum += int.Parse(textbox.Text);
+                    rowSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell35" || textbox.Name == "hardPuzzleCell36" || textbox.Name == "hardPuzzleCell37"
+                             || textbox.Name == "hardPuzzleCell38" || textbox.Name == "hardPuzzleCell39" || textbox.Name == "hardPuzzleCell40"
+                             || textbox.Name == "hardPuzzleCell41")
+                {
+                    row6HardSum += int.Parse(textbox.Text);
+                    rowSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell42" || textbox.Name == "hardPuzzleCell43" || textbox.Name == "hardPuzzleCell44"
+                            || textbox.Name == "hardPuzzleCell45" || textbox.Name == "hardPuzzleCell46" || textbox.Name == "hardPuzzleCell47"
+                            || textbox.Name == "hardPuzzleCell48")
+                {
+                    row7HardSum += int.Parse(textbox.Text);
+                    rowSumBox.Refresh();
+                }
+
+                //7 COLUMNS FOR HARD BOARD
+                if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell14"
+                                || textbox.Name == "hardPuzzleCel21" || textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell35"
+                                || textbox.Name == "hardPuzzleCell42")
+                {
+                    col1HardSum += int.Parse(textbox.Text);
+                    columnSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell15"
+                               || textbox.Name == "hardPuzzleCel22" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell36"
+                               || textbox.Name == "hardPuzzleCell43")
+                {
+                    col2HardSum += int.Parse(textbox.Text);
+                    columnSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell2" || textbox.Name == "hardPuzzleCell9" || textbox.Name == "hardPuzzleCell16"
+                              || textbox.Name == "hardPuzzleCel23" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell37"
+                              || textbox.Name == "hardPuzzleCell44")
+                {
+                    col3HardSum += int.Parse(textbox.Text);
+                    columnSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell17"
+                              || textbox.Name == "hardPuzzleCel24" || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell38"
+                              || textbox.Name == "hardPuzzleCell45")
+                {
+                    col4HardSum += int.Parse(textbox.Text);
+                    columnSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell18"
+                              || textbox.Name == "hardPuzzleCel25" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell39"
+                              || textbox.Name == "hardPuzzleCell46")
+                {
+                    col5HardSum += int.Parse(textbox.Text);
+                    columnSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell5" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell19"
+                              || textbox.Name == "hardPuzzleCel26" || textbox.Name == "hardPuzzleCell33" || textbox.Name == "hardPuzzleCell40"
+                              || textbox.Name == "hardPuzzleCell47")
+                {
+                    col6HardSum += int.Parse(textbox.Text);
+                    columnSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell13" || textbox.Name == "hardPuzzleCell20"
+                              || textbox.Name == "hardPuzzleCel27" || textbox.Name == "hardPuzzleCell34" || textbox.Name == "hardPuzzleCell41"
+                              || textbox.Name == "hardPuzzleCell48")
+                {
+                    col7HardSum += int.Parse(textbox.Text);
+                    columnSumBox.Refresh();
+                }
+                //diagnals changing
+                if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell16"
+                              || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell40"
+                              || textbox.Name == "hardPuzzleCell48")
+                {
+                    diagnal2HardSum += int.Parse(textbox.Text);
+                    diagnal2SumBox.Refresh();
+
+                }
+                if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell18"
+                              || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell36"
+                              || textbox.Name == "hardPuzzleCell42")
+                {
+                    diagnal1HardSum += int.Parse(textbox.Text);
+                    diagnal1SumBox.Refresh();
+                }
+            }
       
             
         }
@@ -790,36 +1039,50 @@ namespace JennyCasey_Assignment5
             {
                 if (isEasyBoard)
                 {
-                    //load the totals for the easy game board rows
+                    //calc and load the totals for the easy game board rows
                     calculateInitialEasyRowSums(gameValuesEasy1);
                     rowSumBox.Refresh();
 
-                    //load the totals for the easy game board columns
+                    //calc and load the totals for the easy game board columns
                     calculateInitialEasyColSums(gameValuesEasy1);
                     columnSumBox.Refresh();
 
-                    //load the diagnal totals for easy board
+                    //calc and load the diagnal totals for easy board
                     calculateInitialEasyDiagnalSums(gameValuesEasy1);
                     diagnal1SumBox.Refresh();
                     diagnal2SumBox.Refresh();
                 }
                 if(isMediumBoard)
                 {
-                    //load the row totals for medium board
+                    //calc and load the row totals for medium board
                     calculateInitialMediumRowSums(gameValuesMedium1);
                     rowSumBox.Refresh();
 
-                    //load the column totals for medium board
+                    //calc and load the column totals for medium board
                     calculateInitialMediumColSums(gameValuesMedium1);
                     columnSumBox.Refresh();
 
-                    //load the diagnal totals for medium board
+                    //calc and load the diagnal totals for medium board
                     calculateInitialMediumDiagnalSums(gameValuesMedium1);
                     diagnal1SumBox.Refresh();
                     diagnal2SumBox.Refresh();
                 }
-            }
+                if(isHardBoard)
+                {
+                    //calculate and load the intial values for rows for hard board
+                    calculateInitialHardRowSums(gameValuesHard1);
+                    rowSumBox.Refresh();
 
+                    //calc and load the initial values for the columns for the hard board
+                    calculateInitialHardColSums(gameValuesHard1);
+                    columnSumBox.Refresh();
+
+                    //calc and load the diagnal totals for hard board
+                    calculateInitialHardDiagnalSums(gameValuesHard1);
+                    diagnal1SumBox.Refresh();
+                    diagnal2SumBox.Refresh();
+                }
+            }
         }
 
         private void newGameButton_MouseUp(object sender, MouseEventArgs e)
@@ -831,6 +1094,7 @@ namespace JennyCasey_Assignment5
             isHardGame = false;
             isEasyBoard = false;
             isMediumBoard = false;
+            isHardBoard = false;
         }
 
         private void resetEasyPuzzleTextboxes()
@@ -908,6 +1172,33 @@ namespace JennyCasey_Assignment5
 
                     }
                 }
+                if(isHardBoard)
+                {
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(rowSumBox.Width / 14, rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row1HardSum.ToString(), font1, Brushes.Black, pointF1);
+
+                        PointF pointF2 = new PointF(rowSumBox.Width / 14, 3 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row2HardSum.ToString(), font1, Brushes.Black, pointF2);
+
+                        PointF pointF3 = new PointF(rowSumBox.Width / 14, 5 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row3HardSum.ToString(), font1, Brushes.Black, pointF3);
+
+                        PointF pointF4 = new PointF(rowSumBox.Width / 14, 7 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row4HardSum.ToString(), font1, Brushes.Black, pointF4);
+
+                        PointF pointF5 = new PointF(rowSumBox.Width / 14, 9 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row5HardSum.ToString(), font1, Brushes.Black, pointF5);
+
+                        PointF pointF6 = new PointF(rowSumBox.Width / 14, 11 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row6HardSum.ToString(), font1, Brushes.Black, pointF6);
+
+                        PointF pointF7 = new PointF(rowSumBox.Width / 14, 13 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row7HardSum.ToString(), font1, Brushes.Black, pointF7);
+
+                    }
+                }
             }
         }
 
@@ -953,9 +1244,35 @@ namespace JennyCasey_Assignment5
 
                     }
                 }
-                
-            }
 
+                if(isHardBoard)
+                {
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 14);
+                        e.Graphics.DrawString(col1HardSum.ToString(), font1, Brushes.Black, pointF1);
+
+                        PointF pointF2 = new PointF(3 * columnSumBox.Width / 14, columnSumBox.Height / 14);
+                        e.Graphics.DrawString(col2HardSum.ToString(), font1, Brushes.Black, pointF2);
+
+                        PointF pointF3 = new PointF(5 * columnSumBox.Width / 14, columnSumBox.Height / 14);
+                        e.Graphics.DrawString(col3HardSum.ToString(), font1, Brushes.Black, pointF3);
+
+                        PointF pointF4 = new PointF(7 * columnSumBox.Width / 14, columnSumBox.Height / 14);
+                        e.Graphics.DrawString(col4HardSum.ToString(), font1, Brushes.Black, pointF4);
+
+                        PointF pointF5 = new PointF(9 * columnSumBox.Width / 14, columnSumBox.Height / 14);
+                        e.Graphics.DrawString(col5HardSum.ToString(), font1, Brushes.Black, pointF5);
+
+                        PointF pointF6 = new PointF(11 * columnSumBox.Width / 14, columnSumBox.Height / 14);
+                        e.Graphics.DrawString(col6HardSum.ToString(), font1, Brushes.Black, pointF6);
+
+                        PointF pointF7 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 14);
+                        e.Graphics.DrawString(col7HardSum.ToString(), font1, Brushes.Black, pointF7);
+
+                    }
+                }   
+            }
         }
 
         private void diagnal1SumBox_Paint(object sender, PaintEventArgs e)
@@ -978,6 +1295,15 @@ namespace JennyCasey_Assignment5
                     {
                         PointF pointF1 = new PointF(diagnal1SumBox.Width / 3, diagnal1SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal1MediumSum.ToString(), font1, Brushes.Black, pointF1);
+                    }
+                }
+                if(isHardBoard)
+                {
+                    //paint the sum for the top diagnal total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal1SumBox.Width / 3, diagnal1SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal1HardSum.ToString(), font1, Brushes.Black, pointF1);
                     }
                 }
 
@@ -1004,6 +1330,15 @@ namespace JennyCasey_Assignment5
                     {
                         PointF pointF1 = new PointF(diagnal2SumBox.Width / 3, diagnal2SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal2MediumSum.ToString(), font1, Brushes.Black, pointF1);
+                    }
+                }
+                if(isHardBoard)
+                {
+                    //paint the sum for the bottom diagnal total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal2SumBox.Width / 3, diagnal2SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal2HardSum.ToString(), font1, Brushes.Black, pointF1);
                     }
                 }
             }
