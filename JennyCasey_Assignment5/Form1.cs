@@ -25,6 +25,7 @@ namespace JennyCasey_Assignment5
         private static bool isGreen = false;
         private static bool Hide_Board = false;
         private static bool Paused = false;
+        private static bool isDeletedValue = false;
 
         //all totals variables  for an easy board
         private static int row1EasySum = 0;
@@ -346,6 +347,7 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
                                 generatedEasyTextboxes.Add(txt);
                                 txt.TextChanged += numberInput;
+                                txt.KeyDown += deletedValue;
                             }
                             //increment the x subscript
                             xSub++;
@@ -445,6 +447,8 @@ namespace JennyCasey_Assignment5
                                 canvas.Controls.Add(txt);
                                 generatedMedTextboxes.Add(txt);
                                 txt.TextChanged += numberInput;
+                                txt.KeyDown += deletedValue;
+
                             }
                             //increment the x subscript
                             xSub++;
@@ -545,7 +549,7 @@ namespace JennyCasey_Assignment5
                                 txt.Font = new Font(txt.Font.FontFamily, 14);
                                 canvas.Controls.Add(txt);
                                 generatedHardTextboxes.Add(txt);
-
+                                txt.KeyDown += deletedValue;
                                 //add event when the user enters a number
                                 txt.TextChanged += numberInput;
 
@@ -1081,15 +1085,335 @@ namespace JennyCasey_Assignment5
                 diagnal2HardSum += val;
             }
         }
+        
+        //if the user deletes a value, then subtract that from the derived totals
+        //NOTE -> need to find a way to condense this, but for now it will work
+        private void deletedValue(object sender, KeyEventArgs e)
+        {
+            TextBox textbox = (TextBox)sender;
+            int value; 
+            if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
+            {
+                isDeletedValue = true;
+                //MessageBox.Show("deleted value " + val + " in " + textbox.Name);
+                
+                //set flags based on what board we are building
+                if (textbox.Name.Contains("easy"))
+                {
+                    isEasyBoard = true;
+                    isMediumBoard = false;
+                    isHardBoard = false;
+                }
+                if (textbox.Name.Contains("med"))
+                {
+                    isMediumBoard = true;
+                    isEasyBoard = false;
+                    isHardBoard = false;
+                }
+                if (textbox.Name.Contains("hard"))
+                {
+                    isHardBoard = true;
+                    isMediumBoard = false;
+                    isEasyBoard = false;
+                }
+                //if we can parse it to an integer then do math
+                if (int.TryParse(textbox.Text, out value))
+                {
+                    // it's a valid integer => we set our value to that number
+                    value = int.Parse(textbox.Text);
+                    if (isEasyBoard)
+                    {
 
+                        //row changing total values
+                        //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
+                        if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
+                                        || textbox.Name.Contains("2"))
+                        {
+                            row1EasySum -= int.Parse(textbox.Text);
+                            isGreenOrRed(row1EasySum, row1AnswerEasy);
+                            rowSumBox.Refresh();
+                        }
+                        //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
+                        if (textbox.Name.Contains("easy") && textbox.Name.Contains("3") || textbox.Name.Contains("4")
+                                            || textbox.Name.Contains("5"))
+                        {
+                            row2EasySum -= int.Parse(textbox.Text);
+                            isGreenOrRed(row2EasySum, row2AnswerEasy);
+                            rowSumBox.Refresh();
+                        }
+
+                        //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
+                        if (textbox.Name.Contains("easy") && textbox.Name.Contains("6") || textbox.Name.Contains("7")
+                                            || textbox.Name.Contains("8"))
+                        {
+                            row3EasySum -= int.Parse(textbox.Text);
+                            isGreenOrRed(row3EasySum, row3AnswerEasy);
+                            rowSumBox.Refresh();
+
+                        }
+
+
+                        //columns changing total values
+                        //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+                        if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("3")
+                                            || textbox.Name.Contains("6"))
+                        {
+                            col1EasySum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+
+                        }
+
+                        //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+                        if (textbox.Name.Contains("easy") && textbox.Name.Contains("1") || textbox.Name.Contains("4")
+                                            || textbox.Name.Contains("7"))
+                        {
+                            col2EasySum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+
+                        }
+
+                        //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+                        if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("5")
+                                            || textbox.Name.Contains("8"))
+                        {
+                            col3EasySum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+
+                        }
+
+                        //diagnals changing
+                        //if the textbox name contains "easy" or have 0, 4, 8 in their name, it is a diagnal
+                        if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("4")
+                                            || textbox.Name.Contains("8"))
+                        {
+                            diagnal2EasySum -= int.Parse(textbox.Text);
+                            diagnal2SumBox.Refresh();
+
+                        }
+
+                        //if the textbox name contains "easy" or have 2, 4, 6 in their name, it is a diagnal
+                        if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("4")
+                                            || textbox.Name.Contains("6"))
+                        {
+                            diagnal1EasySum -= int.Parse(textbox.Text);
+                            diagnal1SumBox.Refresh();
+                        }
+                    }
+                    //MEDIUM BOARD CALCULTIONS IF CHANGE IN TEXT BOXES
+                    if (isMediumBoard)
+                    {
+                        //5 ROWS OF MEDIUM TABLE
+                        if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell2"
+                                        || textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell4")
+                        {
+                            row1MediumSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell7"
+                                        || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell9")
+                        {
+                            row2MediumSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "medPuzzleCell10" || textbox.Name == "medPuzzleCell11" || textbox.Name == "medPuzzleCell12"
+                                        || textbox.Name == "medPuzzleCell13" || textbox.Name == "medPuzzleCell14")
+                        {
+                            row3MediumSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell17"
+                                        || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell19")
+                        {
+                            row4MediumSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "medPuzzleCell20" || textbox.Name == "medPuzzleCell21" || textbox.Name == "medPuzzleCell22"
+                                        || textbox.Name == "medPuzzleCell23" || textbox.Name == "medPuzzleCell24")
+                        {
+                            row5MediumSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+
+                        //COLUMNS OF MEDIUM TABLE
+                        if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell10"
+                                        || textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell20")
+                        {
+                            col1MediumSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell11"
+                                        || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell21")
+                        {
+                            col2MediumSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "medPuzzleCell2" || textbox.Name == "medPuzzleCell7" || textbox.Name == "medPuzzleCell12"
+                                        || textbox.Name == "medPuzzleCell17" || textbox.Name == "medPuzzleCell22")
+                        {
+                            col3MediumSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell13"
+                                        || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell23")
+                        {
+                            col4MediumSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell9" || textbox.Name == "medPuzzleCell14"
+                                        || textbox.Name == "medPuzzleCell19" || textbox.Name == "medPuzzleCell24")
+                        {
+                            col5MediumSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        //diagnals changing
+                        if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell12"
+                                        || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell24")
+                        {
+                            diagnal2MediumSum -= int.Parse(textbox.Text);
+                            diagnal2SumBox.Refresh();
+
+                        }
+                        if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell12"
+                                        || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell20")
+                        {
+                            diagnal1MediumSum -= int.Parse(textbox.Text);
+                            diagnal1SumBox.Refresh();
+                        }
+
+                    }
+                    //HARD BOARD CALCULATIONS IF CHANGE IN TeXT BOXES
+                    if (isHardBoard)
+                    {
+                        //7 ROWS FOR HARD BOARD
+                        if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell2"
+                                        || textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell5"
+                                        || textbox.Name == "hardPuzzleCell6")
+                        {
+                            row1HardSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell9"
+                                        || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell12"
+                                        || textbox.Name == "hardPuzzleCell13")
+                        {
+                            row2HardSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell14" || textbox.Name == "hardPuzzleCell15" || textbox.Name == "hardPuzzleCell16"
+                                       || textbox.Name == "hardPuzzleCell17" || textbox.Name == "hardPuzzleCell18" || textbox.Name == "hardPuzzleCell19"
+                                       || textbox.Name == "hardPuzzleCell20")
+                        {
+                            row3HardSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell21" || textbox.Name == "hardPuzzleCell22" || textbox.Name == "hardPuzzleCell23"
+                                       || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell25" || textbox.Name == "hardPuzzleCell26"
+                                       || textbox.Name == "hardPuzzleCell27")
+                        {
+                            row4HardSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell30"
+                                     || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell33"
+                                     || textbox.Name == "hardPuzzleCell34")
+                        {
+                            row5HardSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell35" || textbox.Name == "hardPuzzleCell36" || textbox.Name == "hardPuzzleCell37"
+                                     || textbox.Name == "hardPuzzleCell38" || textbox.Name == "hardPuzzleCell39" || textbox.Name == "hardPuzzleCell40"
+                                     || textbox.Name == "hardPuzzleCell41")
+                        {
+                            row6HardSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell42" || textbox.Name == "hardPuzzleCell43" || textbox.Name == "hardPuzzleCell44"
+                                    || textbox.Name == "hardPuzzleCell45" || textbox.Name == "hardPuzzleCell46" || textbox.Name == "hardPuzzleCell47"
+                                    || textbox.Name == "hardPuzzleCell48")
+                        {
+                            row7HardSum -= int.Parse(textbox.Text);
+                            rowSumBox.Refresh();
+                        }
+
+                        //7 COLUMNS FOR HARD BOARD
+                        if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell14"
+                                        || textbox.Name == "hardPuzzleCel21" || textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell35"
+                                        || textbox.Name == "hardPuzzleCell42")
+                        {
+                            col1HardSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell15"
+                                       || textbox.Name == "hardPuzzleCel22" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell36"
+                                       || textbox.Name == "hardPuzzleCell43")
+                        {
+                            col2HardSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell2" || textbox.Name == "hardPuzzleCell9" || textbox.Name == "hardPuzzleCell16"
+                                      || textbox.Name == "hardPuzzleCel23" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell37"
+                                      || textbox.Name == "hardPuzzleCell44")
+                        {
+                            col3HardSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell17"
+                                      || textbox.Name == "hardPuzzleCel24" || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell38"
+                                      || textbox.Name == "hardPuzzleCell45")
+                        {
+                            col4HardSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell18"
+                                      || textbox.Name == "hardPuzzleCel25" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell39"
+                                      || textbox.Name == "hardPuzzleCell46")
+                        {
+                            col5HardSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell5" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell19"
+                                      || textbox.Name == "hardPuzzleCel26" || textbox.Name == "hardPuzzleCell33" || textbox.Name == "hardPuzzleCell40"
+                                      || textbox.Name == "hardPuzzleCell47")
+                        {
+                            col6HardSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell13" || textbox.Name == "hardPuzzleCell20"
+                                      || textbox.Name == "hardPuzzleCel27" || textbox.Name == "hardPuzzleCell34" || textbox.Name == "hardPuzzleCell41"
+                                      || textbox.Name == "hardPuzzleCell48")
+                        {
+                            col7HardSum -= int.Parse(textbox.Text);
+                            columnSumBox.Refresh();
+                        }
+                        //diagnals changing
+                        if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell16"
+                                      || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell40"
+                                      || textbox.Name == "hardPuzzleCell48")
+                        {
+                            diagnal2HardSum -= int.Parse(textbox.Text);
+                            diagnal2SumBox.Refresh();
+
+                        }
+                        if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell18"
+                                      || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell36"
+                                      || textbox.Name == "hardPuzzleCell42")
+                        {
+                            diagnal1HardSum -= int.Parse(textbox.Text);
+                            diagnal1SumBox.Refresh();
+                        }
+                    }
+                }
+            }          
+        }
+      
+        
         //whenever a number input changes on the board, we need to recalculate the derived totals
-        private void numberInput(object sender, EventArgs e)
+        private void numberInput(object sender,  EventArgs e)
         {
             isGreen = false;
             isRed = false;
+            int value;
             TextBox textbox = (TextBox)sender;
-            int value = int.Parse(textbox.Text);
-
             //set flags based on what board we are building
             if (textbox.Name.Contains("easy"))
             {
@@ -1097,299 +1421,314 @@ namespace JennyCasey_Assignment5
                 isMediumBoard = false;
                 isHardBoard = false;
             }
-            if(textbox.Name.Contains("med"))
+            if (textbox.Name.Contains("med"))
             {
                 isMediumBoard = true;
                 isEasyBoard = false;
                 isHardBoard = false;
             }
-            if(textbox.Name.Contains("hard"))
+            if (textbox.Name.Contains("hard"))
             {
                 isHardBoard = true;
                 isMediumBoard = false;
                 isEasyBoard = false;
             }
-
-            if (isEasyBoard)
+            //if we can parse it to an integer then do math
+            if (int.TryParse(textbox.Text, out value))
             {
-                //row changing total values
-                //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
-                                || textbox.Name.Contains("2"))
+                // it's a valid integer => we set our value to that number
+                value = int.Parse(textbox.Text);
+                if (isEasyBoard)
                 {
-                    row1EasySum += int.Parse(textbox.Text);
-                    isGreenOrRed(row1EasySum, row1AnswerEasy);
-                    rowSumBox.Refresh();
+                    
+                    //row changing total values
+                    //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
+                    if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
+                                    || textbox.Name.Contains("2"))
+                    {
+                        row1EasySum += int.Parse(textbox.Text);
+                        isGreenOrRed(row1EasySum, row1AnswerEasy);
+                        rowSumBox.Refresh();
+                    }
+                    //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
+                    if (textbox.Name.Contains("easy") && textbox.Name.Contains("3") || textbox.Name.Contains("4")
+                                        || textbox.Name.Contains("5"))
+                    {
+                        row2EasySum += int.Parse(textbox.Text);
+                        isGreenOrRed(row2EasySum, row2AnswerEasy);
+                        rowSumBox.Refresh();
+                    }
+
+                    //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
+                    if (textbox.Name.Contains("easy") && textbox.Name.Contains("6") || textbox.Name.Contains("7")
+                                        || textbox.Name.Contains("8"))
+                    {
+                        row3EasySum += int.Parse(textbox.Text);
+                        isGreenOrRed(row3EasySum, row3AnswerEasy);
+                        rowSumBox.Refresh();
+
+                    }
+
+
+                    //columns changing total values
+                    //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+                    if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("3")
+                                        || textbox.Name.Contains("6"))
+                    {
+                        col1EasySum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+
+                    }
+
+                    //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+                    if (textbox.Name.Contains("easy") && textbox.Name.Contains("1") || textbox.Name.Contains("4")
+                                        || textbox.Name.Contains("7"))
+                    {
+                        col2EasySum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+
+                    }
+
+                    //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+                    if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("5")
+                                        || textbox.Name.Contains("8"))
+                    {
+                        col3EasySum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+
+                    }
+
+                    //diagnals changing
+                    //if the textbox name contains "easy" or have 0, 4, 8 in their name, it is a diagnal
+                    if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("4")
+                                        || textbox.Name.Contains("8"))
+                    {
+                        diagnal2EasySum += int.Parse(textbox.Text);
+                        diagnal2SumBox.Refresh();
+
+                    }
+
+                    //if the textbox name contains "easy" or have 2, 4, 6 in their name, it is a diagnal
+                    if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("4")
+                                        || textbox.Name.Contains("6"))
+                    {
+                        diagnal1EasySum += int.Parse(textbox.Text);
+                        diagnal1SumBox.Refresh();
+                    }
                 }
-                //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("3") || textbox.Name.Contains("4")
-                                    || textbox.Name.Contains("5"))
+                //MEDIUM BOARD CALCULTIONS IF CHANGE IN TEXT BOXES
+                if (isMediumBoard)
                 {
-                    row2EasySum += int.Parse(textbox.Text);
-                    isGreenOrRed(row2EasySum, row2AnswerEasy);
-                    rowSumBox.Refresh();
+                    //5 ROWS OF MEDIUM TABLE
+                    if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell2"
+                                    || textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell4")
+                    {
+                        row1MediumSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell7"
+                                    || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell9")
+                    {
+                        row2MediumSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "medPuzzleCell10" || textbox.Name == "medPuzzleCell11" || textbox.Name == "medPuzzleCell12"
+                                    || textbox.Name == "medPuzzleCell13" || textbox.Name == "medPuzzleCell14")
+                    {
+                        row3MediumSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell17"
+                                    || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell19")
+                    {
+                        row4MediumSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "medPuzzleCell20" || textbox.Name == "medPuzzleCell21" || textbox.Name == "medPuzzleCell22"
+                                    || textbox.Name == "medPuzzleCell23" || textbox.Name == "medPuzzleCell24")
+                    {
+                        row5MediumSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+
+                    //COLUMNS OF MEDIUM TABLE
+                    if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell10"
+                                    || textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell20")
+                    {
+                        col1MediumSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell11"
+                                    || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell21")
+                    {
+                        col2MediumSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "medPuzzleCell2" || textbox.Name == "medPuzzleCell7" || textbox.Name == "medPuzzleCell12"
+                                    || textbox.Name == "medPuzzleCell17" || textbox.Name == "medPuzzleCell22")
+                    {
+                        col3MediumSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell13"
+                                    || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell23")
+                    {
+                        col4MediumSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell9" || textbox.Name == "medPuzzleCell14"
+                                    || textbox.Name == "medPuzzleCell19" || textbox.Name == "medPuzzleCell24")
+                    {
+                        col5MediumSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    //diagnals changing
+                    if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell12"
+                                    || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell24")
+                    {
+                        diagnal2MediumSum += int.Parse(textbox.Text);
+                        diagnal2SumBox.Refresh();
+
+                    }
+                    if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell12"
+                                    || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell20")
+                    {
+                        diagnal1MediumSum += int.Parse(textbox.Text);
+                        diagnal1SumBox.Refresh();
+                    }
+
                 }
-
-                //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("6") || textbox.Name.Contains("7")
-                                    || textbox.Name.Contains("8"))
+                //HARD BOARD CALCULATIONS IF CHANGE IN TeXT BOXES
+                if (isHardBoard)
                 {
-                    row3EasySum += int.Parse(textbox.Text);
-                    isGreenOrRed(row3EasySum, row3AnswerEasy);
-                    rowSumBox.Refresh();
+                    //7 ROWS FOR HARD BOARD
+                    if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell2"
+                                    || textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell5"
+                                    || textbox.Name == "hardPuzzleCell6")
+                    {
+                        row1HardSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell9"
+                                    || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell12"
+                                    || textbox.Name == "hardPuzzleCell13")
+                    {
+                        row2HardSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell14" || textbox.Name == "hardPuzzleCell15" || textbox.Name == "hardPuzzleCell16"
+                                   || textbox.Name == "hardPuzzleCell17" || textbox.Name == "hardPuzzleCell18" || textbox.Name == "hardPuzzleCell19"
+                                   || textbox.Name == "hardPuzzleCell20")
+                    {
+                        row3HardSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell21" || textbox.Name == "hardPuzzleCell22" || textbox.Name == "hardPuzzleCell23"
+                                   || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell25" || textbox.Name == "hardPuzzleCell26"
+                                   || textbox.Name == "hardPuzzleCell27")
+                    {
+                        row4HardSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell30"
+                                 || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell33"
+                                 || textbox.Name == "hardPuzzleCell34")
+                    {
+                        row5HardSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell35" || textbox.Name == "hardPuzzleCell36" || textbox.Name == "hardPuzzleCell37"
+                                 || textbox.Name == "hardPuzzleCell38" || textbox.Name == "hardPuzzleCell39" || textbox.Name == "hardPuzzleCell40"
+                                 || textbox.Name == "hardPuzzleCell41")
+                    {
+                        row6HardSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell42" || textbox.Name == "hardPuzzleCell43" || textbox.Name == "hardPuzzleCell44"
+                                || textbox.Name == "hardPuzzleCell45" || textbox.Name == "hardPuzzleCell46" || textbox.Name == "hardPuzzleCell47"
+                                || textbox.Name == "hardPuzzleCell48")
+                    {
+                        row7HardSum += int.Parse(textbox.Text);
+                        rowSumBox.Refresh();
+                    }
 
-                }
+                    //7 COLUMNS FOR HARD BOARD
+                    if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell14"
+                                    || textbox.Name == "hardPuzzleCel21" || textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell35"
+                                    || textbox.Name == "hardPuzzleCell42")
+                    {
+                        col1HardSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell15"
+                                   || textbox.Name == "hardPuzzleCel22" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell36"
+                                   || textbox.Name == "hardPuzzleCell43")
+                    {
+                        col2HardSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell2" || textbox.Name == "hardPuzzleCell9" || textbox.Name == "hardPuzzleCell16"
+                                  || textbox.Name == "hardPuzzleCel23" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell37"
+                                  || textbox.Name == "hardPuzzleCell44")
+                    {
+                        col3HardSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell17"
+                                  || textbox.Name == "hardPuzzleCel24" || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell38"
+                                  || textbox.Name == "hardPuzzleCell45")
+                    {
+                        col4HardSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell18"
+                                  || textbox.Name == "hardPuzzleCel25" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell39"
+                                  || textbox.Name == "hardPuzzleCell46")
+                    {
+                        col5HardSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell5" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell19"
+                                  || textbox.Name == "hardPuzzleCel26" || textbox.Name == "hardPuzzleCell33" || textbox.Name == "hardPuzzleCell40"
+                                  || textbox.Name == "hardPuzzleCell47")
+                    {
+                        col6HardSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell13" || textbox.Name == "hardPuzzleCell20"
+                                  || textbox.Name == "hardPuzzleCel27" || textbox.Name == "hardPuzzleCell34" || textbox.Name == "hardPuzzleCell41"
+                                  || textbox.Name == "hardPuzzleCell48")
+                    {
+                        col7HardSum += int.Parse(textbox.Text);
+                        columnSumBox.Refresh();
+                    }
+                    //diagnals changing
+                    if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell16"
+                                  || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell40"
+                                  || textbox.Name == "hardPuzzleCell48")
+                    {
+                        diagnal2HardSum += int.Parse(textbox.Text);
+                        diagnal2SumBox.Refresh();
 
-                //columns changing total values
-                //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("3")
-                                    || textbox.Name.Contains("6"))
-                {
-                    col1EasySum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-
-                }
-
-                //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("1") || textbox.Name.Contains("4")
-                                    || textbox.Name.Contains("7"))
-                {
-                    col2EasySum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-
-                }
-
-                //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("5")
-                                    || textbox.Name.Contains("8"))
-                {
-                    col3EasySum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-
-                }
-
-                //diagnals changing
-                //if the textbox name contains "easy" or have 0, 4, 8 in their name, it is a diagnal
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("4")
-                                    || textbox.Name.Contains("8"))
-                {
-                    diagnal2EasySum += int.Parse(textbox.Text);
-                    diagnal2SumBox.Refresh();
-
-                }
-
-                //if the textbox name contains "easy" or have 2, 4, 6 in their name, it is a diagnal
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("4")
-                                    || textbox.Name.Contains("6"))
-                {
-                    diagnal1EasySum += int.Parse(textbox.Text);
-                    diagnal1SumBox.Refresh();
+                    }
+                    if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell18"
+                                  || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell36"
+                                  || textbox.Name == "hardPuzzleCell42")
+                    {
+                        diagnal1HardSum += int.Parse(textbox.Text);
+                        diagnal1SumBox.Refresh();
+                    }
                 }
             }
-            //MEDIUM BOARD CALCULTIONS IF CHANGE IN TEXT BOXES
-            if (isMediumBoard)
+            //else output an error message
+            else
             {
-                //5 ROWS OF MEDIUM TABLE
-                if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell2"
-                                || textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell4")
+                if (!isDeletedValue)
                 {
-                    row1MediumSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
+                    MessageBox.Show("Please enter numbers 1-9 only");
                 }
-                if (textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell7"
-                                || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell9")
-                {
-                    row2MediumSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell10" || textbox.Name == "medPuzzleCell11" || textbox.Name == "medPuzzleCell12"
-                                || textbox.Name == "medPuzzleCell13" || textbox.Name == "medPuzzleCell14")
-                {
-                    row3MediumSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell17"
-                                || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell19")
-                {
-                    row4MediumSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell20" || textbox.Name == "medPuzzleCell21" || textbox.Name == "medPuzzleCell22"
-                                || textbox.Name == "medPuzzleCell23" || textbox.Name == "medPuzzleCell24")
-                {
-                    row5MediumSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                
-                //COLUMNS OF MEDIUM TABLE
-                if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell10"
-                                || textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell20")
-                {
-                    col1MediumSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell11"
-                                || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell21")
-                {
-                    col2MediumSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell2" || textbox.Name == "medPuzzleCell7" || textbox.Name == "medPuzzleCell12"
-                                || textbox.Name == "medPuzzleCell17" || textbox.Name == "medPuzzleCell22")
-                {
-                    col3MediumSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell13"
-                                || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell23")
-                {
-                    col4MediumSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell9" || textbox.Name == "medPuzzleCell14"
-                                || textbox.Name == "medPuzzleCell19" || textbox.Name == "medPuzzleCell24")
-                {
-                    col5MediumSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                //diagnals changing
-                if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell12"
-                                || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell24")
-                {
-                    diagnal2MediumSum += int.Parse(textbox.Text);
-                    diagnal2SumBox.Refresh();
-
-                }
-                if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell12"
-                                || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell20")
-                {
-                    diagnal1MediumSum += int.Parse(textbox.Text);
-                    diagnal1SumBox.Refresh();
-                }
-
+                isDeletedValue = false;
             }
-            //HARD BOARD CALCULATIONS IF CHANGE IN TeXT BOXES
-            if(isHardBoard)
-            {
-                //7 ROWS FOR HARD BOARD
-                if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell2"
-                                || textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell5"
-                                || textbox.Name == "hardPuzzleCell6")
-                {
-                    row1HardSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell9"
-                                || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell12"
-                                || textbox.Name == "hardPuzzleCell13")
-                {
-                    row2HardSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell14" || textbox.Name == "hardPuzzleCell15" || textbox.Name == "hardPuzzleCell16"
-                               || textbox.Name == "hardPuzzleCell17" || textbox.Name == "hardPuzzleCell18" || textbox.Name == "hardPuzzleCell19"
-                               || textbox.Name == "hardPuzzleCell20")
-                {
-                    row3HardSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell21" || textbox.Name == "hardPuzzleCell22" || textbox.Name == "hardPuzzleCell23"
-                               || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell25" || textbox.Name == "hardPuzzleCell26"
-                               || textbox.Name == "hardPuzzleCell27")
-                {
-                    row4HardSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell30"
-                             || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell33"
-                             || textbox.Name == "hardPuzzleCell34")
-                {
-                    row5HardSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell35" || textbox.Name == "hardPuzzleCell36" || textbox.Name == "hardPuzzleCell37"
-                             || textbox.Name == "hardPuzzleCell38" || textbox.Name == "hardPuzzleCell39" || textbox.Name == "hardPuzzleCell40"
-                             || textbox.Name == "hardPuzzleCell41")
-                {
-                    row6HardSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell42" || textbox.Name == "hardPuzzleCell43" || textbox.Name == "hardPuzzleCell44"
-                            || textbox.Name == "hardPuzzleCell45" || textbox.Name == "hardPuzzleCell46" || textbox.Name == "hardPuzzleCell47"
-                            || textbox.Name == "hardPuzzleCell48")
-                {
-                    row7HardSum += int.Parse(textbox.Text);
-                    rowSumBox.Refresh();
-                }
-
-                //7 COLUMNS FOR HARD BOARD
-                if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell14"
-                                || textbox.Name == "hardPuzzleCel21" || textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell35"
-                                || textbox.Name == "hardPuzzleCell42")
-                {
-                    col1HardSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell15"
-                               || textbox.Name == "hardPuzzleCel22" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell36"
-                               || textbox.Name == "hardPuzzleCell43")
-                {
-                    col2HardSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell2" || textbox.Name == "hardPuzzleCell9" || textbox.Name == "hardPuzzleCell16"
-                              || textbox.Name == "hardPuzzleCel23" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell37"
-                              || textbox.Name == "hardPuzzleCell44")
-                {
-                    col3HardSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell17"
-                              || textbox.Name == "hardPuzzleCel24" || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell38"
-                              || textbox.Name == "hardPuzzleCell45")
-                {
-                    col4HardSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell18"
-                              || textbox.Name == "hardPuzzleCel25" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell39"
-                              || textbox.Name == "hardPuzzleCell46")
-                {
-                    col5HardSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell5" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell19"
-                              || textbox.Name == "hardPuzzleCel26" || textbox.Name == "hardPuzzleCell33" || textbox.Name == "hardPuzzleCell40"
-                              || textbox.Name == "hardPuzzleCell47")
-                {
-                    col6HardSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell13" || textbox.Name == "hardPuzzleCell20"
-                              || textbox.Name == "hardPuzzleCel27" || textbox.Name == "hardPuzzleCell34" || textbox.Name == "hardPuzzleCell41"
-                              || textbox.Name == "hardPuzzleCell48")
-                {
-                    col7HardSum += int.Parse(textbox.Text);
-                    columnSumBox.Refresh();
-                }
-                //diagnals changing
-                if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell16"
-                              || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell40"
-                              || textbox.Name == "hardPuzzleCell48")
-                {
-                    diagnal2HardSum += int.Parse(textbox.Text);
-                    diagnal2SumBox.Refresh();
-
-                }
-                if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell18"
-                              || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell36"
-                              || textbox.Name == "hardPuzzleCell42")
-                {
-                    diagnal1HardSum += int.Parse(textbox.Text);
-                    diagnal1SumBox.Refresh();
-                }
-            }
-          
         }
 
         //function to tell whether the color to color in will be GREEN or RED (still need to adjust this)
