@@ -1474,12 +1474,139 @@ namespace JennyCasey_Assignment5
        
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
+            isEasyBoard = false;
+            isMediumBoard = false;
+            isHardBoard = false;
+
+            row1AnswerEasy = 0;
+            row1EasySum = 0;
+            row1EasySum = 0;
+            row2EasySum = 0;
+            row3EasySum = 0;
+            diagnal1EasySum = 0;
+            diagnal2EasySum = 0;
+            col1EasySum = 0;
+            col2EasySum = 0;
+            col3EasySum = 0;
+            //actual answer for easy board
+            row1AnswerEasy = 0;
+            row2AnswerEasy = 0;
+            row3AnswerEasy = 0;
+            col1AnswerEasy = 0;
+            col2AnswerEasy = 0;
+            col3AnswerEasy = 0;
+            diagnal1AnswerEasy = 0;
+            diagnal2AnswerEasy = 0;
+
+            //all totals variables for a medium board
+            row1MediumSum = 0;
+            row2MediumSum = 0;
+            row3MediumSum = 0;
+            row4MediumSum = 0;
+            row5MediumSum = 0;
+            col1MediumSum = 0;
+            col2MediumSum = 0;
+            col3MediumSum = 0;
+            col4MediumSum = 0;
+            col5MediumSum = 0;
+            diagnal1MediumSum = 0;
+            diagnal2MediumSum = 0;
+
+            //actual totals variables for a medium board
+            row1AnswerMed = 0;
+            row2AnswerMed = 0;
+            row3AnswerMed = 0;
+            row4AnswerMed = 0;
+            row5AnswerMed = 0;
+            col1AnswerMed = 0;
+            col2AnswerMed = 0;
+            col3AnswerMed = 0;
+            col4AnswerMed = 0;
+            col5AnswerMed = 0;
+            diagnal1AnswerMed = 0;
+            diagnal2AnswerMed = 0;
+
+
+            //all totals variables for a hard board
+            row1HardSum = 0;
+            row2HardSum = 0;
+            row3HardSum = 0;
+            row4HardSum = 0;
+            row5HardSum = 0;
+            row6HardSum = 0;
+            row7HardSum = 0;
+            col1HardSum = 0;
+            col2HardSum = 0;
+            col3HardSum = 0;
+            col4HardSum = 0;
+            col5HardSum = 0;
+            col6HardSum = 0;
+            col7HardSum = 0;
+            diagnal1HardSum = 0;
+            diagnal2HardSum = 0;
+
+            //actual totals variables for hard board
+            row1AnswerHard = 0;
+            row2AnswerHard = 0;
+            row3AnswerHard = 0;
+            row4AnswerHard = 0;
+            row5AnswerHard = 0;
+            row6AnswerHard = 0;
+            row7AnswerHard = 0;
+            col1AnswerHard = 0;
+            col2AnswerHard = 0;
+            col3AnswerHard = 0;
+            col4AnswerHard = 0;
+            col5AnswerHard = 0;
+            col6AnswerHard = 0;
+            col7AnswerHard = 0;
+            diagnal1AnswerHard = 0;
+            diagnal2AnswerHard = 0;
+
+            if (PauseResume_Button.Text == "Resume")
+            {
+                canvas.Refresh();
+
+                PauseResume_Button.Text = "Pause";
+                Hide_Board = false;
+                isEasyGame = false;
+                isMediumGame = false;
+                isHardGame = false;
+                isEasyBoard = false;
+                isMediumBoard = false;
+                isHardBoard = false;
+
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    isEasyGame = true;
+                    isEasyBoard = true;
+                    resetMediumPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    isMediumGame = true;
+                    isMediumBoard = true;
+                    resetEasyPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    isHardGame = true;
+                    isHardBoard = true;
+                    resetEasyPuzzleTextboxes();
+                    resetMediumPuzzleTextboxes();
+                }
+
+            }
+
+
             isDown = true;
             tmrCounter.Enabled = true;
             i = 0;
+
             canvas.Refresh();
-            //start the timer when a player chooses a puzzle
-            
+
             if (isBoardLoaded)
             {
                 if (isEasyBoard)
