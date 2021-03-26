@@ -113,7 +113,7 @@ namespace JennyCasey_Assignment5
             // 
             this.diagnal1SumBox.Location = new System.Drawing.Point(1203, 12);
             this.diagnal1SumBox.Name = "diagnal1SumBox";
-            this.diagnal1SumBox.Size = new System.Drawing.Size(66, 50);
+            this.diagnal1SumBox.Size = new System.Drawing.Size(112, 50);
             this.diagnal1SumBox.TabIndex = 6;
             this.diagnal1SumBox.TabStop = false;
             this.diagnal1SumBox.Paint += new System.Windows.Forms.PaintEventHandler(this.diagnal1SumBox_Paint);
@@ -122,7 +122,7 @@ namespace JennyCasey_Assignment5
             // 
             this.diagnal2SumBox.Location = new System.Drawing.Point(1199, 560);
             this.diagnal2SumBox.Name = "diagnal2SumBox";
-            this.diagnal2SumBox.Size = new System.Drawing.Size(66, 59);
+            this.diagnal2SumBox.Size = new System.Drawing.Size(116, 59);
             this.diagnal2SumBox.TabIndex = 7;
             this.diagnal2SumBox.TabStop = false;
             this.diagnal2SumBox.Paint += new System.Windows.Forms.PaintEventHandler(this.diagnal2SumBox_Paint);
