@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
+using System.Linq;
 
 namespace JennyCasey_Assignment5
 {
@@ -17,6 +19,8 @@ namespace JennyCasey_Assignment5
         private static bool isMediumGame = false;
         private static bool isHardGame = false;
         private static bool isDown = false;
+        private static bool Hide_Board = false;
+        private static bool Paused = false; 
 
         private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
         private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
@@ -26,6 +30,7 @@ namespace JennyCasey_Assignment5
         public static int L;
         public static int W;
 
+        public static int timerticks;
         public Form1()
         {
             InitializeComponent();
@@ -104,6 +109,9 @@ namespace JennyCasey_Assignment5
                     gameStatsHard1.Add(gameRecordHard1);
                 }
             }
+           
+           
+           
             //store each value of the easy file into a char
             gameStatsEasy1[0].Split('0');
             char val = gameStatsEasy1[0][0];
@@ -167,7 +175,14 @@ namespace JennyCasey_Assignment5
                         {
                             //FIRST ROW OF VALUES
                             //cell 1
-                            if (val != '0')
+                           if (Hide_Board)
+                            {
+                                resetEasyPuzzleTextboxes();
+
+                                PointF pointF1 = new PointF(W / 6, L / 6);
+                                e.Graphics.DrawString("?", font1, Brushes.Black, pointF1);
+                            }
+                            else if (val != '0')
                             {
                                 //we have a value so print that to the board
                                 PointF pointF1 = new PointF(W / 6, L / 6);
@@ -189,7 +204,14 @@ namespace JennyCasey_Assignment5
                                 generatedEasyTextboxes.Add(txt);
                             }
                             //cell 2
-                            if (val2 != '0')
+                            if (Hide_Board)
+                            {
+                                resetEasyPuzzleTextboxes();
+
+                                PointF pointF2 = new PointF(3 * (W / 6), (L / 6));
+                                e.Graphics.DrawString("?", font1, Brushes.Black, pointF2);
+                            }
+                            else if (val2 != '0')
                             {
                                 PointF pointF2 = new PointF(3 * (W / 6), (L / 6));
                                 e.Graphics.DrawString(val2.ToString(), font1, Brushes.Black, pointF2);
@@ -209,7 +231,14 @@ namespace JennyCasey_Assignment5
 
                             }
                             //cell3 
-                            if (val3 != '0')
+                            if (Hide_Board)
+                            {
+                                resetEasyPuzzleTextboxes();
+
+                                PointF pointF3 = new PointF(5 * (W / 6), (L / 6));
+                                e.Graphics.DrawString("?", font1, Brushes.Black, pointF3);
+                            }
+                            else if (val3 != '0')
                             {
                                 PointF pointF3 = new PointF(5 * (W / 6), (L / 6));
                                 e.Graphics.DrawString(val3.ToString(), font1, Brushes.Black, pointF3);
@@ -232,7 +261,14 @@ namespace JennyCasey_Assignment5
 
                             //SECOND ROW OF VALUES
                             //cell 4
-                            if (val4 != '0')
+                            if (Hide_Board)
+                            {
+                                resetEasyPuzzleTextboxes();
+
+                                PointF pointF4 = new PointF(W / 6, (3 * L / 6));
+                                e.Graphics.DrawString("?", font1, Brushes.Black, pointF4);
+                            }
+                            else if (val4 != '0')
                             {
                                 PointF pointF4 = new PointF(W / 6, (3 * L / 6));
                                 e.Graphics.DrawString(val4.ToString(), font1, Brushes.Black, pointF4);
@@ -253,7 +289,14 @@ namespace JennyCasey_Assignment5
 
                             }
                             //cell 5
-                            if (val5 != '0')
+                            if (Hide_Board)
+                            {
+                                resetEasyPuzzleTextboxes();
+
+                                PointF pointF5 = new PointF(3 * (W / 6), (3 * L / 6));
+                                e.Graphics.DrawString("?", font1, Brushes.Black, pointF5);
+                            }
+                            else if (val5 != '0')
                             {
                                 PointF pointF5 = new PointF(3 * (W / 6), (3 * L / 6));
                                 e.Graphics.DrawString(val5.ToString(), font1, Brushes.Black, pointF5);
@@ -275,7 +318,12 @@ namespace JennyCasey_Assignment5
 
                             }
                             //cell6 
-                            if (val6 != '0')
+                            if (Hide_Board)
+                            {
+                                PointF pointF6 = new PointF(5 * (W / 6), (3 * L / 6));
+                                e.Graphics.DrawString("?", font1, Brushes.Black, pointF6);
+                            }
+                            else if (val6 != '0')
                             {
                                 PointF pointF6 = new PointF(5 * (W / 6), (3 * L / 6));
                                 e.Graphics.DrawString(val6.ToString(), font1, Brushes.Black, pointF6);
@@ -298,7 +346,12 @@ namespace JennyCasey_Assignment5
                             }
                             //THIRD ROW OF VALUES
                             //cell 7
-                            if (val7 != '0')
+                            if (Hide_Board)
+                            {
+                                PointF pointF7 = new PointF(W / 6, (5 * L / 6));
+                                e.Graphics.DrawString("?", font1, Brushes.Black, pointF7);
+                            }
+                            else if (val7 != '0')
                             {
                                 PointF pointF7 = new PointF(W / 6, (5 * L / 6));
                                 e.Graphics.DrawString(val7.ToString(), font1, Brushes.Black, pointF7);
@@ -319,7 +372,12 @@ namespace JennyCasey_Assignment5
 
                             }
                             //cell 8
-                            if (val8 != '0')
+                            if (Hide_Board)
+                            {
+                                PointF pointF8 = new PointF(3 * (W / 6), (5 * L / 6));
+                                e.Graphics.DrawString("?", font1, Brushes.Black, pointF8);
+                            }
+                            else if (val8 != '0')
                             {
                                 PointF pointF8 = new PointF(3 * (W / 6), (5 * L / 6));
                                 e.Graphics.DrawString(val8.ToString(), font1, Brushes.Black, pointF8);
@@ -340,7 +398,12 @@ namespace JennyCasey_Assignment5
 
                             }
                             //cell 9
-                            if (val9 != '0')
+                            if (Hide_Board)
+                            {
+                                PointF pointF9 = new PointF(5 * (W / 6), (5 * L / 6));
+                                e.Graphics.DrawString("?", font1, Brushes.Black, pointF9);
+                            }
+                            else if (val9 != '0')
                             {
                                 PointF pointF9 = new PointF(5 * (W / 6), (5 * L / 6));
                                 e.Graphics.DrawString(val9.ToString(), font1, Brushes.Black, pointF9);
@@ -418,7 +481,16 @@ namespace JennyCasey_Assignment5
                         //if they are zero, we need to create a text box so that the user can enter their guesses in
                         for (c = 0; c < 25; c++)
                         {
-                            if (gameValuesMedium1[c] != '0')
+                            if (Hide_Board)
+                            {
+                                //remove all the textboxes from the board 
+                                resetMediumPuzzleTextboxes();
+
+                                //replace all the squares with a "?" to hide the board from the player
+                                PointF point = new PointF(xPoints[xSub] * (W / 10), yPoints[ySub] * (L / 10));
+                                e.Graphics.DrawString("?", Font, Brushes.Black, point);
+                            }
+                            else if (gameValuesMedium1[c] != '0' && !Hide_Board)
                             {
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                                 {
@@ -427,7 +499,7 @@ namespace JennyCasey_Assignment5
                                     e.Graphics.DrawString(gameValuesMedium1[c].ToString(), font1, Brushes.Black, point);
                                 }
                             }
-                            else
+                            else if (!Hide_Board)
                             {
                                 Point point2 = new Point(xPoints[xSub] * (W / 10) - 10, yPoints[ySub] * (L / 10));
                                 TextBox txt = new TextBox();
@@ -505,8 +577,17 @@ namespace JennyCasey_Assignment5
                         //go through the char list to populate values into board
                         for (z = 0; z < 49; z++)
                         {
+                            if (Hide_Board)
+                            {
+                                //remove all of the text boxes currently on the board 
+                                resetHardPuzzleTextboxes(); 
+
+                                //replace each square with a "?" to hide the board from the user
+                                PointF point = new PointF(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
+                                e.Graphics.DrawString("?", Font, Brushes.Black, point);
+                            }
                             //if the value is not a zero, then we want to print it on the board
-                            if (gameValuesHard1[z] != '0')
+                            else if (gameValuesHard1[z] != '0' && !Hide_Board)
                             {
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                                 {
@@ -517,7 +598,7 @@ namespace JennyCasey_Assignment5
                                 }
                             }
                             //else it IS a 0, so we want to allow the user to guess what the value could be
-                            else
+                            else if (!Hide_Board)
                             {
                                 
                                 //it is zero, so user has to figure out what the value is, so we need to add a textbox
@@ -551,6 +632,12 @@ namespace JennyCasey_Assignment5
         {
             isDown = true;
             canvas.Refresh();
+
+            //start the timer when a player chooses a puzzle
+            tmrCounter.Enabled = true;
+            i = 0;
+
+
         }
 
         private void newGameButton_MouseUp(object sender, MouseEventArgs e)
@@ -592,6 +679,150 @@ namespace JennyCasey_Assignment5
                 canvas.Controls.Remove(generatedHardTextboxes[i]);
             }
             generatedHardTextboxes.Clear();
+        }
+
+        private void PauseResume_Button_Click(object sender, EventArgs e)
+        {
+            //Display the current time when user clicks pause
+            if (PauseResume_Button.Text == "Pause")
+            {
+                Paused = true;
+                tmrCounter.Enabled = false;  
+                PauseResume_Button.Text = "Resume";     
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    isEasyGame = true;
+                    resetMediumPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    isMediumGame = true;
+                    resetEasyPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    isHardGame = true;
+                    resetEasyPuzzleTextboxes();
+                    resetMediumPuzzleTextboxes();
+                }           
+                isDown = true;
+                Hide_Board = true;
+                canvas.Refresh();
+            }
+            else if (PauseResume_Button.Text == "Resume")
+            {
+                PauseResume_Button.Text = "Pause";           
+                tmrCounter.Enabled = true;
+                isDown = true;
+                Hide_Board = false;
+                canvas.Refresh();
+                //somehow return to version previous to the pause
+            }           
+        }
+
+        static string convertseconds(int seconds)
+        {
+            int totalsecs = seconds;
+            int hours = seconds / 3600;
+            seconds = seconds % 3600;
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            if (totalsecs < 0)
+            {
+                return string.Format("No Time");
+            }    
+            else if (totalsecs < 60)
+            {
+                return string.Format("{0:D2} seconds", seconds);
+            }
+            else if (totalsecs < 3599)
+            {
+                return string.Format("{0:D2} minutes and {1:D2} seconds", minutes, seconds);
+            }
+            else
+            {
+                return string.Format("{0:D2} hours, {1:D2} minutes and {2:D2} seconds", hours, minutes, seconds);
+            }          
+        }
+
+        int i = 0;
+        private void tmrCounter_Tick(object sender, EventArgs e)
+        {
+            i++;
+            timerticks = i;
+            //every time the counter ticks convert the amount of seconds to hours, minutes and seconds and display the time
+            string time = convertseconds(i);
+            Timer_Label.Text = "Current Time: " + time;
+
+        }
+
+        List<string> EasyTimer = new List<string>();
+        int k = 0;
+        private void Complete_Button_Click(object sender, EventArgs e)
+        {
+            tmrCounter.Enabled = false;
+            k++;
+            if (gameDifficultyDropDown.Text == "Easy")
+            {
+
+                string TimeRecord;
+                if (k == 1)
+                {
+                    using (StreamReader inFile = new StreamReader("../../easy/eTimes.txt"))
+                    {
+                        while ((TimeRecord = inFile.ReadLine()) != null)
+                        {
+                            EasyTimer.Add(TimeRecord);
+                        }
+                    }
+                }
+
+                EasyTimer.Add(i.ToString());
+
+                if (EasyTimer.Count != 0)
+                {
+                    int average = 0;
+                    int numofTimes = 0;
+                    int smallest = int.Parse(EasyTimer[0]);
+                    foreach (string item in EasyTimer)
+                    {
+                        int m = int.Parse(item);
+                        average = m + average;
+                        numofTimes++;
+                        if (m < smallest)
+                        {
+                            smallest = m;
+                        }
+                    }
+                    average = average / numofTimes;
+
+                    MessageBox.Show(Timer_Label.Text + "\nAverage for Easy Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
+                }
+                else
+                {
+                    MessageBox.Show(Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
+                }
+
+                using (StreamWriter writer = new StreamWriter("../../easy/eTimes.txt"))
+                {
+                    foreach (string item in EasyTimer)
+                    {
+                        writer.WriteLine(item + " ");
+                    }
+                }
+                
+            }
+            else if (gameDifficultyDropDown.Text == "Medium")
+            {
+                
+            }
+            else if (gameDifficultyDropDown.Text == "Hard")
+            {
+                
+            }
         }
     }
 }

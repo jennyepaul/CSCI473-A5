@@ -36,6 +36,10 @@ namespace JennyCasey_Assignment5
             this.newGameButton = new System.Windows.Forms.Button();
             this.gameDifficultyDropDown = new System.Windows.Forms.ComboBox();
             this.difficultyToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.PauseResume_Button = new System.Windows.Forms.Button();
+            this.Timer_Label = new System.Windows.Forms.Label();
+            this.tmrCounter = new System.Windows.Forms.Timer(this.components);
+            this.Complete_Button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,7 +48,7 @@ namespace JennyCasey_Assignment5
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1371, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1371, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -83,11 +87,47 @@ namespace JennyCasey_Assignment5
             // 
             this.difficultyToolTip.AutomaticDelay = 100;
             // 
+            // PauseResume_Button
+            // 
+            this.PauseResume_Button.Location = new System.Drawing.Point(348, 0);
+            this.PauseResume_Button.Name = "PauseResume_Button";
+            this.PauseResume_Button.Size = new System.Drawing.Size(108, 40);
+            this.PauseResume_Button.TabIndex = 4;
+            this.PauseResume_Button.Text = "Pause";
+            this.PauseResume_Button.UseVisualStyleBackColor = true;
+            this.PauseResume_Button.Click += new System.EventHandler(this.PauseResume_Button_Click);
+            // 
+            // Timer_Label
+            // 
+            this.Timer_Label.AutoSize = true;
+            this.Timer_Label.Location = new System.Drawing.Point(515, 13);
+            this.Timer_Label.Name = "Timer_Label";
+            this.Timer_Label.Size = new System.Drawing.Size(0, 17);
+            this.Timer_Label.TabIndex = 5;
+            // 
+            // tmrCounter
+            // 
+            this.tmrCounter.Interval = 1000;
+            this.tmrCounter.Tick += new System.EventHandler(this.tmrCounter_Tick);
+            // 
+            // Complete_Button
+            // 
+            this.Complete_Button.Location = new System.Drawing.Point(922, 2);
+            this.Complete_Button.Name = "Complete_Button";
+            this.Complete_Button.Size = new System.Drawing.Size(114, 39);
+            this.Complete_Button.TabIndex = 6;
+            this.Complete_Button.Text = "Complete";
+            this.Complete_Button.UseVisualStyleBackColor = true;
+            this.Complete_Button.Click += new System.EventHandler(this.Complete_Button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
+            this.Controls.Add(this.Complete_Button);
+            this.Controls.Add(this.Timer_Label);
+            this.Controls.Add(this.PauseResume_Button);
             this.Controls.Add(this.gameDifficultyDropDown);
             this.Controls.Add(this.newGameButton);
             this.Controls.Add(this.canvas);
@@ -108,6 +148,10 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.Button newGameButton;
         private System.Windows.Forms.ComboBox gameDifficultyDropDown;
         private System.Windows.Forms.ToolTip difficultyToolTip;
+        private System.Windows.Forms.Button PauseResume_Button;
+        private System.Windows.Forms.Label Timer_Label;
+        private System.Windows.Forms.Timer tmrCounter;
+        private System.Windows.Forms.Button Complete_Button;
     }
 }
 
