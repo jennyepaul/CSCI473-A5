@@ -42,7 +42,6 @@ namespace JennyCasey_Assignment5
             this.diagnal2SumBox = new System.Windows.Forms.PictureBox();
             this.PauseResume_Button = new System.Windows.Forms.Button();
             this.tmrCounter = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
             this.Timer_Label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).BeginInit();
@@ -56,7 +55,7 @@ namespace JennyCasey_Assignment5
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1371, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1371, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -146,15 +145,6 @@ namespace JennyCasey_Assignment5
             this.tmrCounter.Interval = 1000;
             this.tmrCounter.Tick += new System.EventHandler(this.tmrCounter_Tick);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "label1";
-            // 
             // Timer_Label
             // 
             this.Timer_Label.AutoSize = true;
@@ -170,7 +160,6 @@ namespace JennyCasey_Assignment5
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
             this.Controls.Add(this.Timer_Label);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.PauseResume_Button);
             this.Controls.Add(this.diagnal2SumBox);
             this.Controls.Add(this.diagnal1SumBox);
@@ -206,7 +195,6 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.PictureBox diagnal2SumBox;
         private System.Windows.Forms.Button PauseResume_Button;
         private System.Windows.Forms.Timer tmrCounter;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label Timer_Label;
     }
 }
