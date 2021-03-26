@@ -57,6 +57,21 @@ namespace JennyCasey_Assignment5
         private static int diagnal1MediumSum = 0;
         private static int diagnal2MediumSum = 0;
 
+        //actual totals variables for a medium board
+        private static int row1AnswerMed = 0;
+        private static int row2AnswerMed = 0;
+        private static int row3AnswerMed = 0;
+        private static int row4AnswerMed = 0;
+        private static int row5AnswerMed = 0;
+        private static int col1AnswerMed = 0;
+        private static int col2AnswerMed = 0;
+        private static int col3AnswerMed = 0;
+        private static int col4AnswerMed = 0;
+        private static int col5AnswerMed = 0;
+        private static int diagnal1AnswerMed = 0;
+        private static int diagnal2AnswerMed = 0;
+
+
         //all totals variables for a hard board
         private static int row1HardSum = 0;
         private static int row2HardSum = 0;
@@ -74,6 +89,24 @@ namespace JennyCasey_Assignment5
         private static int col7HardSum = 0;
         private static int diagnal1HardSum = 0;
         private static int diagnal2HardSum = 0;
+
+        //actual totals variables for hard board
+        private static int row1AnswerHard = 0;
+        private static int row2AnswerHard = 0;
+        private static int row3AnswerHard = 0;
+        private static int row4AnswerHard = 0;
+        private static int row5AnswerHard = 0;
+        private static int row6AnswerHard = 0;
+        private static int row7AnswerHard = 0;
+        private static int col1AnswerHard= 0;
+        private static int col2AnswerHard = 0;
+        private static int col3AnswerHard = 0;
+        private static int col4AnswerHard = 0;
+        private static int col5AnswerHard = 0;
+        private static int col6AnswerHard = 0;
+        private static int col7AnswerHard = 0;
+        private static int diagnal1AnswerHard = 0;
+        private static int diagnal2AnswerHard = 0;
 
         private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
         private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
@@ -108,7 +141,6 @@ namespace JennyCasey_Assignment5
             gameDifficultyDropDown.Items.Add("Medium");
             gameDifficultyDropDown.Items.Add("Hard");
         }
-
 
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -183,13 +215,6 @@ namespace JennyCasey_Assignment5
 
                 }
             }
-
-            /*
-            for (int i = 0; i < gameStatsEasy1.Count; i++)
-            {
-                output.AppendText("index: " + i + " value: " + gameStatsEasy1[i] + "\n");
-            }
-            */
             //add the individual medium values to a list to iterate through later
             for (int n = 0; n < 5; n++)
             {
@@ -513,6 +538,7 @@ namespace JennyCasey_Assignment5
             isBoardLoaded = true;
         }
 
+        //these 3 functions calculate the ACTUAL answers for Easy board rows, columns, and diagnals
         private void calculateAnswerEasyRow(List<char> list1)
         {
             int val;
@@ -582,6 +608,7 @@ namespace JennyCasey_Assignment5
             }
         }
 
+        //these 3 functions calculate the DERIVED answers for Easy board rows, columns, and diagnals
         private void calculateInitialEasyRowSums(List<char> list1)
         {
             int val;
@@ -649,6 +676,91 @@ namespace JennyCasey_Assignment5
             }
         }
 
+        //these 3 functions calculate the ACTUAL answers for Medium board rows, columns, and diagnals
+        private void calculateAnswerMedRow(List<char> list1)
+        {
+            int val;
+            //go through the medium board
+            for (int i = 0; i < 5; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row1AnswerMed += val;
+            }
+
+            for (int i = 5; i < 10; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row2AnswerMed += val;
+            }
+
+            for (int i = 10; i < 15; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row3AnswerMed += val;
+            }
+            for (int i = 15; i < 20; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row4AnswerMed += val;
+            }
+            for (int i = 20; i < 25; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row5AnswerMed += val;
+            }
+        }
+        private void calculateAnswerMedColSums(List<char> list1)
+        {
+            int val;
+            //go through the medium board
+            for (int i = 0; i < 21; i += 5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col1AnswerMed += val;
+            }
+
+            for (int i = 1; i < 22; i += 5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col2AnswerMed += val;
+            }
+
+            for (int i = 2; i < 23; i += 5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col3AnswerMed += val;
+            }
+            for (int i = 3; i < 24; i += 5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col4AnswerMed += val;
+            }
+            for (int i = 4; i < 25; i += 5)
+            {
+                val = int.Parse(list1[i].ToString());
+                col5AnswerMed += val;
+            }
+        }
+        private void calculateAnswerMedDiagnalSums(List<char> list1)
+        {
+            int val;
+
+            //go through the medium board
+            for (int i = 4; i < 21; i += 4)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal1AnswerMed += val;
+            }
+
+            //go through the medium board
+            for (int i = 0; i < 25; i += 6)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal2AnswerMed += val;
+            }
+        }
+
+        //these 3 functions calculate the DERIVED answers for Medium board rows, columns, and diagnals
         private void calculateInitialMediumRowSums(List<char> list1)
         {
             int val;
@@ -682,7 +794,6 @@ namespace JennyCasey_Assignment5
             }
 
         }
-
         private void calculateInitialMediumColSums(List<char> list1)
         {
             int val;
@@ -733,7 +844,112 @@ namespace JennyCasey_Assignment5
                 diagnal2MediumSum += val;
             }
         }
-        
+
+        //these 3 functions calculate the ACTUAL answers for Hard board rows, columns, and diagnals
+        private void calculateAnswerHardRowSums(List<char> list1)
+        {
+            int val;
+            //go through the hard board rows and calculate the actual row totals
+            for (int i = 0; i < 7; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row1AnswerHard += val;
+            }
+
+            for (int i = 7; i < 14; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row2AnswerHard += val;
+            }
+
+            for (int i = 14; i < 21; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row3AnswerHard += val;
+            }
+            for (int i = 21; i < 28; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row4AnswerHard += val;
+            }
+            for (int i = 28; i < 35; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row5AnswerHard += val;
+            }
+            for (int i = 35; i < 42; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row6AnswerHard += val;
+            }
+            for (int i = 42; i < 49; i++)
+            {
+                val = int.Parse(list1[i].ToString());
+                row7AnswerHard += val;
+            }
+        }
+        private void calculateAnswerHardColSums(List<char> list1)
+        {
+            int val;
+            //go through the hard board columns and calculate the actual totals to display
+            for (int i = 0; i < 43; i += 7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col1AnswerHard += val;
+            }
+
+            for (int i = 1; i < 44; i += 7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col2AnswerHard += val;
+            }
+
+            for (int i = 2; i < 45; i += 7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col3AnswerHard += val;
+            }
+            for (int i = 3; i < 46; i += 7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col4AnswerHard += val;
+            }
+            for (int i = 4; i < 47; i += 7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col5AnswerHard += val;
+            }
+            for (int i = 5; i < 48; i += 7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col6AnswerHard += val;
+            }
+            for (int i = 6; i < 49; i += 7)
+            {
+                val = int.Parse(list1[i].ToString());
+                col7AnswerHard += val;
+            }
+        }
+        private void calculateAnswerHardDiagnalSums(List<char> list1)
+        {
+            int val;
+
+            //go through the hard board and calc derived totals
+            for (int i = 6; i < 43; i += 6)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal1AnswerHard += val;
+            }
+
+            //go through the hard board and calc derived totals
+            for (int i = 0; i < 49; i += 8)
+            {
+                val = int.Parse(list1[i].ToString());
+                diagnal2AnswerHard += val;
+            }
+        }
+
+        //these 3 functions calculate the DERIVED answers for Hardboard rows, columns, and diagnals
         private void calculateInitialHardRowSums(List<char> list1)
         {
             int val;
@@ -776,7 +992,6 @@ namespace JennyCasey_Assignment5
                 row7HardSum += val;
             }
         }
-
         private void calculateInitialHardColSums(List<char> list1)
         {
             int val;
@@ -837,6 +1052,8 @@ namespace JennyCasey_Assignment5
                 diagnal2HardSum += val;
             }
         }
+
+        //whenever a number input changes on the board, we need to recalculate the derived totals
         private void numberInput(object sender, EventArgs e)
         {
             isGreen = false;
@@ -1145,6 +1362,8 @@ namespace JennyCasey_Assignment5
             }
           
         }
+
+        //function to tell whether the color to color in will be GREEN or RED (still need to adjust this)
         private void isGreenOrRed(int a, int b)
         {
             if (a < b || a > b)
@@ -1187,29 +1406,35 @@ namespace JennyCasey_Assignment5
                 {
                     //calc and load the row totals for medium board
                     calculateInitialMediumRowSums(gameValuesMedium1);
+                    calculateAnswerMedRow(gameAnswersMed1);
                     rowSumBox.Refresh();
 
                     //calc and load the column totals for medium board
                     calculateInitialMediumColSums(gameValuesMedium1);
+                    calculateAnswerMedColSums(gameAnswersMed1);
                     columnSumBox.Refresh();
 
                     //calc and load the diagnal totals for medium board
                     calculateInitialMediumDiagnalSums(gameValuesMedium1);
+                    calculateAnswerMedDiagnalSums(gameAnswersMed1);
                     diagnal1SumBox.Refresh();
                     diagnal2SumBox.Refresh();
                 }
                 if(isHardBoard)
                 {
-                    //calculate and load the intial values for rows for hard board
+                    //calculate and load the intial and actual values for rows for hard board
                     calculateInitialHardRowSums(gameValuesHard1);
+                    calculateAnswerHardRowSums(gameAnswersHard1);
                     rowSumBox.Refresh();
 
-                    //calc and load the initial values for the columns for the hard board
+                    //calc and load the initial and actual values for the columns for the hard board
                     calculateInitialHardColSums(gameValuesHard1);
+                    calculateAnswerHardColSums(gameAnswersHard1);
                     columnSumBox.Refresh();
 
-                    //calc and load the diagnal totals for hard board
+                    //calc and load the diagnal totals (derived and actual)for hard board
                     calculateInitialHardDiagnalSums(gameValuesHard1);
+                    calculateAnswerHardDiagnalSums(gameAnswersHard1);
                     diagnal1SumBox.Refresh();
                     diagnal2SumBox.Refresh();
                 }
@@ -1259,6 +1484,8 @@ namespace JennyCasey_Assignment5
             }
             generatedHardTextboxes.Clear();
         }
+
+        //draw the derived and actual totals for rows for all boards
         private void rowSumBox_Paint(object sender, PaintEventArgs e)
         {
 
@@ -1317,6 +1544,7 @@ namespace JennyCasey_Assignment5
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
+                        //derived totals
                         PointF pointF1 = new PointF(rowSumBox.Width / 20, rowSumBox.Height / 10);
                         e.Graphics.DrawString(row1MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
 
@@ -1332,12 +1560,29 @@ namespace JennyCasey_Assignment5
                         PointF pointF5 = new PointF(rowSumBox.Width / 20, 9 * rowSumBox.Height / 10);
                         e.Graphics.DrawString(row5MediumSum.ToString(), font1, Brushes.DarkGray, pointF5);
 
+                        //actual totals
+                        PointF pointF6 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row1AnswerMed.ToString(), font1, Brushes.Black, pointF6);
+
+                        PointF pointF7 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row2AnswerMed.ToString(), font1, Brushes.Black, pointF7);
+
+                        PointF pointF8 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row3AnswerMed.ToString(), font1, Brushes.Black, pointF8);
+
+                        PointF pointF9 = new PointF(rowSumBox.Width / 2, 7 * rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row4AnswerMed.ToString(), font1, Brushes.Black, pointF9);
+
+                        PointF pointF10 = new PointF(rowSumBox.Width / 2, 9 * rowSumBox.Height / 10);
+                        e.Graphics.DrawString(row5AnswerMed.ToString(), font1, Brushes.Black, pointF10);
+
                     }
                 }
                 if(isHardBoard)
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
+                        //derived totals
                         PointF pointF1 = new PointF(rowSumBox.Width / 28, rowSumBox.Height / 14);
                         e.Graphics.DrawString(row1HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
 
@@ -1359,11 +1604,34 @@ namespace JennyCasey_Assignment5
                         PointF pointF7 = new PointF(rowSumBox.Width / 28, 13 * rowSumBox.Height / 14);
                         e.Graphics.DrawString(row7HardSum.ToString(), font1, Brushes.DarkGray, pointF7);
 
+                        //actual totals
+                        PointF pointF8 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row1AnswerHard.ToString(), font1, Brushes.Black, pointF8);
+
+                        PointF pointF9 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row2AnswerHard.ToString(), font1, Brushes.Black, pointF9);
+
+                        PointF pointF10 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row3AnswerHard.ToString(), font1, Brushes.Black, pointF10);
+
+                        PointF pointF11 = new PointF(rowSumBox.Width / 2, 7 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row4AnswerHard.ToString(), font1, Brushes.Black, pointF11);
+
+                        PointF pointF12 = new PointF(rowSumBox.Width / 2, 9 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row5AnswerHard.ToString(), font1, Brushes.Black, pointF12);
+
+                        PointF pointF13 = new PointF(rowSumBox.Width / 2, 11 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row6AnswerHard.ToString(), font1, Brushes.Black, pointF13);
+
+                        PointF pointF14 = new PointF(rowSumBox.Width / 2, 13 * rowSumBox.Height / 14);
+                        e.Graphics.DrawString(row7AnswerHard.ToString(), font1, Brushes.Black, pointF14);
+
                     }
                 }
             }
         }
 
+        //draw the derived and actual totals for columns for all boards
         private void columnSumBox_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
@@ -1374,6 +1642,7 @@ namespace JennyCasey_Assignment5
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
+                        //derived totals
                         PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 12);
                         e.Graphics.DrawString(col1EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
 
@@ -1399,6 +1668,7 @@ namespace JennyCasey_Assignment5
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
+                        //derived totals
                         PointF pointF1 = new PointF(columnSumBox.Width / 10, columnSumBox.Height / 20);
                         e.Graphics.DrawString(col1MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
 
@@ -1414,6 +1684,22 @@ namespace JennyCasey_Assignment5
                         PointF pointF5 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 20);
                         e.Graphics.DrawString(col5MediumSum.ToString(), font1, Brushes.DarkGray, pointF5);
 
+                        //actual totals
+                        PointF pointF6 = new PointF(columnSumBox.Width / 10, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col1AnswerMed.ToString(), font1, Brushes.Black, pointF6);
+
+                        PointF pointF7 = new PointF(3 * columnSumBox.Width / 10, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col2AnswerMed.ToString(), font1, Brushes.Black, pointF7);
+
+                        PointF pointF8 = new PointF(5 * columnSumBox.Width / 10, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col3AnswerMed.ToString(), font1, Brushes.Black, pointF8);
+
+                        PointF pointF9 = new PointF(7 * columnSumBox.Width / 10, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col4AnswerMed.ToString(), font1, Brushes.Black, pointF9);
+
+                        PointF pointF10 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col5AnswerMed.ToString(), font1, Brushes.Black, pointF10);
+
                     }
                 }
 
@@ -1421,6 +1707,7 @@ namespace JennyCasey_Assignment5
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
+                        //derived totals
                         PointF pointF1 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 14);
                         e.Graphics.DrawString(col1HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
 
@@ -1442,24 +1729,47 @@ namespace JennyCasey_Assignment5
                         PointF pointF7 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 14);
                         e.Graphics.DrawString(col7HardSum.ToString(), font1, Brushes.DarkGray, pointF7);
 
+                        //actual totals
+                        PointF pointF8 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col1AnswerHard.ToString(), font1, Brushes.Black, pointF8);
+
+                        PointF pointF9 = new PointF(3 * columnSumBox.Width / 14, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col2AnswerHard.ToString(), font1, Brushes.Black, pointF9);
+
+                        PointF pointF10 = new PointF(5 * columnSumBox.Width / 14, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col3AnswerHard.ToString(), font1, Brushes.Black, pointF10);
+
+                        PointF pointF11 = new PointF(7 * columnSumBox.Width / 14, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col4AnswerHard.ToString(), font1, Brushes.Black, pointF11);
+
+                        PointF pointF12 = new PointF(9 * columnSumBox.Width / 14, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col5AnswerHard.ToString(), font1, Brushes.Black, pointF12);
+
+                        PointF pointF13 = new PointF(11 * columnSumBox.Width / 14, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col6AnswerHard.ToString(), font1, Brushes.Black, pointF13);
+
+                        PointF pointF14 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 2);
+                        e.Graphics.DrawString(col7AnswerHard.ToString(), font1, Brushes.Black, pointF14);
                     }
                 }   
             }
         }
 
+        //draw the derived and actual totals for 1st diagnal for all boards
         private void diagnal1SumBox_Paint(object sender, PaintEventArgs e)
         {
             if (isBoardLoaded)
             {
                 if (isEasyBoard)
                 {
-                    //paint the sum for the top diagnal total
+                    //derived total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
                     }
 
+                    //actual total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         PointF pointF1 = new PointF(diagnal1SumBox.Width / 2, diagnal1SumBox.Height / 3);
@@ -1468,33 +1778,46 @@ namespace JennyCasey_Assignment5
                 }
                 if (isMediumBoard)
                 {
-                    //paint the sum for the top diagnal total
+                    //derived total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal1MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
                     }
+                    //actual total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal1SumBox.Width / 2, diagnal1SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal1AnswerMed.ToString(), font1, Brushes.Black, pointF1);
+                    }
                 }
                 if(isHardBoard)
                 {
-                    //paint the sum for the top diagnal total
+                    //derived total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal1HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
                     }
+
+                    //actual total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal1SumBox.Width / 2, diagnal1SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal1AnswerHard.ToString(), font1, Brushes.Black, pointF1);
+                    }
                 }
             }
         }
 
+        //draw the derived and actual totals for 2nd diagnal for all boards
         private void diagnal2SumBox_Paint(object sender, PaintEventArgs e)
         {
             if (isBoardLoaded)
             {
                 if (isEasyBoard)
                 {
-                    
-                     //paint the sum for the bottom diagnal total
+                    //derived total
                      using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                      {
                           PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
@@ -1511,20 +1834,33 @@ namespace JennyCasey_Assignment5
                 }
                 if (isMediumBoard)
                 {
-                    //paint the sum for the bottom diagnal total
+                    //derived total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal2MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
                     }
+
+                    //actual total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal2SumBox.Width / 2, diagnal2SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal2AnswerMed.ToString(), font1, Brushes.Black, pointF1);
+                    }
                 }
                 if(isHardBoard)
                 {
-                    //paint the sum for the bottom diagnal total
+                    //derived total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal2HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
+                    }
+                    //actual total
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
+                        PointF pointF1 = new PointF(diagnal2SumBox.Width / 2, diagnal2SumBox.Height / 3);
+                        e.Graphics.DrawString(diagnal2AnswerHard.ToString(), font1, Brushes.Black, pointF1);
                     }
                 }
             }
