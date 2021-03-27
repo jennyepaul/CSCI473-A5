@@ -25,6 +25,20 @@ namespace JennyCasey_Assignment5
         private static bool isGreen = false;
         private static bool Hide_Board = false;
         private static bool Paused = false;
+        private static bool EasyRowCompleted = false;
+        private static bool MediumRowCompleted = false;
+        private static bool HardRowCompleted = false;
+        private static bool EasyColCompleted = false;
+        private static bool MediumColCompleted = false;
+        private static bool HardColCompleted = false;
+        private static bool EasyDiagnalCompleted1 = false;
+        private static bool EasyDiagnalCompleted2 = false;
+        private static bool MediumDiagnalCompleted1 = false;
+        private static bool MediumDiagnalCompleted2 = false;
+        private static bool HardDiagnalCompleted1 = false;
+        private static bool HardDiagnalCompleted2 = false;
+        private static bool Complete = false;
+
 
         //all totals variables  for an easy board
         private static int row1EasySum = 0;
@@ -149,8 +163,7 @@ namespace JennyCasey_Assignment5
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             //NOTE --> WHENEVER THE USER CHANGES TO ANOTHER GAME, SOME PARTS OF THE LINES ARE FADED FROM WHERE OLD TEXTBOX USED TO BE?
-            // TRY AND FIX THIS!!
-
+            // TRY AND FIX THIS!!          
 
             //depending what difficulty the user entered, we need to draw the corresponding playing field
             if (gameDifficultyDropDown.Text == "Easy")
@@ -174,6 +187,7 @@ namespace JennyCasey_Assignment5
         }
         private void canvas_Paint(object sender, PaintEventArgs e)
         {
+            
 
             string gameRecordEasy1, gameRecordMedium1, gameRecordHard1;
             //read in the info from an easy 1  file and store into a list
@@ -565,6 +579,7 @@ namespace JennyCasey_Assignment5
                 }
             }
             isBoardLoaded = true;
+            
         }
 
         //these 3 functions calculate the ACTUAL answers for Easy board rows, columns, and diagnals
@@ -1391,7 +1406,9 @@ namespace JennyCasey_Assignment5
                     diagnal1SumBox.Refresh();
                 }
             }
-          
+
+            completed_puzzle();
+
         }
 
         //function to tell whether the color to color in will be GREEN or RED (still need to adjust this)
@@ -1409,96 +1426,14 @@ namespace JennyCasey_Assignment5
        
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
-            
 
+            Complete = false;
             isDown = true;
             tmrCounter.Enabled = true;
             i = 0;
-            row1AnswerEasy = 0;
-            row1EasySum = 0;
-             row1EasySum = 0;
-             row2EasySum = 0;
-             row3EasySum = 0;
-             diagnal1EasySum = 0;
-             diagnal2EasySum = 0;
-             col1EasySum = 0;
-             col2EasySum = 0;
-             col3EasySum = 0;
-            //actual answer for easy board
-             row1AnswerEasy = 0;
-             row2AnswerEasy = 0;
-             row3AnswerEasy = 0;
-             col1AnswerEasy = 0;
-             col2AnswerEasy = 0;
-             col3AnswerEasy = 0;
-             diagnal1AnswerEasy = 0;
-             diagnal2AnswerEasy = 0;
 
-            //all totals variables for a medium board
-             row1MediumSum = 0;
-             row2MediumSum = 0;
-             row3MediumSum = 0;
-             row4MediumSum = 0;
-             row5MediumSum = 0;
-             col1MediumSum = 0;
-             col2MediumSum = 0;
-             col3MediumSum = 0;
-             col4MediumSum = 0;
-             col5MediumSum = 0;
-             diagnal1MediumSum = 0;
-             diagnal2MediumSum = 0;
-
-            //actual totals variables for a medium board
-             row1AnswerMed = 0;
-             row2AnswerMed = 0;
-             row3AnswerMed = 0;
-             row4AnswerMed = 0;
-             row5AnswerMed = 0;
-             col1AnswerMed = 0;
-             col2AnswerMed = 0;
-             col3AnswerMed = 0;
-             col4AnswerMed = 0;
-             col5AnswerMed = 0;
-             diagnal1AnswerMed = 0;
-             diagnal2AnswerMed = 0;
-
-
-            //all totals variables for a hard board
-             row1HardSum = 0;
-             row2HardSum = 0;
-             row3HardSum = 0;
-             row4HardSum = 0;
-             row5HardSum = 0;
-             row6HardSum = 0;
-             row7HardSum = 0;
-             col1HardSum = 0;
-             col2HardSum = 0;
-             col3HardSum = 0;
-             col4HardSum = 0;
-             col5HardSum = 0;
-             col6HardSum = 0;
-             col7HardSum = 0;
-             diagnal1HardSum = 0;
-             diagnal2HardSum = 0;
-
-            //actual totals variables for hard board
-             row1AnswerHard = 0;
-             row2AnswerHard = 0;
-             row3AnswerHard = 0;
-             row4AnswerHard = 0;
-             row5AnswerHard = 0;
-             row6AnswerHard = 0;
-             row7AnswerHard = 0;
-             col1AnswerHard = 0;
-             col2AnswerHard = 0;
-             col3AnswerHard = 0;
-             col4AnswerHard = 0;
-             col5AnswerHard = 0;
-             col6AnswerHard = 0;
-             col7AnswerHard = 0;
-             diagnal1AnswerHard = 0;
-             diagnal2AnswerHard = 0;
-
+            
+            
             if (PauseResume_Button.Text == "Resume")
             {
                 PauseResume_Button.Text = "Pause";
@@ -1525,9 +1460,99 @@ namespace JennyCasey_Assignment5
                     resetMediumPuzzleTextboxes();
                 }
             }
-
+            
             canvas.Refresh();
+            refresh_totals();
 
+
+        }
+
+        private void refresh_totals()
+        {
+            row1AnswerEasy = 0;
+            row1EasySum = 0;
+            row1EasySum = 0;
+            row2EasySum = 0;
+            row3EasySum = 0;
+            diagnal1EasySum = 0;
+            diagnal2EasySum = 0;
+            col1EasySum = 0;
+            col2EasySum = 0;
+            col3EasySum = 0;
+            //actual answer for easy board
+            row1AnswerEasy = 0;
+            row2AnswerEasy = 0;
+            row3AnswerEasy = 0;
+            col1AnswerEasy = 0;
+            col2AnswerEasy = 0;
+            col3AnswerEasy = 0;
+            diagnal1AnswerEasy = 0;
+            diagnal2AnswerEasy = 0;
+
+            //all totals variables for a medium board
+            row1MediumSum = 0;
+            row2MediumSum = 0;
+            row3MediumSum = 0;
+            row4MediumSum = 0;
+            row5MediumSum = 0;
+            col1MediumSum = 0;
+            col2MediumSum = 0;
+            col3MediumSum = 0;
+            col4MediumSum = 0;
+            col5MediumSum = 0;
+            diagnal1MediumSum = 0;
+            diagnal2MediumSum = 0;
+
+            //actual totals variables for a medium board
+            row1AnswerMed = 0;
+            row2AnswerMed = 0;
+            row3AnswerMed = 0;
+            row4AnswerMed = 0;
+            row5AnswerMed = 0;
+            col1AnswerMed = 0;
+            col2AnswerMed = 0;
+            col3AnswerMed = 0;
+            col4AnswerMed = 0;
+            col5AnswerMed = 0;
+            diagnal1AnswerMed = 0;
+            diagnal2AnswerMed = 0;
+
+
+            //all totals variables for a hard board
+            row1HardSum = 0;
+            row2HardSum = 0;
+            row3HardSum = 0;
+            row4HardSum = 0;
+            row5HardSum = 0;
+            row6HardSum = 0;
+            row7HardSum = 0;
+            col1HardSum = 0;
+            col2HardSum = 0;
+            col3HardSum = 0;
+            col4HardSum = 0;
+            col5HardSum = 0;
+            col6HardSum = 0;
+            col7HardSum = 0;
+            diagnal1HardSum = 0;
+            diagnal2HardSum = 0;
+
+            //actual totals variables for hard board
+            row1AnswerHard = 0;
+            row2AnswerHard = 0;
+            row3AnswerHard = 0;
+            row4AnswerHard = 0;
+            row5AnswerHard = 0;
+            row6AnswerHard = 0;
+            row7AnswerHard = 0;
+            col1AnswerHard = 0;
+            col2AnswerHard = 0;
+            col3AnswerHard = 0;
+            col4AnswerHard = 0;
+            col5AnswerHard = 0;
+            col6AnswerHard = 0;
+            col7AnswerHard = 0;
+            diagnal1AnswerHard = 0;
+            diagnal2AnswerHard = 0;
             if (isBoardLoaded)
             {
                 if (isEasyBoard)
@@ -1549,9 +1574,9 @@ namespace JennyCasey_Assignment5
                     diagnal2SumBox.Refresh();
 
 
-                    
+
                 }
-                if(isMediumBoard)
+                if (isMediumBoard)
                 {
                     //calc and load the row totals for medium board
                     calculateInitialMediumRowSums(gameValuesMedium1);
@@ -1569,7 +1594,7 @@ namespace JennyCasey_Assignment5
                     diagnal1SumBox.Refresh();
                     diagnal2SumBox.Refresh();
                 }
-                if(isHardBoard)
+                if (isHardBoard)
                 {
                     //calculate and load the intial and actual values for rows for hard board
                     calculateInitialHardRowSums(gameValuesHard1);
@@ -1588,9 +1613,7 @@ namespace JennyCasey_Assignment5
                     diagnal2SumBox.Refresh();
                 }
             }
-           
         }
-
         private void newGameButton_MouseUp(object sender, MouseEventArgs e)
         {
             //reset all flags
@@ -1637,16 +1660,10 @@ namespace JennyCasey_Assignment5
         }
 
 
-        List<string> EasyTimer = new List<string>();
-        List<string> MedTimer = new List<string>();
-        List<string> HardTimer = new List<string>();
-        int easy_itr = 0;
-        int med_itr = 0;
-        int hard_itr = 0;
+        
         //draw the derived and actual totals for rows for all boards
         private void rowSumBox_Paint(object sender, PaintEventArgs e)
-        {
-
+        { 
             Graphics graphics = e.Graphics;
 
             if (isBoardLoaded)
@@ -1680,18 +1697,39 @@ namespace JennyCasey_Assignment5
                         }
 
 
+                        if (Complete == true)
+                        {
+                            PointF pointF2 = new PointF(rowSumBox.Width / 12, 3 * rowSumBox.Height / 6);
+                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF2);
 
-                        PointF pointF2 = new PointF(rowSumBox.Width / 12, 3 * rowSumBox.Height / 6);
-                        e.Graphics.DrawString(row2EasySum.ToString(), font1, Brushes.DarkGray, pointF2);
+                            PointF pointF3 = new PointF(rowSumBox.Width / 12, 5 * rowSumBox.Height / 6);
+                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF3);
+                        }
+                        else if (Hide_Board == true)
+                        {
+                            PointF pointF2 = new PointF(rowSumBox.Width / 12, 3 * rowSumBox.Height / 6);
+                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF2);
 
-                        PointF pointF3 = new PointF(rowSumBox.Width / 12, 5 * rowSumBox.Height / 6);
-                        e.Graphics.DrawString(row3EasySum.ToString(), font1, Brushes.DarkGray, pointF3);
+                            PointF pointF3 = new PointF(rowSumBox.Width / 12, 5 * rowSumBox.Height / 6);
+                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF3);
+                        }
+                        else
+                        {
+                            PointF pointF2 = new PointF(rowSumBox.Width / 12, 3 * rowSumBox.Height / 6);
+                            e.Graphics.DrawString(row2EasySum.ToString(), font1, Brushes.DarkGray, pointF2);
+
+                            PointF pointF3 = new PointF(rowSumBox.Width / 12, 5 * rowSumBox.Height / 6);
+                            e.Graphics.DrawString(row3EasySum.ToString(), font1, Brushes.DarkGray, pointF3);
+                        }
+
+                        
 
 
                         //actual totals
+                        
                         PointF pointF4 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 6);
                         e.Graphics.DrawString(row1AnswerEasy.ToString(), font1, Brushes.Black, pointF4);
-
+                        
                         PointF pointF5 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 6);
                         e.Graphics.DrawString(row2AnswerEasy.ToString(), font1, Brushes.Black, pointF5);
 
@@ -1700,53 +1738,7 @@ namespace JennyCasey_Assignment5
                         
                         if (row1EasySum == row1AnswerEasy && row2EasySum == row2AnswerEasy && row3EasySum == row3AnswerEasy)
                         {
-                            tmrCounter.Enabled = false;
-                            easy_itr++;
-                            string EasyTimeRecord;
-                            if (easy_itr == 1)
-                            {
-                                using (StreamReader inFile = new StreamReader("../../easy/eTimes.txt"))
-                                {
-                                    while ((EasyTimeRecord = inFile.ReadLine()) != null)
-                                    {
-                                        EasyTimer.Add(EasyTimeRecord);
-                                    }
-                                }
-                            }
-
-                            EasyTimer.Add(i.ToString());
-
-                            if (EasyTimer.Count != 0)
-                            {
-                                int average = 0;
-                                int numofTimes = 0;
-                                int smallest = int.Parse(EasyTimer[0]);
-                                foreach (string item in EasyTimer)
-                                {
-                                    int m = int.Parse(item);
-                                    average = m + average;
-                                    numofTimes++;
-                                    if (m < smallest)
-                                    {
-                                        smallest = m;
-                                    }
-                                }
-                                average = average / numofTimes;
-
-                                MessageBox.Show("Completed!" + Timer_Label.Text + " \nAverage for Easy Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
-                            }
-                            else
-                            {
-                                MessageBox.Show("Completed!" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
-                            }
-
-                            using (StreamWriter writer = new StreamWriter("../../easy/eTimes.txt"))
-                            {
-                                foreach (string item in EasyTimer)
-                                {
-                                    writer.WriteLine(item + " ");
-                                }
-                            }
+                            EasyRowCompleted = true;
                         }
 
                     }
@@ -1790,55 +1782,7 @@ namespace JennyCasey_Assignment5
                         if (row1MediumSum == row1AnswerMed && row2MediumSum == row2AnswerMed &&
                             row3MediumSum == row3AnswerMed && row4MediumSum == row4AnswerMed && row5MediumSum == row5AnswerMed)
                         {
-                            MessageBox.Show("Completed!");
-                            tmrCounter.Enabled = false;
-                            med_itr++;
-                            string MedTimeRecord;
-                            if (med_itr == 1)
-                            {
-                                using (StreamReader inFile = new StreamReader("../../medium/mTimes.txt"))
-                                {
-                                    while ((MedTimeRecord = inFile.ReadLine()) != null)
-                                    {
-                                        MedTimer.Add(MedTimeRecord);
-                                    }
-                                }
-                            }
-
-                            MedTimer.Add(i.ToString());
-
-                            if (MedTimer.Count != 0)
-                            {
-                                int average = 0;
-                                int numofTimes = 0;
-                                int smallest = int.Parse(MedTimer[0]);
-                                foreach (string item in MedTimer)
-                                {
-                                    int m = int.Parse(item);
-                                    average = m + average;
-                                    numofTimes++;
-                                    if (m < smallest)
-                                    {
-                                        smallest = m;
-                                    }
-                                }
-                                average = average / numofTimes;
-
-                                MessageBox.Show("Completed!" + Timer_Label.Text + " \nAverage for Medium Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
-                            }
-                            else
-                            {
-                                MessageBox.Show("Completed!" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
-                            }
-
-                            using (StreamWriter writer = new StreamWriter("../../medium/mTimes.txt"))
-                            {
-                                foreach (string item in MedTimer)
-                                {
-                                    writer.WriteLine(item + " ");
-                                }
-                            }
-
+                            MediumRowCompleted = true;
                         }
 
                     }
@@ -1895,57 +1839,11 @@ namespace JennyCasey_Assignment5
                             row3HardSum == row3AnswerHard && row4HardSum == row4AnswerHard && row5HardSum == row5AnswerHard &&
                             row6HardSum == row6AnswerHard && row7HardSum == row7AnswerHard)
                         {
-                            tmrCounter.Enabled = false;
-                            hard_itr++;
-                            string HardTimeRecord;
-                            if (hard_itr == 1)
-                            {
-                                using (StreamReader inFile = new StreamReader("../../hard/hTimes.txt"))
-                                {
-                                    while ((HardTimeRecord = inFile.ReadLine()) != null)
-                                    {
-                                        HardTimer.Add(HardTimeRecord);
-                                    }
-                                }
-                            }
-
-                            HardTimer.Add(i.ToString());
-
-                            if (HardTimer.Count != 0)
-                            {
-                                int average = 0;
-                                int numofTimes = 0;
-                                int smallest = int.Parse(HardTimer[0]);
-                                foreach (string item in HardTimer)
-                                {
-                                    int m = int.Parse(item);
-                                    average = m + average;
-                                    numofTimes++;
-                                    if (m < smallest)
-                                    {
-                                        smallest = m;
-                                    }
-                                }
-                                average = average / numofTimes;
-
-                                MessageBox.Show("Completed!" + Timer_Label.Text + " \nAverage for Hard Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
-                            }
-                            else
-                            {
-                                MessageBox.Show("Completed!" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
-                            }
-
-                            using (StreamWriter writer = new StreamWriter("../../hard/hTimes.txt"))
-                            {
-                                foreach (string item in HardTimer)
-                                {
-                                    writer.WriteLine(item + " ");
-                                }
-                            }
+                            HardRowCompleted = true;
                         }
                     }
                 }
-            }
+            }         
         }
 
         //draw the derived and actual totals for columns for all boards
@@ -1978,6 +1876,11 @@ namespace JennyCasey_Assignment5
 
                         PointF pointF6 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 2);
                         e.Graphics.DrawString(col3AnswerEasy.ToString(), font1, Brushes.Black, pointF6);
+
+                        if (col1EasySum == col1AnswerEasy && col2EasySum == col2AnswerEasy && col3EasySum == col3AnswerEasy)
+                        {
+                            EasyColCompleted = true;
+                        }
 
                     }
                 }
@@ -2016,6 +1919,12 @@ namespace JennyCasey_Assignment5
 
                         PointF pointF10 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 2);
                         e.Graphics.DrawString(col5AnswerMed.ToString(), font1, Brushes.Black, pointF10);
+
+                        if (col1MediumSum == col1AnswerMed && col2MediumSum == col2AnswerMed && col3MediumSum == col3AnswerMed
+                            && col4MediumSum == col4AnswerMed && col5MediumSum == col5AnswerMed)
+                        {
+                            MediumColCompleted = true;
+                        }
 
                     }
                 }
@@ -2067,6 +1976,13 @@ namespace JennyCasey_Assignment5
 
                         PointF pointF14 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 2);
                         e.Graphics.DrawString(col7AnswerHard.ToString(), font1, Brushes.Black, pointF14);
+
+                        if (col1HardSum == col1AnswerHard && col2HardSum == col2AnswerHard &&
+                            col3HardSum == col3AnswerHard && col4HardSum == col4AnswerHard && col5HardSum == col5AnswerHard &&
+                            col6HardSum == col6AnswerHard && col7HardSum == col7AnswerHard)
+                        {
+                            HardColCompleted = true;
+                        }
                     }
                 }   
             }
@@ -2092,6 +2008,11 @@ namespace JennyCasey_Assignment5
                         PointF pointF1 = new PointF(diagnal1SumBox.Width / 2, diagnal1SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal1AnswerEasy.ToString(), font1, Brushes.Black, pointF1);
                     }
+
+                    if(diagnal1EasySum == diagnal1AnswerEasy)
+                    {
+                        EasyDiagnalCompleted1 = true;
+                    }
                 }
                 if (isMediumBoard)
                 {
@@ -2106,6 +2027,11 @@ namespace JennyCasey_Assignment5
                     {
                         PointF pointF1 = new PointF(diagnal1SumBox.Width / 2, diagnal1SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal1AnswerMed.ToString(), font1, Brushes.Black, pointF1);
+                    }
+
+                    if (diagnal1MediumSum == diagnal1AnswerMed)
+                    {
+                        MediumDiagnalCompleted1 = true; 
                     }
                 }
                 if(isHardBoard)
@@ -2122,6 +2048,11 @@ namespace JennyCasey_Assignment5
                     {
                         PointF pointF1 = new PointF(diagnal1SumBox.Width / 2, diagnal1SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal1AnswerHard.ToString(), font1, Brushes.Black, pointF1);
+                    }
+                    
+                    if(diagnal1HardSum == diagnal1AnswerHard)
+                    {
+                        HardDiagnalCompleted1 = true;
                     }
                 }
             }
@@ -2148,6 +2079,10 @@ namespace JennyCasey_Assignment5
                         e.Graphics.DrawString(diagnal2AnswerEasy.ToString(), font1, Brushes.Black, pointF1);
                     }
 
+                    if (diagnal2EasySum == diagnal2AnswerEasy)
+                    {
+                        EasyDiagnalCompleted2 = true;
+                    }
                 }
                 if (isMediumBoard)
                 {
@@ -2164,6 +2099,11 @@ namespace JennyCasey_Assignment5
                         PointF pointF1 = new PointF(diagnal2SumBox.Width / 2, diagnal2SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal2AnswerMed.ToString(), font1, Brushes.Black, pointF1);
                     }
+
+                    if (diagnal2MediumSum == diagnal2AnswerMed)
+                    {
+                        MediumDiagnalCompleted2 = true;
+                    }
                 }
                 if(isHardBoard)
                 {
@@ -2178,6 +2118,11 @@ namespace JennyCasey_Assignment5
                     {
                         PointF pointF1 = new PointF(diagnal2SumBox.Width / 2, diagnal2SumBox.Height / 3);
                         e.Graphics.DrawString(diagnal2AnswerHard.ToString(), font1, Brushes.Black, pointF1);
+                    }
+
+                    if (diagnal2HardSum == diagnal2AnswerHard)
+                    {
+                        HardDiagnalCompleted2 = true;
                     }
                 }
             }
@@ -2209,9 +2154,13 @@ namespace JennyCasey_Assignment5
                     resetEasyPuzzleTextboxes();
                     resetMediumPuzzleTextboxes();
                 }
+               
                 isDown = true;
                 Hide_Board = true;
+                Complete = false;
                 canvas.Refresh();
+                refresh_totals();
+                //canvas.Refresh();
             }
             else if (PauseResume_Button.Text == "Resume")
             {
@@ -2220,6 +2169,8 @@ namespace JennyCasey_Assignment5
                 isDown = true;
                 Hide_Board = false;
                 canvas.Refresh();
+                refresh_totals();
+                //canvas.Refresh();
                 //somehow return to version previous to the pause
             }
         }
@@ -2257,7 +2208,271 @@ namespace JennyCasey_Assignment5
             timerticks = i;
             //every time the counter ticks convert the amount of seconds to hours, minutes and seconds and display the time
             string time = convertseconds(i);
-            Timer_Label.Text = "Current Time: " + time;
+            Timer_Label.Text = "Current Time: " + time;          
+        }
+
+        List<string> EasyTimer = new List<string>();
+        List<string> MedTimer = new List<string>();
+        List<string> HardTimer = new List<string>();
+        int easy_itr = 0;
+        int med_itr = 0;
+        int hard_itr = 0;
+        private void completed_puzzle()
+        {
+            /*if (EasyRowCompleted == true)
+            {
+                MessageBox.Show("Easy Row Completed");
+            }
+            if (EasyDiagnalCompleted2)
+            {
+                MessageBox.Show("Easy Dia2 Completed");
+            }*/
+            if (EasyRowCompleted && EasyColCompleted && EasyDiagnalCompleted2)
+            {
+                tmrCounter.Enabled = false;
+                easy_itr++;
+                string EasyTimeRecord;
+                if (easy_itr == 1)
+                {
+                    using (StreamReader inFile = new StreamReader("../../easy/eTimes.txt"))
+                    {
+                        while ((EasyTimeRecord = inFile.ReadLine()) != null)
+                        {
+                            EasyTimer.Add(EasyTimeRecord);
+                        }
+                    }
+                }
+
+                EasyTimer.Add(i.ToString());
+
+                if (EasyTimer.Count != 0)
+                {
+                    int average = 0;
+                    int numofTimes = 0;
+                    int smallest = int.Parse(EasyTimer[0]);
+                    foreach (string item in EasyTimer)
+                    {
+                        int m = int.Parse(item);
+                        average = m + average;
+                        numofTimes++;
+                        if (m < smallest)
+                        {
+                            smallest = m;
+                        }
+                    }
+                    average = average / numofTimes;
+
+                    MessageBox.Show("Completed!\n" + Timer_Label.Text + "\nAverage for Easy Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
+                }
+                else
+                {
+                    MessageBox.Show("Completed!\n" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
+                }
+
+                using (StreamWriter writer = new StreamWriter("../../easy/eTimes.txt"))
+                {
+                    foreach (string item in EasyTimer)
+                    {
+                        writer.WriteLine(item + " ");
+                    }
+                }
+                Complete = true; 
+            }
+            else if (MediumRowCompleted && MediumColCompleted && MediumDiagnalCompleted1 && MediumDiagnalCompleted2)
+            {
+                MessageBox.Show("Completed");
+            }
+            else if (HardRowCompleted && HardColCompleted && HardDiagnalCompleted1 && HardDiagnalCompleted2)
+            {
+                MessageBox.Show("Completed");
+            }
+            if (Complete == true)
+            {
+                PauseResume_Button.Text = "Pause";
+                
+                Hide_Board = false;
+                isEasyGame = false;
+                isMediumGame = false;
+                isHardGame = false;
+                gameDifficultyDropDown.Text = "";
+                resetEasyPuzzleTextboxes();
+                resetMediumPuzzleTextboxes();
+                resetHardPuzzleTextboxes();               
+                canvas.Refresh();
+                Timer_Label.Text = "";
+                //calc and load the derived and actual totals for the easy game board rows
+                calculateInitialEasyRowSums(gameValuesEasy1);
+                calculateAnswerEasyRow(gameAnswersEasy1);
+                rowSumBox.Refresh();
+
+                //calc and load the dervied and actual totals for the easy game board columns
+                calculateInitialEasyColSums(gameValuesEasy1);
+                calculateAnswerEasyColSums(gameAnswersEasy1);
+                columnSumBox.Refresh();
+
+                //calc and load the diagnal totals for easy board
+                calculateInitialEasyDiagnalSums(gameValuesEasy1);
+                calculateAnswerEasyDiagnalSums(gameAnswersEasy1);
+                diagnal1SumBox.Refresh();
+                diagnal2SumBox.Refresh();
+
+                canvas.Refresh();
+            }
         }
     }
 }
+/*
+ * List<string> EasyTimer = new List<string>();
+        List<string> MedTimer = new List<string>();
+        List<string> HardTimer = new List<string>();
+        int easy_itr = 0;
+        int med_itr = 0;
+        int hard_itr = 0;
+ * 
+ * EASY COMPLETED 
+tmrCounter.Enabled = false;
+easy_itr++;
+string EasyTimeRecord;
+if (easy_itr == 1)
+{
+    using (StreamReader inFile = new StreamReader("../../easy/eTimes.txt"))
+    {
+        while ((EasyTimeRecord = inFile.ReadLine()) != null)
+        {
+            EasyTimer.Add(EasyTimeRecord);
+        }
+    }
+}
+
+EasyTimer.Add(i.ToString());
+
+if (EasyTimer.Count != 0)
+{
+    int average = 0;
+    int numofTimes = 0;
+    int smallest = int.Parse(EasyTimer[0]);
+    foreach (string item in EasyTimer)
+    {
+        int m = int.Parse(item);
+        average = m + average;
+        numofTimes++;
+        if (m < smallest)
+        {
+            smallest = m;
+        }
+    }
+    average = average / numofTimes;
+
+    MessageBox.Show("Completed!" + Timer_Label.Text + " \nAverage for Easy Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
+}
+else
+{
+    MessageBox.Show("Completed!" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
+}
+
+using (StreamWriter writer = new StreamWriter("../../easy/eTimes.txt"))
+{
+    foreach (string item in EasyTimer)
+    {
+        writer.WriteLine(item + " ");
+    }
+}
+
+MEDIUM COMPLETED 
+MessageBox.Show("Completed!");
+tmrCounter.Enabled = false;
+med_itr++;
+string MedTimeRecord;
+if (med_itr == 1)
+{
+    using (StreamReader inFile = new StreamReader("../../medium/mTimes.txt"))
+    {
+        while ((MedTimeRecord = inFile.ReadLine()) != null)
+        {
+            MedTimer.Add(MedTimeRecord);
+        }
+    }
+}
+
+MedTimer.Add(i.ToString());
+
+if (MedTimer.Count != 0)
+{
+    int average = 0;
+    int numofTimes = 0;
+    int smallest = int.Parse(MedTimer[0]);
+    foreach (string item in MedTimer)
+    {
+        int m = int.Parse(item);
+        average = m + average;
+        numofTimes++;
+        if (m < smallest)
+        {
+            smallest = m;
+        }
+    }
+    average = average / numofTimes;
+
+    MessageBox.Show("Completed!" + Timer_Label.Text + " \nAverage for Medium Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
+}
+else
+{
+    MessageBox.Show("Completed!" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
+}
+
+using (StreamWriter writer = new StreamWriter("../../medium/mTimes.txt"))
+{
+    foreach (string item in MedTimer)
+    {
+        writer.WriteLine(item + " ");
+    }
+}
+
+HARD COMPLETED 
+tmrCounter.Enabled = false;
+hard_itr++;
+string HardTimeRecord;
+if (hard_itr == 1)
+{
+    using (StreamReader inFile = new StreamReader("../../hard/hTimes.txt"))
+    {
+        while ((HardTimeRecord = inFile.ReadLine()) != null)
+        {
+            HardTimer.Add(HardTimeRecord);
+        }
+    }
+}
+
+HardTimer.Add(i.ToString());
+
+if (HardTimer.Count != 0)
+{
+    int average = 0;
+    int numofTimes = 0;
+    int smallest = int.Parse(HardTimer[0]);
+    foreach (string item in HardTimer)
+    {
+        int m = int.Parse(item);
+        average = m + average;
+        numofTimes++;
+        if (m < smallest)
+        {
+            smallest = m;
+        }
+    }
+    average = average / numofTimes;
+
+    MessageBox.Show("Completed!" + Timer_Label.Text + " \nAverage for Hard Puzzles: " + convertseconds(average) + "\nFastest Time: " + convertseconds(smallest));
+}
+else
+{
+    MessageBox.Show("Completed!" + Timer_Label.Text + "\nAverage: " + convertseconds(i) + "\nFastest Time: " + convertseconds(i));
+}
+
+using (StreamWriter writer = new StreamWriter("../../hard/hTimes.txt"))
+{
+    foreach (string item in HardTimer)
+    {
+        writer.WriteLine(item + " ");
+    }
+}*/
