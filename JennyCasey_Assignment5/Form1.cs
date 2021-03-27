@@ -1248,8 +1248,8 @@ namespace JennyCasey_Assignment5
 
                 //diagnals changing
                 //if the textbox name contains "easy" or have 0, 4, 8 in their name, it is a diagnal
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("4")
-                                    || textbox.Name.Contains("8"))
+                if (textbox.Name == "easyPuzzleCell0" || textbox.Name == "easyPuzzleCell4"
+                                    || textbox.Name == "easyPuzzleCell8")
                 {
 
                     diagnal2EasySum += value;
@@ -1258,7 +1258,7 @@ namespace JennyCasey_Assignment5
                 }
 
                 //if the textbox name contains "easy" or have 2, 4, 6 in their name, it is a diagnal
-                if (textbox.Name.Contains("easy") && textbox.Name == "easyPuzzleCell2" || textbox.Name == "easyPuzzleCell4"
+                if (textbox.Name == "easyPuzzleCell2" || textbox.Name == "easyPuzzleCell4"
                                     || textbox.Name == "easyPuzzleCell6")
                 {
 
@@ -1749,9 +1749,6 @@ namespace JennyCasey_Assignment5
                         //then change color (if i read the assignment directions right)
                         //this color changing only works for row 1 of easy board
                         
-
-
-
                         if (Complete == true)
                         {
                             PointF pointF1 = new PointF(rowSumBox.Width / 12, rowSumBox.Height / 6);
