@@ -43,6 +43,7 @@ namespace JennyCasey_Assignment5
             this.PauseResume_Button = new System.Windows.Forms.Button();
             this.tmrCounter = new System.Windows.Forms.Timer(this.components);
             this.Timer_Label = new System.Windows.Forms.Label();
+            this.resetPuzzleButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).BeginInit();
@@ -55,7 +56,7 @@ namespace JennyCasey_Assignment5
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1371, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1371, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -132,7 +133,7 @@ namespace JennyCasey_Assignment5
             // 
             // PauseResume_Button
             // 
-            this.PauseResume_Button.Location = new System.Drawing.Point(327, 2);
+            this.PauseResume_Button.Location = new System.Drawing.Point(302, 2);
             this.PauseResume_Button.Name = "PauseResume_Button";
             this.PauseResume_Button.Size = new System.Drawing.Size(117, 38);
             this.PauseResume_Button.TabIndex = 8;
@@ -154,11 +155,21 @@ namespace JennyCasey_Assignment5
             this.Timer_Label.Size = new System.Drawing.Size(0, 31);
             this.Timer_Label.TabIndex = 10;
             // 
+            // resetPuzzleButton
+            // 
+            this.resetPuzzleButton.Location = new System.Drawing.Point(1020, 2);
+            this.resetPuzzleButton.Name = "resetPuzzleButton";
+            this.resetPuzzleButton.Size = new System.Drawing.Size(129, 45);
+            this.resetPuzzleButton.TabIndex = 11;
+            this.resetPuzzleButton.Text = "Reset Puzzle";
+            this.resetPuzzleButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
+            this.Controls.Add(this.resetPuzzleButton);
             this.Controls.Add(this.Timer_Label);
             this.Controls.Add(this.PauseResume_Button);
             this.Controls.Add(this.diagnal2SumBox);
@@ -196,6 +207,7 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.Button PauseResume_Button;
         private System.Windows.Forms.Timer tmrCounter;
         private System.Windows.Forms.Label Timer_Label;
+        private System.Windows.Forms.Button resetPuzzleButton;
     }
 }
 
