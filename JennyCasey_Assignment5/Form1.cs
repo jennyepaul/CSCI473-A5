@@ -2407,7 +2407,6 @@ namespace JennyCasey_Assignment5
                         col6Counter--;
                     }
                     col6HardSum += value;
-                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
                     if (col6Counter == 7)
                     {
                         columnSumBox.Refresh();
