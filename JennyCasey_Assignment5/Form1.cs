@@ -174,6 +174,9 @@ namespace JennyCasey_Assignment5
 
         public static int timerticks;
 
+        //for timer, starts at 0 and counts up, will reset when we pick a new game or reset the board
+        public static int i = 0;
+
         public Form1()
         {
             InitializeComponent();
@@ -191,7 +194,6 @@ namespace JennyCasey_Assignment5
 
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
             //depending what difficulty the user entered, we need to draw the corresponding playing field
             if (gameDifficultyDropDown.Text == "Easy")
             {
@@ -720,7 +722,6 @@ namespace JennyCasey_Assignment5
             isBoardLoaded = true;         
         }
 
-        
         //these 3 functions calculate the ACTUAL answers for Easy board rows, columns, and diagnals
         private void calculateAnswerEasyRow(List<char> list1)
         {
@@ -1439,15 +1440,15 @@ namespace JennyCasey_Assignment5
                 isEasyBoard = false;
             }
             
-            //if we can parse it to an integer then do math
+            //if we can parse it to an integer then do math because it is a valid number
             if (int.TryParse(textbox.Text, out value))
             {
                 numberInputChange(textbox);
             }
-            //else output an error message
+            //else user entered something else so not valid
             else
             {
-                if (!isDeletedValue)
+                if(textbox.Text != "")
                 {
                     MessageBox.Show("Please enter numbers 1-9 only");
                 }
@@ -1725,7 +1726,7 @@ namespace JennyCasey_Assignment5
                         row1Counter--;
                     }
                     row1MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a row, so let's see what color the total should be
                     if (row1Counter == 5)
                     {
                         rowSumBox.Refresh();
@@ -1752,7 +1753,7 @@ namespace JennyCasey_Assignment5
                         row2Counter--;
                     }
                     row2MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a row, so let's see what color the total should be
                     if (row2Counter == 5)
                     {
                         rowSumBox.Refresh();
@@ -1781,7 +1782,7 @@ namespace JennyCasey_Assignment5
                         row3Counter--;
                     }
                     row3MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a row, so let's see what color the total should be
                     if (row3Counter == 5)
                     {
                         rowSumBox.Refresh();
@@ -1810,7 +1811,7 @@ namespace JennyCasey_Assignment5
                         row4Counter--;
                     }
                     row4MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a row, so let's see what color the total should be
                     if (row4Counter == 5)
                     {
                         rowSumBox.Refresh();
@@ -1839,7 +1840,7 @@ namespace JennyCasey_Assignment5
                         row5Counter--;
                     }
                     row5MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a row, so let's see what color the total should be
                     if (row5Counter == 5)
                     {
                         rowSumBox.Refresh();
@@ -1867,7 +1868,7 @@ namespace JennyCasey_Assignment5
                         col1Counter--;
                     }
                     col1MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a column, so let's see what color the total should be
                     if (col1Counter == 5)
                     {
                         columnSumBox.Refresh();
@@ -1876,8 +1877,6 @@ namespace JennyCasey_Assignment5
                     {
                         columnSumBox.Refresh();
                     }
-                    //col1MediumSum += value;
-                    //columnSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell11"
                                 || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell21")
@@ -1896,7 +1895,7 @@ namespace JennyCasey_Assignment5
                         col2Counter--;
                     }
                     col2MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a column, so let's see what color the total should be
                     if (col2Counter == 5)
                     {
                         columnSumBox.Refresh();
@@ -1905,8 +1904,6 @@ namespace JennyCasey_Assignment5
                     {
                         columnSumBox.Refresh();
                     }
-                    //col2MediumSum += value;
-                    //columnSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell2" || textbox.Name == "medPuzzleCell7" || textbox.Name == "medPuzzleCell12"
                                 || textbox.Name == "medPuzzleCell17" || textbox.Name == "medPuzzleCell22")
@@ -1925,7 +1922,7 @@ namespace JennyCasey_Assignment5
                         col3Counter--;
                     }
                     col3MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a column, so let's see what color the total should be
                     if (col3Counter == 5)
                     {
                         columnSumBox.Refresh();
@@ -1934,8 +1931,6 @@ namespace JennyCasey_Assignment5
                     {
                         columnSumBox.Refresh();
                     }
-                    //col3MediumSum += value;
-                    //columnSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell13"
                                 || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell23")
@@ -1954,7 +1949,7 @@ namespace JennyCasey_Assignment5
                         col4Counter--;
                     }
                     col4MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a column, so let's see what color the total should be
                     if (col4Counter == 5)
                     {
                         columnSumBox.Refresh();
@@ -1963,8 +1958,6 @@ namespace JennyCasey_Assignment5
                     {
                         columnSumBox.Refresh();
                     }
-                    //col4MediumSum += value;
-                    //columnSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell9" || textbox.Name == "medPuzzleCell14"
                                 || textbox.Name == "medPuzzleCell19" || textbox.Name == "medPuzzleCell24")
@@ -1983,7 +1976,7 @@ namespace JennyCasey_Assignment5
                         col5Counter--;
                     }
                     col5MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 5 then we finished guessing a column, so let's see what color the total should be
                     if (col5Counter == 5)
                     {
                         columnSumBox.Refresh();
@@ -1992,8 +1985,6 @@ namespace JennyCasey_Assignment5
                     {
                         columnSumBox.Refresh();
                     }
-                    //col5MediumSum += value;
-                    //columnSumBox.Refresh();
                 }
                 //diagnals changing
                 if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell12"
@@ -2013,8 +2004,8 @@ namespace JennyCasey_Assignment5
                         diagnal2Counter--;
                     }
                     diagnal2MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
-                    if (diagnal2Counter == 3)
+                    //if the row counter is 5 then we finished guessing a diagnal so let's see what color the total should be
+                    if (diagnal2Counter == 5)
                     {
                         diagnal2SumBox.Refresh();
                     }
@@ -2040,8 +2031,8 @@ namespace JennyCasey_Assignment5
                         diagnal1Counter--;
                     }
                     diagnal1MediumSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
-                    if (diagnal1Counter == 3)
+                    //if the row counter is 5 then we finished guessing a diagnal, so let's see what color the total should be
+                    if (diagnal1Counter == 5)
                     {
                         diagnal1SumBox.Refresh();
                     }
@@ -2074,7 +2065,7 @@ namespace JennyCasey_Assignment5
                         row1Counter--;
                     }
                     row1HardSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
                     if (row1Counter == 7)
                     {
                         rowSumBox.Refresh();
@@ -2085,8 +2076,6 @@ namespace JennyCasey_Assignment5
                         rowSumBox.Refresh();
 
                     }
-                    //row1HardSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell9"
                                 || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell12"
@@ -2104,7 +2093,7 @@ namespace JennyCasey_Assignment5
                         row2Counter--;
                     }
                     row2HardSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
                     if (row2Counter == 7)
                     {
                         rowSumBox.Refresh();
@@ -2115,8 +2104,6 @@ namespace JennyCasey_Assignment5
                         rowSumBox.Refresh();
 
                     }
-                    //row2HardSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "hardPuzzleCell14" || textbox.Name == "hardPuzzleCell15" || textbox.Name == "hardPuzzleCell16"
                                || textbox.Name == "hardPuzzleCell17" || textbox.Name == "hardPuzzleCell18" || textbox.Name == "hardPuzzleCell19"
@@ -2134,7 +2121,7 @@ namespace JennyCasey_Assignment5
                         row3Counter--;
                     }
                     row3HardSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
                     if (row3Counter == 7)
                     {
                         rowSumBox.Refresh();
@@ -2144,8 +2131,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    //row3HardSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "hardPuzzleCell21" || textbox.Name == "hardPuzzleCell22" || textbox.Name == "hardPuzzleCell23"
                                || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell25" || textbox.Name == "hardPuzzleCell26"
@@ -2163,7 +2148,7 @@ namespace JennyCasey_Assignment5
                         row4Counter--;
                     }
                     row4HardSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
                     if (row4Counter == 7)
                     {
                         rowSumBox.Refresh();
@@ -2173,8 +2158,7 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    //row4HardSum += value;
-                    //rowSumBox.Refresh();
+
                 }
                 if (textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell30"
                              || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell33"
@@ -2192,7 +2176,7 @@ namespace JennyCasey_Assignment5
                         row5Counter--;
                     }
                     row5HardSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
                     if (row5Counter == 7)
                     {
                         rowSumBox.Refresh();
@@ -2201,8 +2185,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    //row5HardSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "hardPuzzleCell35" || textbox.Name == "hardPuzzleCell36" || textbox.Name == "hardPuzzleCell37"
                              || textbox.Name == "hardPuzzleCell38" || textbox.Name == "hardPuzzleCell39" || textbox.Name == "hardPuzzleCell40"
@@ -2220,7 +2202,7 @@ namespace JennyCasey_Assignment5
                         row6Counter--;
                     }
                     row6HardSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
                     if (row6Counter == 7)
                     {
                         rowSumBox.Refresh();
@@ -2230,8 +2212,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    //row6HardSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "hardPuzzleCell42" || textbox.Name == "hardPuzzleCell43" || textbox.Name == "hardPuzzleCell44"
                             || textbox.Name == "hardPuzzleCell45" || textbox.Name == "hardPuzzleCell46" || textbox.Name == "hardPuzzleCell47"
@@ -2249,7 +2229,7 @@ namespace JennyCasey_Assignment5
                         row7Counter--;
                     }
                     row7HardSum += value;
-                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
                     if (row7Counter == 7)
                     {
                         rowSumBox.Refresh();
@@ -2258,8 +2238,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    //row7HardSum += value;
-                    //rowSumBox.Refresh();
                 }
 
                 //7 COLUMNS FOR HARD BOARD
@@ -2334,7 +2312,6 @@ namespace JennyCasey_Assignment5
                     if (col3Counter == 7)
                     {
                         columnSumBox.Refresh();
-
                     }
                     else
                     {
@@ -2432,7 +2409,7 @@ namespace JennyCasey_Assignment5
                         col7Counter--;
                     }
                     col7HardSum += value;
-                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a column, so let's see what color the total should be
                     if (col7Counter == 7)
                     {
                         columnSumBox.Refresh();
@@ -2461,7 +2438,7 @@ namespace JennyCasey_Assignment5
                         diagnal2Counter--;
                     }
                     diagnal2HardSum += value;
-                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a diagnal, so let's see what color the total should be
                     if (diagnal2Counter == 7)
                     {
                         diagnal2SumBox.Refresh();
@@ -2489,7 +2466,7 @@ namespace JennyCasey_Assignment5
                         diagnal1Counter--;
                     }
                     diagnal1HardSum += value;
-                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
+                    //if the row counter is 7 then we finished guessing a diagnal, so let's see what color the total should be
                     if (diagnal1Counter == 7)
                     {
                         diagnal1SumBox.Refresh();
@@ -2547,8 +2524,6 @@ namespace JennyCasey_Assignment5
                 }
 
             }
-
-
             isDown = true;
             tmrCounter.Enabled = true;
             i = 0;
@@ -2559,6 +2534,24 @@ namespace JennyCasey_Assignment5
         }
         private void refresh_totals_and_canvas()
         {
+            //reset the counters
+            row1Counter = 0;
+            row2Counter = 0;
+            row3Counter = 0;
+            row4Counter = 0;
+            row5Counter = 0;
+            row6Counter = 0;
+            row7Counter = 0;
+            col1Counter = 0;
+            col2Counter = 0;
+            col3Counter = 0;
+            col4Counter = 0;
+            col5Counter = 0;
+            col6Counter = 0;
+            col7Counter = 0;
+            diagnal1Counter = 0;
+            diagnal2Counter = 0;
+
             row1AnswerEasy = 0;
             row1EasySum = 0;
             row1EasySum = 0;
@@ -2751,7 +2744,7 @@ namespace JennyCasey_Assignment5
         }
 
         //this function will decide what color we paint the derived totals in when the user is done guessing for a row, column, and diagnal
-        // GREEN if the derived sum is equal to actual sum, RED if it is different, and grey if they are still in the process of guessing
+        // GREEN if the derived sum is equal to actual sum, RED if it is different, and GREY if they are still in the process of guessing
         private void changePaintColors(object sender, PaintEventArgs e, string valueToPrint, Font font1, int heightDivide, 
             int widthDivide, int widthMultiply, int heightMultiply, bool isAnswer, int counter, int derivedSum, int actualSum, PictureBox box, int cellNumber)
         {
@@ -2790,6 +2783,8 @@ namespace JennyCasey_Assignment5
                 e.Graphics.DrawString(valueToPrint, font1, Brushes.Black, pointF4);
             }
         }
+
+        //paints the easy totals for rows and columns, calls the changePaintColors to see what color to paint them
         private void paintEasyTotals(object sender, PaintEventArgs e, string a, string b, string c, Font font1, int heightDivide, int widthDivide,
                  bool isRow,  bool isAnswer, Brush color)
         {
@@ -2807,6 +2802,7 @@ namespace JennyCasey_Assignment5
                 changePaintColors(sender, e, c, font1, heightDivide, widthDivide, 1, 5, isAnswer, row3Counter, row3EasySum, row3AnswerEasy, rowSumBox, 3);
             }
         }
+        //paints the medium totals for rows and columns, calls the changePaintColors to see what color to paint them
         private void paintMediumTotals(object sender, PaintEventArgs e, string a, string b, string c, string d, string f,
                 Font font1, int heightDivide, int widthDivide, bool isRow, bool isAnswer, Brush color)
         {
@@ -2845,7 +2841,7 @@ namespace JennyCasey_Assignment5
                 changePaintColors(sender, e, f, font1, heightDivide, widthDivide, 1, 9, isAnswer, row5Counter, row5MediumSum, row5AnswerMed, rowSumBox, 5);
             }
         }
-
+        //paints the hard totals for rows and columns, calls the changePaintColors to see what color to paint them
         private void paintHardTotals(object sender, PaintEventArgs e, string a, string b, string c, string d, string f, string g , string h,
                Font font1, int heightDivide, int widthDivide, bool isRow, bool isAnswer, Brush color)
         {
@@ -2879,7 +2875,6 @@ namespace JennyCasey_Assignment5
             {
                 if (isEasyBoard)
                 {
-                    //areRowsDone();
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         if (Complete == true)
@@ -3699,7 +3694,6 @@ namespace JennyCasey_Assignment5
             }
         }
 
-        int i = 0;
         private void tmrCounter_Tick(object sender, EventArgs e)
         {
             i++;
@@ -3894,6 +3888,35 @@ namespace JennyCasey_Assignment5
                 canvas.Refresh();
 
             }
+        }
+
+
+        private void resetPuzzleButton_MouseDown(object sender, MouseEventArgs e)
+        {
+            //refresh everything and clear out the textboxes since we are resetting
+            refresh_totals_and_canvas();
+            tmrCounter.Enabled = false;
+
+            //clear out the textboxes
+            foreach (TextBox i in generatedEasyTextboxes)
+            {
+                i.Text = "";
+            }
+            foreach (TextBox i in generatedMedTextboxes)
+            {
+                i.Text = "";
+            }
+            foreach (TextBox i in generatedHardTextboxes)
+            {
+                i.Text = "";
+            }
+        }
+
+        private void resetPuzzleButton_MouseUp(object sender, MouseEventArgs e)
+        {
+            //enable the timer and restart the clock
+            tmrCounter.Enabled = true;
+            i = 0;
         }
     }
 }

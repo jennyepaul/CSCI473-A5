@@ -163,6 +163,8 @@ namespace JennyCasey_Assignment5
             this.resetPuzzleButton.TabIndex = 11;
             this.resetPuzzleButton.Text = "Reset Puzzle";
             this.resetPuzzleButton.UseVisualStyleBackColor = true;
+            this.resetPuzzleButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.resetPuzzleButton_MouseDown);
+            this.resetPuzzleButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.resetPuzzleButton_MouseUp);
             // 
             // Form1
             // 
