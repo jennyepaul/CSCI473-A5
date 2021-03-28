@@ -140,12 +140,12 @@ namespace JennyCasey_Assignment5
         public static List<char> gameAnswersHard1 = new List<char>();
 
 
-        private static List<string> EasyTimer = new List<string>();
-        private static List<string> MedTimer = new List<string>();
-        private static List<string> HardTimer = new List<string>();
-        private static int easy_itr = 0;
-        private static int med_itr = 0;
-        private static int hard_itr = 0;
+        public static List<string> EasyTimer = new List<string>();
+        public static List<string> MedTimer = new List<string>();
+        public static List<string> HardTimer = new List<string>();
+        public static int easy_itr = 0;
+        public static int med_itr = 0;
+        public static int hard_itr = 0;
 
         public static int row1Counter = 0;
         public static int row2Counter = 0;
