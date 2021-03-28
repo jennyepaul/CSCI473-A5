@@ -151,10 +151,23 @@ namespace JennyCasey_Assignment5
         public static int med_itr = 0;
         public static int hard_itr = 0;
 
+        //counters to tell us when a user finished guessing in rows, columns, and diagnals
         public static int row1Counter = 0;
         public static int row2Counter = 0;
         public static int row3Counter = 0;
-
+        public static int row4Counter = 0;
+        public static int row5Counter = 0;
+        public static int row6Counter = 0;
+        public static int row7Counter = 0;
+        public static int col1Counter = 0;
+        public static int col2Counter = 0;
+        public static int col3Counter = 0;
+        public static int col4Counter = 0;
+        public static int col5Counter = 0;
+        public static int col6Counter = 0;
+        public static int col7Counter = 0;
+        public static int diagnal1Counter = 0;
+        public static int diagnal2Counter = 0;
 
         public static int L;
         public static int W;
@@ -182,6 +195,15 @@ namespace JennyCasey_Assignment5
             //depending what difficulty the user entered, we need to draw the corresponding playing field
             if (gameDifficultyDropDown.Text == "Easy")
             {
+                //reset all counters from previous game
+                row1Counter = 0;
+                row2Counter = 0;
+                row3Counter = 0;
+                col1Counter = 0;
+                col2Counter = 0;
+                col3Counter = 0;
+                diagnal1Counter = 0;
+                diagnal2Counter = 0;
                 isEasyGame = true;
                 resetMediumPuzzleTextboxes();
                 resetHardPuzzleTextboxes();
@@ -189,11 +211,43 @@ namespace JennyCasey_Assignment5
             else if (gameDifficultyDropDown.Text == "Medium")
             {
                 isMediumGame = true;
+
+                //reset all counters from previous game
+                row1Counter = 0;
+                row2Counter = 0;
+                row3Counter = 0;
+                row4Counter = 0;
+                row5Counter = 0;
+                col1Counter = 0;
+                col2Counter = 0;
+                col3Counter = 0;
+                row4Counter = 0;
+                row5Counter = 0;
+                diagnal1Counter = 0;
+                diagnal2Counter = 0;
+
                 resetEasyPuzzleTextboxes();
                 resetHardPuzzleTextboxes();
             }
             else if (gameDifficultyDropDown.Text == "Hard")
             {
+                //reset all counter from previous game
+                row1Counter = 0;
+                row2Counter = 0;
+                row3Counter = 0;
+                row4Counter = 0;
+                row5Counter = 0;
+                row6Counter = 0;
+                row7Counter = 0;
+                col1Counter = 0;
+                col2Counter = 0;
+                col3Counter = 0;
+                col4Counter = 0;
+                col5Counter = 0;
+                col6Counter = 0;
+                col7Counter = 0;
+                diagnal1Counter = 0;
+                diagnal2Counter = 0;
                 isHardGame = true;
                 resetEasyPuzzleTextboxes();
                 resetMediumPuzzleTextboxes();
@@ -787,18 +841,30 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 col1EasySum += val;
+                if(list1[i] != '0')
+                {
+                    col1Counter += 1;
+                }
             }
 
             for (int i = 1; i < 9; i += 3)
             {
                 val = int.Parse(list1[i].ToString());
                 col2EasySum += val;
+                if (list1[i] != '0')
+                {
+                    col2Counter += 1;
+                }
             }
 
             for (int i = 2; i < 9; i += 3)
             {
                 val = int.Parse(list1[i].ToString());
                 col3EasySum += val;
+                if (list1[i] != '0')
+                {
+                    col3Counter += 1;
+                }
             }
 
         }
@@ -811,12 +877,20 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 diagnal1EasySum += val;
+                if(list1[i] != '0')
+                {
+                    diagnal1Counter++;
+                }
             }
             //go through the easy board
             for (int i = 0; i < 9; i += 4)
             {
                 val = int.Parse(list1[i].ToString());
                 diagnal2EasySum += val;
+                if (list1[i] != '0')
+                {
+                    diagnal2Counter++;
+                }
             }
         }
 
@@ -913,28 +987,48 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 row1MediumSum += val;
+                if(list1[i] != '0')
+                {
+                    row1Counter++;
+                }
             }
 
             for (int i = 5; i < 10; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row2MediumSum += val;
+                if (list1[i] != '0')
+                {
+                    row2Counter++;
+                }
             }
 
             for (int i = 10; i < 15; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row3MediumSum += val;
+                if (list1[i] != '0')
+                {
+                    row3Counter++;
+                }
             }
             for (int i = 15; i < 20; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row4MediumSum += val;
+                if (list1[i] != '0')
+                {
+                    row4Counter++;
+                }
             }
             for (int i = 20; i < 25; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row5MediumSum += val;
+                if (list1[i] != '0')
+                {
+                    row5Counter++;
+                }
             }
 
         }
@@ -946,28 +1040,48 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 col1MediumSum += val;
+                if(list1[i] != '0')
+                {
+                    col1Counter++;
+                }
             }
 
             for (int i = 1; i < 22; i+=5)
             {
                 val = int.Parse(list1[i].ToString());
                 col2MediumSum += val;
+                if (list1[i] != '0')
+                {
+                    col2Counter++;
+                }
             }
 
             for (int i = 2; i < 23; i+=5)
             {
                 val = int.Parse(list1[i].ToString());
                 col3MediumSum += val;
+                if (list1[i] != '0')
+                {
+                    col3Counter++;
+                }
             }
             for (int i = 3; i < 24; i+=5)
             {
                 val = int.Parse(list1[i].ToString());
                 col4MediumSum += val;
+                if (list1[i] != '0')
+                {
+                    col4Counter++;
+                }
             }
             for (int i = 4; i < 25; i+=5)
             {
                 val = int.Parse(list1[i].ToString());
                 col5MediumSum += val;
+                if (list1[i] != '0')
+                {
+                    col5Counter++;
+                }
             }
         }
         private void calculateInitialMediumDiagnalSums(List<char> list1)
@@ -1102,38 +1216,66 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 row1HardSum += val;
+                if(list1[i] != '0')
+                {
+                    row1Counter++;
+                }
             }
 
             for (int i = 7; i < 14; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row2HardSum += val;
+                if (list1[i] != '0')
+                {
+                    row2Counter++;
+                }
             }
 
             for (int i = 14; i < 21; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row3HardSum += val;
+                if (list1[i] != '0')
+                {
+                    row3Counter++;
+                }
             }
             for (int i = 21; i < 28; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row4HardSum += val;
+                if (list1[i] != '0')
+                {
+                    row4Counter++;
+                }
             }
             for (int i = 28; i < 35; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row5HardSum += val;
+                if (list1[i] != '0')
+                {
+                    row5Counter++;
+                }
             }
             for (int i = 35; i < 42; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row6HardSum += val;
+                if (list1[i] != '0')
+                {
+                    row6Counter++;
+                }
             }
             for (int i = 42; i < 49; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row7HardSum += val;
+                if (list1[i] != '0')
+                {
+                    row7Counter++;
+                }
             }
         }
         private void calculateInitialHardColSums(List<char> list1)
@@ -1144,38 +1286,66 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 col1HardSum += val;
+                if(list1[i] != '0')
+                {
+                    col1Counter++;
+                }
             }
 
             for (int i = 1; i < 44; i+=7)
             {
                 val = int.Parse(list1[i].ToString());
                 col2HardSum += val;
+                if (list1[i] != '0')
+                {
+                    col2Counter++;
+                }
             }
 
             for (int i = 2; i < 45; i+=7)
             {
                 val = int.Parse(list1[i].ToString());
                 col3HardSum += val;
+                if (list1[i] != '0')
+                {
+                    col3Counter++;
+                }
             }
             for (int i = 3; i < 46; i+=7)
             {
                 val = int.Parse(list1[i].ToString());
                 col4HardSum += val;
+                if (list1[i] != '0')
+                {
+                    col4Counter++;
+                }
             }
             for (int i = 4; i < 47; i+=7)
             {
                 val = int.Parse(list1[i].ToString());
                 col5HardSum += val;
+                if (list1[i] != '0')
+                {
+                    col5Counter++;
+                }
             }
             for (int i = 5; i < 48; i+=7)
             {
                 val = int.Parse(list1[i].ToString());
                 col6HardSum += val;
+                if (list1[i] != '0')
+                {
+                    col6Counter++;
+                }
             }
             for (int i = 6; i < 49; i+=7)
             {
                 val = int.Parse(list1[i].ToString());
                 col7HardSum += val;
+                if (list1[i] != '0')
+                {
+                    col7Counter++;
+                }
             }
         }
         private void calculateInitialHardDiagnalSums(List <char> list1)
@@ -1187,6 +1357,10 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 diagnal1HardSum += val;
+                if (list1[i] != '0')
+                {
+                    diagnal1Counter++;
+                }
             }
 
             //go through the medium board
@@ -1194,6 +1368,10 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 diagnal2HardSum += val;
+                if (list1[i] != '0')
+                {
+                    diagnal2Counter++;
+                }
             }
         }
         
@@ -1233,7 +1411,7 @@ namespace JennyCasey_Assignment5
                 {
                     numberInputChange(textbox);
                 }
-            }          
+            }
         }
         
         //whenever a number input changes on the board, we need to recalculate the derived totals
@@ -1276,7 +1454,6 @@ namespace JennyCasey_Assignment5
             }
             isDeletedValue = false;
         }
-
         private void numberInputChange(TextBox textbox)
         {
             int value;
@@ -1297,8 +1474,8 @@ namespace JennyCasey_Assignment5
                     {
                         if (!String.IsNullOrEmpty(textbox.Text))
                         {
-                            row1Counter += 1;         
-                        }        
+                            row1Counter += 1;
+                        }
                     }
                     else
                     {
@@ -1308,7 +1485,6 @@ namespace JennyCasey_Assignment5
                     //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
                     if (row1Counter == 3)
                     {
-
                         rowSumBox.Refresh();
 
                     }
@@ -1343,13 +1519,608 @@ namespace JennyCasey_Assignment5
                     else
                     {
                         rowSumBox.Refresh();
-
                     }
                 }
 
                 //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
                 if (textbox.Name.Contains("easy") && textbox.Name.Contains("6") || textbox.Name.Contains("7")
                                     || textbox.Name.Contains("8"))
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row3Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        row3Counter--;
+                    }
+                    row3EasySum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row3Counter == 3)
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+             
+                }
+                //columns changing total values
+                //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+                if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("3")
+                                    || textbox.Name.Contains("6"))
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col1Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        col1Counter--;
+                    }
+                    col1EasySum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (col1Counter == 3)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
+                }
+                //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+                if (textbox.Name.Contains("easy") && textbox.Name.Contains("1") || textbox.Name.Contains("4")
+                                    || textbox.Name.Contains("7"))
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col2Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        col2Counter--;
+                    }
+                    col2EasySum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (col2Counter == 3)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
+
+                }
+
+                //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
+                if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("5")
+                                    || textbox.Name.Contains("8"))
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col3Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        col3Counter--;
+                    }
+                    col3EasySum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (col3Counter == 3)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
+                }
+
+                //diagnals changing
+                //if the textbox name contains "easy" or have 0, 4, 8 in their name, it is a diagnal
+                if (textbox.Name == "easyPuzzleCell0" || textbox.Name == "easyPuzzleCell4"
+                                    || textbox.Name == "easyPuzzleCell8")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            diagnal2Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        diagnal2Counter--;
+                    }
+                    diagnal2EasySum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (diagnal2Counter == 3)
+                    {
+                        diagnal2SumBox.Refresh();
+                    }
+                    else
+                    {
+                        diagnal2SumBox.Refresh();
+                    }
+                }
+
+                //if the textbox name contains "easy" or have 2, 4, 6 in their name, it is a diagnal
+                if (textbox.Name == "easyPuzzleCell2" || textbox.Name == "easyPuzzleCell4"
+                                    || textbox.Name == "easyPuzzleCell6")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            diagnal1Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        diagnal1Counter--;
+                    }
+                    diagnal1EasySum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (diagnal1Counter == 3)
+                    {
+                        diagnal1SumBox.Refresh();
+                    }
+                    else
+                    {
+                        diagnal1SumBox.Refresh();
+                    }
+
+                    //diagnal2EasySum += value;
+                    //diagnal2SumBox.Refresh();
+
+                    //diagnal1EasySum += value;
+                    //diagnal1SumBox.Refresh();
+                }
+            }
+            //MEDIUM BOARD CALCULTIONS IF CHANGE IN TEXT BOXES
+            if (isMediumBoard)
+            {
+                //5 ROWS OF MEDIUM TABLE
+                if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell2"
+                                || textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell4")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row1Counter+= 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        row1Counter--;
+                    }
+                    row1MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row1Counter == 5)
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+                }
+                if (textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell7"
+                                || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell9")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row2Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        row2Counter--;
+                    }
+                    row2MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row2Counter == 5)
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    // row2MediumSum += value;
+                    //rowSumBox.Refresh();
+                }
+                if (textbox.Name == "medPuzzleCell10" || textbox.Name == "medPuzzleCell11" || textbox.Name == "medPuzzleCell12"
+                                || textbox.Name == "medPuzzleCell13" || textbox.Name == "medPuzzleCell14")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row3Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        row3Counter--;
+                    }
+                    row3MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row3Counter == 5)
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    //row3MediumSum += value;
+                    //rowSumBox.Refresh();
+                }
+                if (textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell17"
+                                || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell19")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row4Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        row4Counter--;
+                    }
+                    row4MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row4Counter == 5)
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    //row4MediumSum += value;
+                    //rowSumBox.Refresh();
+                }
+                if (textbox.Name == "medPuzzleCell20" || textbox.Name == "medPuzzleCell21" || textbox.Name == "medPuzzleCell22"
+                                || textbox.Name == "medPuzzleCell23" || textbox.Name == "medPuzzleCell24")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row5Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        row5Counter--;
+                    }
+                    row5MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row5Counter == 5)
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+                }
+                //COLUMNS OF MEDIUM TABLE
+                if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell10"
+                                || textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell20")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col1Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        col1Counter--;
+                    }
+                    col1MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (col1Counter == 5)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    //col1MediumSum += value;
+                    //columnSumBox.Refresh();
+                }
+                if (textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell11"
+                                || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell21")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col2Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        col2Counter--;
+                    }
+                    col2MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (col2Counter == 5)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    //col2MediumSum += value;
+                    //columnSumBox.Refresh();
+                }
+                if (textbox.Name == "medPuzzleCell2" || textbox.Name == "medPuzzleCell7" || textbox.Name == "medPuzzleCell12"
+                                || textbox.Name == "medPuzzleCell17" || textbox.Name == "medPuzzleCell22")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col3Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        col3Counter--;
+                    }
+                    col3MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (col3Counter == 5)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    //col3MediumSum += value;
+                    //columnSumBox.Refresh();
+                }
+                if (textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell13"
+                                || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell23")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col4Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        col4Counter--;
+                    }
+                    col4MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (col4Counter == 5)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    //col4MediumSum += value;
+                    //columnSumBox.Refresh();
+                }
+                if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell9" || textbox.Name == "medPuzzleCell14"
+                                || textbox.Name == "medPuzzleCell19" || textbox.Name == "medPuzzleCell24")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col5Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        col5Counter--;
+                    }
+                    col5MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (col5Counter == 5)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    //col5MediumSum += value;
+                    //columnSumBox.Refresh();
+                }
+                //diagnals changing
+                if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell12"
+                                || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell24")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            diagnal2Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        diagnal2Counter--;
+                    }
+                    diagnal2MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (diagnal2Counter == 3)
+                    {
+                        diagnal2SumBox.Refresh();
+                    }
+                    else
+                    {
+                        diagnal2SumBox.Refresh();
+                    }
+                }
+                if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell12"
+                                || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell20")
+                {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            diagnal1Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        diagnal1Counter--;
+                    }
+                    diagnal1MediumSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (diagnal1Counter == 3)
+                    {
+                        diagnal1SumBox.Refresh();
+                    }
+                    else
+                    {
+                        diagnal1SumBox.Refresh();
+                    }
+                    //diagnal1MediumSum += value;
+                    //diagnal1SumBox.Refresh();
+                }
+
+            }
+            //HARD BOARD CALCULATIONS IF CHANGE IN TeXT BOXES
+            if (isHardBoard)
+            {
+                //7 ROWS FOR HARD BOARD
+                if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell2"
+                                || textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell5"
+                                || textbox.Name == "hardPuzzleCell6")
+                {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row1Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        row1Counter--;
+                    }
+                    row1HardSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row1Counter == 7)
+                    {
+                        rowSumBox.Refresh();
+
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+
+                    }
+                    //row1HardSum += value;
+                    //rowSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell9"
+                                || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell12"
+                                || textbox.Name == "hardPuzzleCell13")
+                {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row2Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        row2Counter--;
+                    }
+                    row2HardSum += value;
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row2Counter == 7)
+                    {
+                        rowSumBox.Refresh();
+
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+
+                    }
+                    //row2HardSum += value;
+                    //rowSumBox.Refresh();
+                }
+                if (textbox.Name == "hardPuzzleCell14" || textbox.Name == "hardPuzzleCell15" || textbox.Name == "hardPuzzleCell16"
+                               || textbox.Name == "hardPuzzleCell17" || textbox.Name == "hardPuzzleCell18" || textbox.Name == "hardPuzzleCell19"
+                               || textbox.Name == "hardPuzzleCell20")
                 {
                     if (!isDeletedValue)
                     {
@@ -1362,9 +2133,9 @@ namespace JennyCasey_Assignment5
                     {
                         row3Counter--;
                     }
-                    row3EasySum += value;
+                    row3HardSum += value;
                     //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
-                    if (row3Counter == 3)
+                    if (row3Counter == 7)
                     {
                         rowSumBox.Refresh();
 
@@ -1372,193 +2143,123 @@ namespace JennyCasey_Assignment5
                     else
                     {
                         rowSumBox.Refresh();
-
                     }
-                    //row3EasySum += value;
+                    //row3HardSum += value;
                     //rowSumBox.Refresh();
-
-                }
-                //columns changing total values
-                //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("3")
-                                    || textbox.Name.Contains("6"))
-                {
-                    col1EasySum += value;
-                    columnSumBox.Refresh();
-                }
-                //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("1") || textbox.Name.Contains("4")
-                                    || textbox.Name.Contains("7"))
-                {
-                    col2EasySum += value;
-                    columnSumBox.Refresh();
-
-                }
-
-                //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("2") || textbox.Name.Contains("5")
-                                    || textbox.Name.Contains("8"))
-                {
-
-                    col3EasySum += value;
-                    columnSumBox.Refresh();
-                }
-
-                //diagnals changing
-                //if the textbox name contains "easy" or have 0, 4, 8 in their name, it is a diagnal
-                if (textbox.Name == "easyPuzzleCell0" || textbox.Name == "easyPuzzleCell4"
-                                    || textbox.Name == "easyPuzzleCell8")
-                {
-
-                    diagnal2EasySum += value;
-                    diagnal2SumBox.Refresh();
-
-                }
-
-                //if the textbox name contains "easy" or have 2, 4, 6 in their name, it is a diagnal
-                if (textbox.Name == "easyPuzzleCell2" || textbox.Name == "easyPuzzleCell4"
-                                    || textbox.Name == "easyPuzzleCell6")
-                {
-
-                    diagnal1EasySum += value;
-                    diagnal1SumBox.Refresh();
-                }
-            }
-            //MEDIUM BOARD CALCULTIONS IF CHANGE IN TEXT BOXES
-            if (isMediumBoard)
-            {
-                //5 ROWS OF MEDIUM TABLE
-                if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell2"
-                                || textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell4")
-                {
-
-                    row1MediumSum += value;
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell7"
-                                || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell9")
-                {
-                    row2MediumSum += value;
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell10" || textbox.Name == "medPuzzleCell11" || textbox.Name == "medPuzzleCell12"
-                                || textbox.Name == "medPuzzleCell13" || textbox.Name == "medPuzzleCell14")
-                {
-                    row3MediumSum += value;
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell17"
-                                || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell19")
-                {
-                    row4MediumSum += value;
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell20" || textbox.Name == "medPuzzleCell21" || textbox.Name == "medPuzzleCell22"
-                                || textbox.Name == "medPuzzleCell23" || textbox.Name == "medPuzzleCell24")
-                {
-                    row5MediumSum += value;
-                    rowSumBox.Refresh();
-                }
-
-                //COLUMNS OF MEDIUM TABLE
-                if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell5" || textbox.Name == "medPuzzleCell10"
-                                || textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell20")
-                {
-                    col1MediumSum += value;
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell1" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell11"
-                                || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell21")
-                {
-                    col2MediumSum += value;
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell2" || textbox.Name == "medPuzzleCell7" || textbox.Name == "medPuzzleCell12"
-                                || textbox.Name == "medPuzzleCell17" || textbox.Name == "medPuzzleCell22")
-                {
-                    col3MediumSum += value;
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell3" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell13"
-                                || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell23")
-                {
-                    col4MediumSum += value;
-                    columnSumBox.Refresh();
-                }
-                if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell9" || textbox.Name == "medPuzzleCell14"
-                                || textbox.Name == "medPuzzleCell19" || textbox.Name == "medPuzzleCell24")
-                {
-                    col5MediumSum += value;
-                    columnSumBox.Refresh();
-                }
-                //diagnals changing
-                if (textbox.Name == "medPuzzleCell0" || textbox.Name == "medPuzzleCell6" || textbox.Name == "medPuzzleCell12"
-                                || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell24")
-                {
-                    diagnal2MediumSum += value;
-                    diagnal2SumBox.Refresh();
-
-                }
-                if (textbox.Name == "medPuzzleCell4" || textbox.Name == "medPuzzleCell8" || textbox.Name == "medPuzzleCell12"
-                                || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell20")
-                {
-                    diagnal1MediumSum += value;
-                    diagnal1SumBox.Refresh();
-                }
-
-            }
-            //HARD BOARD CALCULATIONS IF CHANGE IN TeXT BOXES
-            if (isHardBoard)
-            {
-                //7 ROWS FOR HARD BOARD
-                if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell2"
-                                || textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell5"
-                                || textbox.Name == "hardPuzzleCell6")
-                {
-                    row1HardSum += value;
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell7" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell9"
-                                || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell12"
-                                || textbox.Name == "hardPuzzleCell13")
-                {
-                    row2HardSum += value;
-                    rowSumBox.Refresh();
-                }
-                if (textbox.Name == "hardPuzzleCell14" || textbox.Name == "hardPuzzleCell15" || textbox.Name == "hardPuzzleCell16"
-                               || textbox.Name == "hardPuzzleCell17" || textbox.Name == "hardPuzzleCell18" || textbox.Name == "hardPuzzleCell19"
-                               || textbox.Name == "hardPuzzleCell20")
-                {
-                    row3HardSum += value;
-                    rowSumBox.Refresh();
                 }
                 if (textbox.Name == "hardPuzzleCell21" || textbox.Name == "hardPuzzleCell22" || textbox.Name == "hardPuzzleCell23"
                                || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell25" || textbox.Name == "hardPuzzleCell26"
                                || textbox.Name == "hardPuzzleCell27")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row4Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        row4Counter--;
+                    }
                     row4HardSum += value;
-                    rowSumBox.Refresh();
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row4Counter == 7)
+                    {
+                        rowSumBox.Refresh();
+
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    //row4HardSum += value;
+                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell30"
                              || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell33"
                              || textbox.Name == "hardPuzzleCell34")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row5Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        row5Counter--;
+                    }
                     row5HardSum += value;
-                    rowSumBox.Refresh();
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row5Counter == 7)
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    //row5HardSum += value;
+                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "hardPuzzleCell35" || textbox.Name == "hardPuzzleCell36" || textbox.Name == "hardPuzzleCell37"
                              || textbox.Name == "hardPuzzleCell38" || textbox.Name == "hardPuzzleCell39" || textbox.Name == "hardPuzzleCell40"
                              || textbox.Name == "hardPuzzleCell41")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row6Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        row6Counter--;
+                    }
                     row6HardSum += value;
-                    rowSumBox.Refresh();
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row6Counter == 7)
+                    {
+                        rowSumBox.Refresh();
+
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    //row6HardSum += value;
+                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "hardPuzzleCell42" || textbox.Name == "hardPuzzleCell43" || textbox.Name == "hardPuzzleCell44"
                             || textbox.Name == "hardPuzzleCell45" || textbox.Name == "hardPuzzleCell46" || textbox.Name == "hardPuzzleCell47"
                             || textbox.Name == "hardPuzzleCell48")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row7Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        row7Counter--;
+                    }
                     row7HardSum += value;
-                    rowSumBox.Refresh();
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row7Counter == 7)
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+                    }
+                    //row7HardSum += value;
+                    //rowSumBox.Refresh();
                 }
 
                 //7 COLUMNS FOR HARD BOARD
@@ -1566,81 +2267,243 @@ namespace JennyCasey_Assignment5
                                 || textbox.Name == "hardPuzzleCell21" || textbox.Name == "hardPuzzleCell28" || textbox.Name == "hardPuzzleCell35"
                                 || textbox.Name == "hardPuzzleCell42")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col1Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        col1Counter--;
+                    }
                     col1HardSum += value;
-                    columnSumBox.Refresh();
+                    if (col1Counter == 7)
+                    {
+                        columnSumBox.Refresh();
+
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
                 }
                 if (textbox.Name == "hardPuzzleCell1" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell15"
                                || textbox.Name == "hardPuzzleCell22" || textbox.Name == "hardPuzzleCell29" || textbox.Name == "hardPuzzleCell36"
                                || textbox.Name == "hardPuzzleCell43")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col2Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        col2Counter--;
+                    }
                     col2HardSum += value;
-                    columnSumBox.Refresh();
+                    if (col2Counter == 7)
+                    {
+                        columnSumBox.Refresh();
+
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
                 }
                 if (textbox.Name == "hardPuzzleCell2" || textbox.Name == "hardPuzzleCell9" || textbox.Name == "hardPuzzleCell16"
                               || textbox.Name == "hardPuzzleCell23" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell37"
                               || textbox.Name == "hardPuzzleCell44")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col3Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        col3Counter--;
+                    }
                     col3HardSum += value;
-                    columnSumBox.Refresh();
+                    if (col3Counter == 7)
+                    {
+                        columnSumBox.Refresh();
+
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
                 }
                 if (textbox.Name == "hardPuzzleCell3" || textbox.Name == "hardPuzzleCell10" || textbox.Name == "hardPuzzleCell17"
                               || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell31" || textbox.Name == "hardPuzzleCell38"
                               || textbox.Name == "hardPuzzleCell45")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col4Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        col4Counter--;
+                    }
                     col4HardSum += value;
-                    columnSumBox.Refresh();
+                    if (col4Counter == 7)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
                 }
                 if (textbox.Name == "hardPuzzleCell4" || textbox.Name == "hardPuzzleCell11" || textbox.Name == "hardPuzzleCell18"
                               || textbox.Name == "hardPuzzleCell25" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell39"
                               || textbox.Name == "hardPuzzleCell46")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col5Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        col5Counter--;
+                    }
                     col5HardSum += value;
-                    columnSumBox.Refresh();
+                    if (col5Counter == 7)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
                 }
                 if (textbox.Name == "hardPuzzleCell5" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell19"
                               || textbox.Name == "hardPuzzleCell26" || textbox.Name == "hardPuzzleCell33" || textbox.Name == "hardPuzzleCell40"
                               || textbox.Name == "hardPuzzleCell47")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col6Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        col6Counter--;
+                    }
                     col6HardSum += value;
-                    columnSumBox.Refresh();
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
+                    if (col6Counter == 7)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
                 }
                 if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell13" || textbox.Name == "hardPuzzleCell20"
                               || textbox.Name == "hardPuzzleCell27" || textbox.Name == "hardPuzzleCell34" || textbox.Name == "hardPuzzleCell41"
                               || textbox.Name == "hardPuzzleCell48")
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            col7Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        col7Counter--;
+                    }
                     col7HardSum += value;
-                    columnSumBox.Refresh();
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
+                    if (col7Counter == 7)
+                    {
+                        columnSumBox.Refresh();
+                    }
+                    else
+                    {
+                        columnSumBox.Refresh();
+                    }
                 }
                 //diagnals changing
                 if (textbox.Name == "hardPuzzleCell0" || textbox.Name == "hardPuzzleCell8" || textbox.Name == "hardPuzzleCell16"
                               || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell32" || textbox.Name == "hardPuzzleCell40"
                               || textbox.Name == "hardPuzzleCell48")
                 {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            diagnal2Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        diagnal2Counter--;
+                    }
                     diagnal2HardSum += value;
-                    diagnal2SumBox.Refresh();
-
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
+                    if (diagnal2Counter == 7)
+                    {
+                        diagnal2SumBox.Refresh();
+                    }
+                    else
+                    {
+                        diagnal2SumBox.Refresh();
+                    }
                 }
                 if (textbox.Name == "hardPuzzleCell6" || textbox.Name == "hardPuzzleCell12" || textbox.Name == "hardPuzzleCell18"
                               || textbox.Name == "hardPuzzleCell24" || textbox.Name == "hardPuzzleCell30" || textbox.Name == "hardPuzzleCell36"
                               || textbox.Name == "hardPuzzleCell42")
                 {
+                    //if we did not delete a value then add to counter
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            diagnal1Counter += 1;
+                        }
+                    }
+                    //if we did delete a value then remove form counter
+                    else
+                    {
+                        diagnal1Counter--;
+                    }
                     diagnal1HardSum += value;
-                    diagnal1SumBox.Refresh();
+                    //if the row counter is 7 then we finished guessing a row, so let's see what color the total should be
+                    if (diagnal1Counter == 7)
+                    {
+                        diagnal1SumBox.Refresh();
+                    }
+                    else
+                    {
+                        diagnal1SumBox.Refresh();
+                    }
                 }
             }
             completed_puzzle();
         }
-        //function to tell whether the color to color in will be GREEN or RED (still need to adjust this)
-        private bool isAnswerCorrect(int a, int b)
-        {
 
-            if (a == b)
-            {
-                return true;
-            }
-            else
-                return false;
-        }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
             isNewGame = true;
@@ -1888,109 +2751,74 @@ namespace JennyCasey_Assignment5
             generatedHardTextboxes.Clear();
         }
 
-        private void paintEasyTotals(object sender, PaintEventArgs e, string a, string b, string c, Font font1, int heightDivide, int widthDivide, bool isRow, 
-                    bool isAnswer, Brush color)
+        //this function will decide what color we paint the derived totals in when the user is done guessing for a row, column, and diagnal
+        // GREEN if the derived sum is equal to actual sum, RED if it is different, and grey if they are still in the process of guessing
+        private void changePaintColors(object sender, PaintEventArgs e, string valueToPrint, Font font1, int heightDivide, 
+            int widthDivide, int widthMultiply, int heightMultiply, bool isAnswer, int counter, int derivedSum, int actualSum, PictureBox box, int cellNumber)
         {
-            if (!isRow)
+            //widthDivide, heightDivide, widthMultiple, heightMultiply -> adjusts what column and row we are in depending on board difficulty
+            //counter -> the row, column, or diagnal counter,
+            //derivedSum -> the derived sum of column, row, or diagnal
+            //actualSum -> the actual sum for the row, column, diagnal
+            //valueToPrint -> the value of the sum (if not answer then it is the derived sum, if it is answer then it is the actual answer
+            //box -> the box we want to paint in, row, column, or diagnal 
+            if (!isAnswer)
             {
-                //derived totals for columns on easy board
-                PointF pointF1 = new PointF(columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(a, font1, color, pointF1);
-
-                PointF pointF2 = new PointF(3 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(b, font1, color, pointF2);
-
-                PointF pointF3 = new PointF(5 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(c, font1, color, pointF3);
-            }
-            if(isRow)
-            {
-                //if it is not the actual answer, we can change the colors
-                //if it is an answer it will ALWAYS stay black
-                //ROW 1:
-                if (!isAnswer)
+                if (counter == cellNumber)
                 {
                     //if its correct, paint in green, if wrong paint it red otherwise paint it in the color since we are still in progress
-                    if (row1EasySum == row1AnswerEasy)
+                    if (derivedSum == actualSum)
                     {
-                        PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
-                        e.Graphics.DrawString(a, font1, Brushes.Green, pointF4);
+                        PointF pointF4 = new PointF(widthMultiply * box.Width / widthDivide, heightMultiply * box.Height / heightDivide);
+                        e.Graphics.DrawString(valueToPrint, font1, Brushes.Green, pointF4);
                     }
-                    if (row1EasySum > row1AnswerEasy || row1EasySum > row1AnswerEasy)
+                    else if (derivedSum > actualSum || derivedSum < actualSum)
                     {
-                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
-                        e.Graphics.DrawString(b, font1, Brushes.Red, pointF5);
-                    }
-                    else
-                    {
-                        PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
-                        e.Graphics.DrawString(a, font1, color, pointF4);
+                        PointF pointF5 = new PointF(widthMultiply * box.Width / widthDivide, heightMultiply * box.Height / heightDivide);
+                        e.Graphics.DrawString(valueToPrint, font1, Brushes.Red, pointF5);
                     }
                 }
                 else
                 {
-                    PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
-                    e.Graphics.DrawString(a, font1, color, pointF4);
+                    PointF pointF4 = new PointF(widthMultiply * box.Width / widthDivide, heightMultiply* box.Height / heightDivide);
+                    e.Graphics.DrawString(valueToPrint, font1, Brushes.DarkGray, pointF4);
                 }
-                //if it is not the actual answer, we can change the colors
-                //if it is an answer it will ALWAYS stay black
-                //ROW 2:
-                if (!isAnswer)
-                {
-                    if (row2EasySum == row2AnswerEasy)
-                    {
-                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
-                        e.Graphics.DrawString(b, font1, Brushes.Green, pointF5);
-                    }
-                    if(row2EasySum > row2AnswerEasy || row2EasySum > row2AnswerEasy)
-                    {
-                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
-                        e.Graphics.DrawString(b, font1, Brushes.Red, pointF5);
-                    }
-                    else
-                    {
-                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
-                        e.Graphics.DrawString(b, font1, color, pointF5);
-                    }
-                }
-                else
-                {
-                    PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
-                    e.Graphics.DrawString(b, font1, color, pointF5);
-                }
-                //ROW 3:
-                if(!isAnswer)
-                {
-                    if(row3EasySum == row3AnswerEasy)
-                    {
-                        PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
-                        e.Graphics.DrawString(c, font1, Brushes.Green, pointF6);
-                    }
-                    if (row3EasySum > row3AnswerEasy || row3EasySum > row3AnswerEasy)
-                    {
-                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
-                        e.Graphics.DrawString(b, font1, Brushes.Red, pointF5);
-                    }
-                    else
-                    {
-                        PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
-                        e.Graphics.DrawString(c, font1, color, pointF6);
-                    }
-                }
-                else
-                {
-                    PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
-                    e.Graphics.DrawString(c, font1, color, pointF6);
-                }
+
             }
-
-
+            else
+            {
+                PointF pointF4 = new PointF(widthMultiply * box.Width / widthDivide, heightMultiply * box.Height / heightDivide);
+                e.Graphics.DrawString(valueToPrint, font1, Brushes.Black, pointF4);
+            }
+        }
+        private void paintEasyTotals(object sender, PaintEventArgs e, string a, string b, string c, Font font1, int heightDivide, int widthDivide,
+                 bool isRow,  bool isAnswer, Brush color)
+        {
+            //we have a column
+            if (!isRow)
+            {
+                changePaintColors(sender, e, a, font1, heightDivide, widthDivide, 1, 1, isAnswer, col1Counter, col1EasySum, col1AnswerEasy, columnSumBox, 3);
+                changePaintColors(sender, e, b, font1, heightDivide, widthDivide, 3, 1, isAnswer, col2Counter, col2EasySum, col2AnswerEasy, columnSumBox, 3);
+                changePaintColors(sender, e, c, font1, heightDivide, widthDivide, 5, 1, isAnswer, col3Counter, col3EasySum, col3AnswerEasy, columnSumBox, 3);
+            }
+            if (isRow)
+            {
+                changePaintColors(sender, e, a, font1, heightDivide, widthDivide, 1, 1, isAnswer, row1Counter, row1EasySum, row1AnswerEasy, rowSumBox, 3);
+                changePaintColors(sender, e, b, font1, heightDivide, widthDivide, 1, 3, isAnswer, row2Counter, row2EasySum, row2AnswerEasy, rowSumBox, 3);
+                changePaintColors(sender, e, c, font1, heightDivide, widthDivide, 1, 5, isAnswer, row3Counter, row3EasySum, row3AnswerEasy, rowSumBox, 3);
+            }
         }
         private void paintMediumTotals(object sender, PaintEventArgs e, string a, string b, string c, string d, string f,
-                Font font1, int heightDivide, int widthDivide, bool isRow, Brush color)
+                Font font1, int heightDivide, int widthDivide, bool isRow, bool isAnswer, Brush color)
         {
             if(!isRow)
             {
+                changePaintColors(sender, e, a, font1, heightDivide, widthDivide, 1, 1, isAnswer, col1Counter, col1MediumSum, col1AnswerMed, columnSumBox, 5);
+                changePaintColors(sender, e, b, font1, heightDivide, widthDivide, 3, 1, isAnswer, col2Counter, col2MediumSum, col2AnswerMed, columnSumBox, 5);
+                changePaintColors(sender, e, c, font1, heightDivide, widthDivide, 5, 1, isAnswer, col3Counter, col3MediumSum, col3AnswerMed, columnSumBox, 5);
+                changePaintColors(sender, e, d, font1, heightDivide, widthDivide, 7, 1, isAnswer, col4Counter, col4MediumSum, col4AnswerMed, columnSumBox, 5);
+                changePaintColors(sender, e, f, font1, heightDivide, widthDivide, 9, 1, isAnswer, col5Counter, col5MediumSum, col5AnswerMed, columnSumBox, 5);
+                /*
                 //derived totals
                 PointF pointF1 = new PointF(columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
                 e.Graphics.DrawString(a, font1, color, pointF1);
@@ -2006,80 +2834,42 @@ namespace JennyCasey_Assignment5
 
                 PointF pointF5 = new PointF(9 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
                 e.Graphics.DrawString(f, font1, color, pointF5);
-
+                */
 
             }
             if (isRow)
             {
-                //derived totals
-                PointF pointF1 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(a, font1, color, pointF1);
-
-                PointF pointF2 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(b, font1, color, pointF2);
-
-                PointF pointF3 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(c, font1, color, pointF3);
-
-                PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, 7 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(d, font1, color, pointF4);
-
-                PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 9 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(f, font1, color, pointF5);
+                changePaintColors(sender, e, a, font1, heightDivide, widthDivide, 1, 1, isAnswer, row1Counter, row1MediumSum, row1AnswerMed, rowSumBox, 5);
+                changePaintColors(sender, e, b, font1, heightDivide, widthDivide, 1, 3, isAnswer, row2Counter, row2MediumSum, row2AnswerMed, rowSumBox, 5);
+                changePaintColors(sender, e, c, font1, heightDivide, widthDivide, 1, 5, isAnswer, row3Counter, row3MediumSum, row3AnswerMed, rowSumBox, 5);
+                changePaintColors(sender, e, d, font1, heightDivide, widthDivide, 1, 7, isAnswer, row4Counter, row4MediumSum, row4AnswerMed, rowSumBox, 5);
+                changePaintColors(sender, e, f, font1, heightDivide, widthDivide, 1, 9, isAnswer, row5Counter, row5MediumSum, row5AnswerMed, rowSumBox, 5);
             }
         }
 
         private void paintHardTotals(object sender, PaintEventArgs e, string a, string b, string c, string d, string f, string g , string h,
-               Font font1, int heightDivide, int widthDivide, bool isRow, Brush color)
+               Font font1, int heightDivide, int widthDivide, bool isRow, bool isAnswer, Brush color)
         {
             if(isRow)
             {
-                //derived totals
-                PointF pointF1 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(a, font1, color, pointF1);
-
-                PointF pointF2 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(b, font1, color, pointF2);
-
-                PointF pointF3 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(c, font1, color, pointF3);
-
-                PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, 7 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(d, font1, color, pointF4);
-
-                PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 9 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(f, font1, color, pointF5);
-
-                PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 11 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(g, font1, color, pointF6);
-
-                PointF pointF7 = new PointF(rowSumBox.Width / widthDivide, 13 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(h, font1, color, pointF7);
-
+                changePaintColors(sender, e, a, font1, heightDivide, widthDivide, 1, 1, isAnswer, row1Counter, row1HardSum, row1AnswerHard, rowSumBox, 7);
+                changePaintColors(sender, e, b, font1, heightDivide, widthDivide, 1, 3, isAnswer, row2Counter, row2HardSum, row2AnswerHard, rowSumBox, 7);
+                changePaintColors(sender, e, c, font1, heightDivide, widthDivide, 1, 5, isAnswer, row3Counter, row3HardSum, row3AnswerHard, rowSumBox, 7);
+                changePaintColors(sender, e, d, font1, heightDivide, widthDivide, 1, 7, isAnswer, row4Counter, row4HardSum, row4AnswerHard, rowSumBox, 7);
+                changePaintColors(sender, e, f, font1, heightDivide, widthDivide, 1, 9, isAnswer, row5Counter, row5HardSum, row5AnswerHard, rowSumBox, 7);
+                changePaintColors(sender, e, g, font1, heightDivide, widthDivide, 1, 11, isAnswer, row6Counter, row6HardSum, row6AnswerHard, rowSumBox, 7);
+                changePaintColors(sender, e, h, font1, heightDivide, widthDivide, 1, 13, isAnswer, row7Counter, row7HardSum, row7AnswerHard, rowSumBox, 7);
             }
             if (!isRow)
             {
-                PointF pointF1 = new PointF(columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(a, font1, color, pointF1);
-
-                PointF pointF2 = new PointF(3 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(b, font1, color, pointF2);
-
-                PointF pointF3 = new PointF(5 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(c, font1, color, pointF3);
-
-                PointF pointF4 = new PointF(7 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(d, font1, color, pointF4);
-
-                PointF pointF5 = new PointF(9 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(f, font1, color, pointF5);
-
-                PointF pointF6 = new PointF(11 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(g, font1, color, pointF6);
-
-                PointF pointF7 = new PointF(13 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(h, font1, color, pointF7);
-            }    
+                changePaintColors(sender, e, a, font1, heightDivide, widthDivide, 1, 1, isAnswer, col1Counter, col1HardSum, col1AnswerHard, columnSumBox, 7);
+                changePaintColors(sender, e, b, font1, heightDivide, widthDivide, 3, 1, isAnswer, col2Counter, col2HardSum, col2AnswerHard, columnSumBox, 7);
+                changePaintColors(sender, e, c, font1, heightDivide, widthDivide, 5, 1, isAnswer, col3Counter, col3HardSum, col3AnswerHard, columnSumBox, 7);
+                changePaintColors(sender, e, d, font1, heightDivide, widthDivide, 7, 1, isAnswer, col4Counter, col4HardSum, col4AnswerHard, columnSumBox, 7);
+                changePaintColors(sender, e, f, font1, heightDivide, widthDivide, 9, 1, isAnswer, col5Counter, col5HardSum, col5AnswerHard, columnSumBox, 7);
+                changePaintColors(sender, e, g, font1, heightDivide, widthDivide, 11, 1, isAnswer, col6Counter, col6HardSum, col6AnswerHard, columnSumBox, 7);
+                changePaintColors(sender, e, h, font1, heightDivide, widthDivide, 13, 1, isAnswer, col7Counter, col7HardSum, col7AnswerHard, columnSumBox, 7);
+            }
         }
         //draw the derived and actual totals for rows for all boards
         private void rowSumBox_Paint(object sender, PaintEventArgs e)
@@ -2131,28 +2921,28 @@ namespace JennyCasey_Assignment5
                         if (Hide_Board == true)
                         {
                             //derived totals painted as "?" if we pause
-                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 10, 20, true, Brushes.DarkGray);
+                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 10, 20, true, false, Brushes.DarkGray);
 
                             //actual totals painted as "?" if we pause
-                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 10, 2, true, Brushes.Black);
+                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 10, 2, true, true, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
                             //derived totals
-                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 10, 20, true, Brushes.DarkGray);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 10, 20, true, false, Brushes.DarkGray);
 
                             //actual totals
-                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 10, 2, true, Brushes.Black);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 10, 2, true,true, Brushes.Black);
                         }
                         else
                         {
                             //derived totals
                             paintMediumTotals(sender, e, row1MediumSum.ToString(), row2MediumSum.ToString(), row3MediumSum.ToString(),
-                               row4MediumSum.ToString(), row5MediumSum.ToString(), font1, 10, 20, true, Brushes.DarkGray);
+                               row4MediumSum.ToString(), row5MediumSum.ToString(), font1, 10, 20, true, false,Brushes.DarkGray);
 
                             //actual totals
                             paintMediumTotals(sender, e, row1AnswerMed.ToString(), row2AnswerMed.ToString(), row3AnswerMed.ToString(),
-                               row4AnswerMed.ToString(), row5AnswerMed.ToString(), font1, 10, 2, true, Brushes.Black);
+                               row4AnswerMed.ToString(), row5AnswerMed.ToString(), font1, 10, 2, true, true,  Brushes.Black);
                         }
 
                         if (row1MediumSum == row1AnswerMed && row2MediumSum == row2AnswerMed &&
@@ -2170,14 +2960,14 @@ namespace JennyCasey_Assignment5
                         if (Hide_Board == true)
                         {
                             //derived totals painted as "?" if paused
-                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 28, true, Brushes.DarkGray);
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 28, true,false, Brushes.DarkGray);
 
                             //actual totals printed as "?" if paused
-                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 2, true, Brushes.Black);
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 2, true, true, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
-                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 28, true, Brushes.DarkGray);
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 28, true, false,Brushes.DarkGray);
 
                             /*
                             PointF pointF1 = new PointF(rowSumBox.Width / 28, rowSumBox.Height / 14);
@@ -2202,7 +2992,7 @@ namespace JennyCasey_Assignment5
                             e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF7);
                             */
 
-                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 2, true, Brushes.Black);
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 2, true, true, Brushes.Black);
 
                             //WILL DELETE THIS ONCE THE HARD TIMER BUG GETS FIXED
                             /*
@@ -2233,12 +3023,12 @@ namespace JennyCasey_Assignment5
                             //derived totals
                             paintHardTotals(sender, e, row1HardSum.ToString(), row2HardSum.ToString(), row3HardSum.ToString(),
                                 row4HardSum.ToString(), row5HardSum.ToString(), row6HardSum.ToString(),
-                                row7HardSum.ToString(), font1, 14, 28, true, Brushes.DarkGray);
+                                row7HardSum.ToString(), font1, 14, 28, true, false, Brushes.DarkGray);
 
                             //actual totals
                             paintHardTotals(sender, e, row1AnswerHard.ToString(), row2AnswerHard.ToString(), row3AnswerHard.ToString(),
                                row4AnswerHard.ToString(), row5AnswerHard.ToString(), row6AnswerHard.ToString(),
-                               row7AnswerHard.ToString(), font1, 14, 2, true, Brushes.Black);
+                               row7AnswerHard.ToString(), font1, 14, 2, true, true,Brushes.Black);
                         }
                         
 
@@ -2304,28 +3094,28 @@ namespace JennyCasey_Assignment5
                         if (Hide_Board == true)
                         {
                             //paint derived totals as "?" if we pause
-                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 20, 10, false, Brushes.DarkGray);
+                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 20, 10, false, false, Brushes.DarkGray);
 
                             //paint actual totals as "?" if we pause
-                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 2, 10, false, Brushes.Black);
+                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 2, 10, false, true, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
                             //derived totals
-                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 20, 10, false, Brushes.DarkGray);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 20, 10, false,false,  Brushes.DarkGray);
 
                             //actual totals
-                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 2, 10, false, Brushes.Black);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 2, 10, false, true, Brushes.Black);
                         }
                         else
                         {
                             //derived totals
                             paintMediumTotals(sender, e, col1MediumSum.ToString(), col2MediumSum.ToString(),
-                                col3MediumSum.ToString(), col4MediumSum.ToString(), col5MediumSum.ToString(), font1, 20, 10, false, Brushes.DarkGray);
+                                col3MediumSum.ToString(), col4MediumSum.ToString(), col5MediumSum.ToString(), font1, 20, 10, false, false, Brushes.DarkGray);
 
                             //actual totals
                             paintMediumTotals(sender, e, col1AnswerMed.ToString(), col2AnswerMed.ToString(),
-                                col3AnswerMed.ToString(), col4AnswerMed.ToString(), col5AnswerMed.ToString(), font1, 2, 10, false, Brushes.Black);
+                                col3AnswerMed.ToString(), col4AnswerMed.ToString(), col5AnswerMed.ToString(), font1, 2, 10, false, true, Brushes.Black);
                         }
 
                         if (col1MediumSum == col1AnswerMed && col2MediumSum == col2AnswerMed && col3MediumSum == col3AnswerMed
@@ -2342,16 +3132,16 @@ namespace JennyCasey_Assignment5
                     {
                         if (Hide_Board == true)
                         {
-                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 14, false, Brushes.DarkGray);
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 14, false, false,Brushes.DarkGray);
 
                             //actual totals
-                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 2, 14, false, Brushes.Black);
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 2, 14, false,  true, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
                             //derived totals
-                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 14, false, Brushes.DarkGray);
-                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 2, 14, false, Brushes.Black);
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 14, false,false,  Brushes.DarkGray);
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 2, 14, false, true, Brushes.Black);
 
                             //WILL DELETE WHEN TIMER BUG FOR COMPLETING HARD GETS FIXED
                             /*
@@ -2404,12 +3194,12 @@ namespace JennyCasey_Assignment5
                             //derived totals
                             paintHardTotals(sender, e, col1HardSum.ToString(), col2HardSum.ToString(), col3HardSum.ToString(),
                                 col4HardSum.ToString(), col5HardSum.ToString(), col6HardSum.ToString(), col7HardSum.ToString(),
-                                font1, 14, 14, false, Brushes.DarkGray);
+                                font1, 14, 14, false, false, Brushes.DarkGray);
 
                             //actual totals
                             paintHardTotals(sender, e, col1AnswerHard.ToString(), col2AnswerHard.ToString(), col3AnswerHard.ToString(),
                                 col4AnswerHard.ToString(), col5AnswerHard.ToString(), col6AnswerHard.ToString(), col7AnswerHard.ToString(),
-                                font1, 2, 14, false, Brushes.Black);
+                                font1, 2, 14, false,true, Brushes.Black);
                         }
 
                         if (col1HardSum == col1AnswerHard && col2HardSum == col2AnswerHard &&
@@ -2445,8 +3235,27 @@ namespace JennyCasey_Assignment5
                         }
                         else
                         {
-                            PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
-                            e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            //if we finished guessing for diagnal check and see if we print in green or red
+                            //if we are not done guessing the diagnal derived total will be grey
+                            if (diagnal1Counter == 3)
+                            {
+                                if (diagnal1EasySum == diagnal1AnswerEasy)
+                                {
+                                    PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.Green, pointF1);
+                                }
+                                else if (diagnal1EasySum < diagnal1AnswerEasy || diagnal1EasySum > diagnal1AnswerEasy)
+                                {
+                                    PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.Red, pointF1);
+                                }
+                            }
+                            else
+                            {
+                                PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
+                                e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            }
+                          
                         }
                     }
 
@@ -2492,8 +3301,27 @@ namespace JennyCasey_Assignment5
                         }
                         else
                         {
-                            PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
-                            e.Graphics.DrawString(diagnal1MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            //if we finished guessing for diagnal check and see if we print in green or red
+                            //if we are not done guessing the diagnal derived total will be grey
+                            if (diagnal1Counter == 5)
+                            {
+                                if (diagnal1MediumSum == diagnal1AnswerMed)
+                                {
+                                    PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal1MediumSum.ToString(), font1, Brushes.Green, pointF1);
+                                }
+                                else if (diagnal1MediumSum < diagnal1AnswerMed || diagnal1MediumSum > diagnal1AnswerMed)
+                                {
+                                    PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal1MediumSum.ToString(), font1, Brushes.Red, pointF1);
+                                }
+                            }
+                            else
+                            {
+                                PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
+                                e.Graphics.DrawString(diagnal1MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            }
+                            
                         }
                     }
                     //actual total
@@ -2538,8 +3366,26 @@ namespace JennyCasey_Assignment5
                         }
                         else
                         {
-                            PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
-                            e.Graphics.DrawString(diagnal1HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            //if we finished guessing all diagnal 1 boxes, then we need to see if we print the derived sum as 
+                            //green or red
+                            if (diagnal1Counter == 7)
+                            {
+                                if (diagnal1HardSum == diagnal1AnswerHard)
+                                {
+                                    PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal1HardSum.ToString(), font1, Brushes.Green, pointF1);
+                                }
+                                else if (diagnal1HardSum < diagnal1AnswerHard || diagnal1HardSum > diagnal1AnswerHard)
+                                {
+                                    PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal1HardSum.ToString(), font1, Brushes.Red, pointF1);
+                                }
+                            }
+                            else
+                            {
+                                PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
+                                e.Graphics.DrawString(diagnal1HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            }
                         }
                     }
 
@@ -2593,8 +3439,26 @@ namespace JennyCasey_Assignment5
                         }
                         else
                         {
-                            PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
-                            e.Graphics.DrawString(diagnal2EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            //if we finished guessing all diagnal 2 boxes, then we need to see if we print the derived sum as 
+                            //green or red
+                            if (diagnal2Counter == 3)
+                            {
+                                if (diagnal2EasySum == diagnal2AnswerEasy)
+                                {
+                                    PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal2EasySum.ToString(), font1, Brushes.Green, pointF1);
+                                }
+                                else if (diagnal2EasySum < diagnal2AnswerEasy || diagnal2EasySum > diagnal2AnswerEasy)
+                                {
+                                    PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal2EasySum.ToString(), font1, Brushes.Red, pointF1);
+                                }
+                            }
+                            else
+                            {
+                                PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
+                                e.Graphics.DrawString(diagnal2EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            }
                         }
                      }
                    
@@ -2640,8 +3504,31 @@ namespace JennyCasey_Assignment5
                         }
                         else
                         {
+                            //if we finished guessing for diagnal check and see if we print in green or red
+                            //if we are not done guessing the diagnal derived total will be grey
+                            if (diagnal2Counter == 5)
+                            {
+                                if (diagnal2MediumSum == diagnal2AnswerMed)
+                                {
+                                    PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal2MediumSum.ToString(), font1, Brushes.Green, pointF1);
+                                }
+                                else if (diagnal2MediumSum < diagnal2AnswerMed || diagnal2MediumSum > diagnal2AnswerMed)
+                                {
+                                    PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal2MediumSum.ToString(), font1, Brushes.Red, pointF1);
+                                }
+                            }
+                            else
+                            {
+                                PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
+                                e.Graphics.DrawString(diagnal2MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            }
+
+                            /*
                             PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
                             e.Graphics.DrawString(diagnal2MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            */
                         }
                     }
 
@@ -2687,10 +3574,29 @@ namespace JennyCasey_Assignment5
                         }
                         else
                         {
-                            PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
-                            e.Graphics.DrawString(diagnal2HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            //if we finished guessing all diagnal 2 boxes, then we need to see if we print the derived sum as 
+                            //green or red
+                            if (diagnal2Counter == 7)
+                            {
+                                if (diagnal2HardSum == diagnal2AnswerHard)
+                                {
+                                    PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal2HardSum.ToString(), font1, Brushes.Green, pointF1);
+                                }
+                                else if (diagnal2HardSum < diagnal2AnswerHard || diagnal2HardSum > diagnal2AnswerHard)
+                                {
+                                    PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
+                                    e.Graphics.DrawString(diagnal2HardSum.ToString(), font1, Brushes.Red, pointF1);
+                                }
+                            }
+                            else
+                            {
+                                PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
+                                e.Graphics.DrawString(diagnal2HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
+                            }
                         }
                     }
+                    
                     //actual total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
@@ -2706,8 +3612,10 @@ namespace JennyCasey_Assignment5
                         }
                         else
                         {
-                            PointF pointF1 = new PointF(diagnal2SumBox.Width / 2, diagnal2SumBox.Height / 3);
-                            e.Graphics.DrawString(diagnal2AnswerHard.ToString(), font1, Brushes.Black, pointF1);
+                            
+                                PointF pointF1 = new PointF(diagnal2SumBox.Width / 2, diagnal2SumBox.Height / 3);
+                                e.Graphics.DrawString(diagnal2AnswerHard.ToString(), font1, Brushes.Black, pointF1);
+                            
                         }
                     }
 
