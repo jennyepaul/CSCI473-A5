@@ -13,6 +13,11 @@ namespace JennyCasey_Assignment5
 {
     public partial class Form1 : Form
     {
+        private static string easyGame;  
+        private static string mediumGame;
+        private static string hardGame;
+        private static int gameBoardCount = 1;
+        private static bool isNewGame = false;
         private static bool isEasyGame = false;
         private static bool isMediumGame = false;
         private static bool isHardGame = false;
@@ -174,10 +179,7 @@ namespace JennyCasey_Assignment5
 
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //NOTE --> WHENEVER THE USER CHANGES TO ANOTHER GAME, SOME PARTS OF THE LINES ARE FADED FROM WHERE OLD TEXTBOX USED TO BE?
-            // TRY AND FIX THIS!!
-
-
+            
             //depending what difficulty the user entered, we need to draw the corresponding playing field
             if (gameDifficultyDropDown.Text == "Easy")
             {
@@ -201,86 +203,147 @@ namespace JennyCasey_Assignment5
         private void readInFileInfo()
         {
             string gameRecordEasy1, gameRecordMedium1, gameRecordHard1;
+            //if the user wants a new game
+            if (isNewGame)
+            {
+                //based on what game difficulty they want & if they have solved other puzzles
+                //of that difficulty depends on which puzzle gets loaded, if they want easy and they have
+                //solved e1 (count == 2), then we load easy puzzle 2
+                if (isEasyGame)
+                {
+                    if (gameBoardCount == 1)
+                    {
+                        easyGame = "../../easy/e1.txt";
+                    }
+                    else if (gameBoardCount == 2)
+                    {
+                        easyGame = "../../easy/e2.txt";
+                        gameStatsEasy1.Clear();
+                        gameValuesEasy1.Clear();
+                        gameAnswersEasy1.Clear();
+                    }
+                    else if(gameBoardCount == 3)
+                    {
+                        easyGame = "../../easy/e3.txt";
+                        gameStatsEasy1.Clear();
+                        gameValuesEasy1.Clear();
+                        gameAnswersEasy1.Clear();
+                    }
+                    //read in the info from an easy 1  file and store into a list
+                    using (StreamReader inFile = new StreamReader(easyGame))
+                    {
 
-            if (isEasyGame)
-            {
-                //read in the info from an easy 1  file and store into a list
-                using (StreamReader inFile = new StreamReader("../../easy/e1.txt"))
-                {
-                    while ((gameRecordEasy1 = inFile.ReadLine()) != null)
+                        while ((gameRecordEasy1 = inFile.ReadLine()) != null)
+                        {
+                            gameStatsEasy1.Add(gameRecordEasy1);
+                        }
+                    }
+                    //add the individual easy difficulty alues to a list to iterate through later
+                    for (int n = 0; n < 3; n++)
                     {
-                        gameStatsEasy1.Add(gameRecordEasy1);
+                        for (int j = 0; j < 3; j++)
+                        {
+                            gameValuesEasy1.Add(gameStatsEasy1[n][j]);
+                        }
+                    }
+                    //add the answer key values into a list
+                    for (int n = 4; n < 7; n++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            gameAnswersEasy1.Add(gameStatsEasy1[n][j]);
+                        }
                     }
                 }
-
-                //add the individual easy difficulty alues to a list to iterate through later
-                for (int n = 0; n < 3; n++)
-                {
-                    for (int j = 0; j < 3; j++)
+                if (isMediumGame)
+                { 
+                    if (gameBoardCount == 1)
                     {
-                        gameValuesEasy1.Add(gameStatsEasy1[n][j]);
+                        mediumGame = "../../medium/m1.txt";
+                    }
+                    else if (gameBoardCount == 2)
+                    {
+                        mediumGame = "../../medium/m2.txt";
+                        gameStatsMedium1.Clear();
+                        gameValuesMedium1.Clear();
+                        gameAnswersMed1.Clear();
+                    }
+                    else if (gameBoardCount == 3)
+                    {
+                        mediumGame = "../../medium/m3.txt";
+                        gameStatsMedium1.Clear();
+                        gameValuesMedium1.Clear();
+                        gameAnswersMed1.Clear();
+                    }
+                
+                    //read in the info from an medium 1  file and store into a list
+                    using (StreamReader inFile = new StreamReader(mediumGame))
+                    {
+                        while ((gameRecordMedium1 = inFile.ReadLine()) != null)
+                        {
+                            gameStatsMedium1.Add(gameRecordMedium1);
+                        }
+                    }
+                    //add the individual medium values to a list to iterate through later
+                    for (int n = 0; n < 5; n++)
+                    {
+                        for (int j = 0; j < 5; j++)
+                        {
+                            gameValuesMedium1.Add(gameStatsMedium1[n][j]);
+                        }
+                    }
+                    //add the answer key values into a list
+                    for (int n = 6; n < 11; n++)
+                    {
+                        for (int j = 0; j < 5; j++)
+                        {
+                            gameAnswersMed1.Add(gameStatsMedium1[n][j]);
+                        }
                     }
                 }
-                //add the answer key values into a list
-                for (int n = 4; n < 7; n++)
+                if (isHardGame)
                 {
-                    for (int j = 0; j < 3; j++)
+                    if (gameBoardCount == 1)
                     {
-                        gameAnswersEasy1.Add(gameStatsEasy1[n][j]);
+                        hardGame = "../../hard/h1.txt";
                     }
-                }
-            }
-            if(isMediumGame)
-            {
-                //read in the info from an medium 1  file and store into a list
-                using (StreamReader inFile = new StreamReader("../../medium/m1.txt"))
-                {
-                    while ((gameRecordMedium1 = inFile.ReadLine()) != null)
+                    else if (gameBoardCount == 2)
                     {
-                        gameStatsMedium1.Add(gameRecordMedium1);
+                        hardGame = "../../hard/h2.txt";
+                        gameStatsHard1.Clear();
+                        gameValuesHard1.Clear();
+                        gameAnswersHard1.Clear();
                     }
-                }
-                //add the individual medium values to a list to iterate through later
-                for (int n = 0; n < 5; n++)
-                {
-                    for (int j = 0; j < 5; j++)
+                    else if (gameBoardCount == 3)
                     {
-                        gameValuesMedium1.Add(gameStatsMedium1[n][j]);
+                        hardGame = "../../hard/h3.txt";
+                        gameStatsHard1.Clear();
+                        gameValuesHard1.Clear();
+                        gameAnswersHard1.Clear();
                     }
-                }
-                //add the answer key values into a list
-                for (int n = 6; n < 11; n++)
-                {
-                    for (int j = 0; j < 5; j++)
+                    //read in the info from an hard 1  file and store into a list
+                    using (StreamReader inFile = new StreamReader(hardGame))
                     {
-                        gameAnswersMed1.Add(gameStatsMedium1[n][j]);
+                        while ((gameRecordHard1 = inFile.ReadLine()) != null)
+                        {
+                            gameStatsHard1.Add(gameRecordHard1);
+                        }
                     }
-                }
-            }
-            if(isHardGame)
-            {
-                //read in the info from an hard 1  file and store into a list
-                using (StreamReader inFile = new StreamReader("../../hard/h1.txt"))
-                {
-                    while ((gameRecordHard1 = inFile.ReadLine()) != null)
+                    //add the individual hard values to a list to iterate through later
+                    for (int n = 0; n < 7; n++)
                     {
-                        gameStatsHard1.Add(gameRecordHard1);
+                        for (int j = 0; j < 7; j++)
+                        {
+                            gameValuesHard1.Add(gameStatsHard1[n][j]);
+                        }
                     }
-                }
-                //add the individual hard values to a list to iterate through later
-                for (int n = 0; n < 7; n++)
-                {
-                    for (int j = 0; j < 7; j++)
+                    //add the answer key values into a list
+                    for (int n = 8; n < 15; n++)
                     {
-                        gameValuesHard1.Add(gameStatsHard1[n][j]);
-                    }
-                }
-                //add the answer key values into a list
-                for (int n = 8; n < 15; n++)
-                {
-                    for (int j = 0; j < 7; j++)
-                    {
-                        gameAnswersHard1.Add(gameStatsHard1[n][j]);
+                        for (int j = 0; j < 7; j++)
+                        {
+                            gameAnswersHard1.Add(gameStatsHard1[n][j]);
+                        }
                     }
                 }
             }
@@ -1566,11 +1629,11 @@ namespace JennyCasey_Assignment5
         }
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
+            isNewGame = true;
             isEasyBoard = false;
             isMediumBoard = false;
             isHardBoard = false;
             Complete = false;
-            
 
             if (PauseResume_Button.Text == "Resume")
             {
@@ -1776,6 +1839,7 @@ namespace JennyCasey_Assignment5
             isEasyBoard = false;
             isMediumBoard = false;
             isHardBoard = false;
+            isNewGame = false;
         }
 
         private void resetEasyPuzzleTextboxes()
@@ -2849,9 +2913,15 @@ namespace JennyCasey_Assignment5
                 resetMediumPuzzleTextboxes();
                 resetHardPuzzleTextboxes();
                 Timer_Label.Text = "";
+                gameBoardCount++;
+
+                //if we get up to 3, reset to 1
+                if(gameBoardCount == 3)
+                {
+                    gameBoardCount = 1;
+                }
                 canvas.Refresh();
-                
-                
+
             }
         }
     }
