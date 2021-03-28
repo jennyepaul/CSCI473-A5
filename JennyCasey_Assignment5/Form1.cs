@@ -26,7 +26,6 @@ namespace JennyCasey_Assignment5
         private static bool isEasyBoard = false;
         private static bool isMediumBoard = false;
         private static bool isHardBoard = false;
-        private static bool isCorrect= false;
         private static bool Hide_Board = false;
         private static bool Paused = false;
         private static bool isDeletedValue = false;
@@ -778,7 +777,6 @@ namespace JennyCasey_Assignment5
                     row3Counter += 1;
                 }
             }
-
         }
         private void calculateInitialEasyColSums(List<char> list1)
         {
@@ -1281,7 +1279,6 @@ namespace JennyCasey_Assignment5
 
         private void numberInputChange(TextBox textbox)
         {
-            isCorrect = false;
             int value;
             value = int.Parse(textbox.Text);
 
@@ -1311,17 +1308,15 @@ namespace JennyCasey_Assignment5
                     //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
                     if (row1Counter == 3)
                     {
-                        //if the answer is correct then print the output in green, else print it in red
-                        if (isAnswerCorrect(row1EasySum, row1AnswerEasy))
-                        {
-                            isCorrect = true;
-                        }
-                        else
-                        {
-                            isCorrect = false;
-                        }
+
+                        rowSumBox.Refresh();
+
                     }
-                    rowSumBox.Refresh();
+                    else
+                    {
+                        rowSumBox.Refresh();
+
+                    }
                 }
                 //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
                 if (textbox.Name.Contains("easy") && textbox.Name.Contains("3") || textbox.Name.Contains("4")
@@ -1342,26 +1337,45 @@ namespace JennyCasey_Assignment5
                     //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
                     if (row2Counter == 3)
                     {
-                        //if the answer is correct then print the output in green, else print it in red
-                        if (isAnswerCorrect(row2EasySum, row2AnswerEasy))
-                        {
-                            isCorrect = true;
-                        }
-                        else
-                        {
-                            isCorrect = false;
-                        }
+                        rowSumBox.Refresh();
+
                     }
-                    rowSumBox.Refresh();
+                    else
+                    {
+                        rowSumBox.Refresh();
+
+                    }
                 }
 
                 //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
                 if (textbox.Name.Contains("easy") && textbox.Name.Contains("6") || textbox.Name.Contains("7")
                                     || textbox.Name.Contains("8"))
                 {
-
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row3Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        row3Counter--;
+                    }
                     row3EasySum += value;
-                    rowSumBox.Refresh();
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row3Counter == 3)
+                    {
+                        rowSumBox.Refresh();
+
+                    }
+                    else
+                    {
+                        rowSumBox.Refresh();
+
+                    }
+                    //row3EasySum += value;
+                    //rowSumBox.Refresh();
 
                 }
                 //columns changing total values
@@ -1891,15 +1905,21 @@ namespace JennyCasey_Assignment5
             }
             if(isRow)
             {
+                //if it is not the actual answer, we can change the colors
+                //if it is an answer it will ALWAYS stay black
+                //ROW 1:
                 if (!isAnswer)
                 {
-                    //if its correct, paint in green, otherwise paint it in the color since we are still in progress
-                    if (isCorrect)
+                    //if its correct, paint in green, if wrong paint it red otherwise paint it in the color since we are still in progress
+                    if (row1EasySum == row1AnswerEasy)
                     {
-
                         PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
                         e.Graphics.DrawString(a, font1, Brushes.Green, pointF4);
-
+                    }
+                    if (row1EasySum > row1AnswerEasy || row1EasySum > row1AnswerEasy)
+                    {
+                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
+                        e.Graphics.DrawString(b, font1, Brushes.Red, pointF5);
                     }
                     else
                     {
@@ -1912,12 +1932,56 @@ namespace JennyCasey_Assignment5
                     PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
                     e.Graphics.DrawString(a, font1, color, pointF4);
                 }
-               
-                PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(b, font1, color, pointF5);
-                
-                PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
-                e.Graphics.DrawString(c, font1, color, pointF6);
+                //if it is not the actual answer, we can change the colors
+                //if it is an answer it will ALWAYS stay black
+                //ROW 2:
+                if (!isAnswer)
+                {
+                    if (row2EasySum == row2AnswerEasy)
+                    {
+                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
+                        e.Graphics.DrawString(b, font1, Brushes.Green, pointF5);
+                    }
+                    if(row2EasySum > row2AnswerEasy || row2EasySum > row2AnswerEasy)
+                    {
+                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
+                        e.Graphics.DrawString(b, font1, Brushes.Red, pointF5);
+                    }
+                    else
+                    {
+                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
+                        e.Graphics.DrawString(b, font1, color, pointF5);
+                    }
+                }
+                else
+                {
+                    PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
+                    e.Graphics.DrawString(b, font1, color, pointF5);
+                }
+                //ROW 3:
+                if(!isAnswer)
+                {
+                    if(row3EasySum == row3AnswerEasy)
+                    {
+                        PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
+                        e.Graphics.DrawString(c, font1, Brushes.Green, pointF6);
+                    }
+                    if (row3EasySum > row3AnswerEasy || row3EasySum > row3AnswerEasy)
+                    {
+                        PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
+                        e.Graphics.DrawString(b, font1, Brushes.Red, pointF5);
+                    }
+                    else
+                    {
+                        PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
+                        e.Graphics.DrawString(c, font1, color, pointF6);
+                    }
+                }
+                else
+                {
+                    PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
+                    e.Graphics.DrawString(c, font1, color, pointF6);
+                }
             }
 
 
