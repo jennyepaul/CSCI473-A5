@@ -21,8 +21,7 @@ namespace JennyCasey_Assignment5
         private static bool isEasyBoard = false;
         private static bool isMediumBoard = false;
         private static bool isHardBoard = false;
-        private static bool isRed = false;
-        private static bool isGreen = false;
+        private static bool isCorrect= false;
         private static bool Hide_Board = false;
         private static bool Paused = false;
         private static bool isDeletedValue = false;
@@ -39,7 +38,7 @@ namespace JennyCasey_Assignment5
         private static bool HardDiagnalCompleted1 = false;
         private static bool HardDiagnalCompleted2 = false;
         private static bool Complete = false;
-
+        private static bool isDoneGuessing = false;
         //all totals variables  for an easy board
         private static int row1EasySum = 0;
         private static int row2EasySum = 0;
@@ -124,9 +123,10 @@ namespace JennyCasey_Assignment5
         private static int diagnal1AnswerHard = 0;
         private static int diagnal2AnswerHard = 0;
 
-        private static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
-        private static List<TextBox> generatedMedTextboxes = new List<TextBox>();
-        private static List<TextBox> generatedHardTextboxes = new List<TextBox>();
+        public static List<TextBox> generatedEasyTextboxes = new List<TextBox>();
+        public static List<TextBox> generatedMedTextboxes = new List<TextBox>();
+        public static List<TextBox> generatedHardTextboxes = new List<TextBox>();
+
         private static List<string> gameStatsEasy1 = new List<string>();
         private static List<string> gameStatsMedium1 = new List<string>();
         private static List<string> gameStatsHard1 = new List<string>();
@@ -138,6 +138,18 @@ namespace JennyCasey_Assignment5
         public static List<char> gameAnswersEasy1 = new List<char>();
         public static List<char> gameAnswersMed1 = new List<char>();
         public static List<char> gameAnswersHard1 = new List<char>();
+
+
+        public static List<string> EasyTimer = new List<string>();
+        public static List<string> MedTimer = new List<string>();
+        public static List<string> HardTimer = new List<string>();
+        public static int easy_itr = 0;
+        public static int med_itr = 0;
+        public static int hard_itr = 0;
+
+        public static int row1Counter = 0;
+        public static int row2Counter = 0;
+        public static int row3Counter = 0;
 
 
         public static int L;
@@ -323,11 +335,9 @@ namespace JennyCasey_Assignment5
 
                             b++;
                         }
-                        int c = 0;
-                        int xSub = c;
+                        int xSub = 0;
                         int ySub = 0;
-
-                        for (c = 0; c < 9; c++)
+                        for (int c = 0; c < 9; c++)
                         {
                             if (Hide_Board)
                             {
@@ -343,6 +353,7 @@ namespace JennyCasey_Assignment5
                                     //we have a value so print that to the board
                                     PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
                                     e.Graphics.DrawString(gameValuesEasy1[c].ToString(), font1, Brushes.Black, point);
+                                    
                                 }
 
                             }
@@ -356,7 +367,6 @@ namespace JennyCasey_Assignment5
                                 txt.Height = 30;
                                 txt.Width = 30;
                                 txt.Font = new Font(txt.Font.FontFamily, 14);
-                                //txt.Font.Size = 24
                                 canvas.Controls.Add(txt);
                                 generatedEasyTextboxes.Add(txt);
                                 txt.TextChanged += numberInput;
@@ -372,7 +382,6 @@ namespace JennyCasey_Assignment5
                                 ySub++;
                             }
                         }
-                        
                     }
                     else if (isMediumGame)
                     {
@@ -581,9 +590,10 @@ namespace JennyCasey_Assignment5
                     }
                 }
             }
-            isBoardLoaded = true;
+            isBoardLoaded = true;         
         }
 
+        
         //these 3 functions calculate the ACTUAL answers for Easy board rows, columns, and diagnals
         private void calculateAnswerEasyRow(List<char> list1)
         {
@@ -664,18 +674,35 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 row1EasySum += val;
+
+                //if the value is not 0, then add it to the counter for rows since theres a value
+                //once we hit 3 values the row is done being guessed/completed and the total will be
+                //red or green depending how accurate it is compared to the actual total
+                if(list1[i] != '0')
+                {
+                    row1Counter += 1;
+                }
             }
 
             for (int i = 3; i < 6; i++)
             {
+                
                 val = int.Parse(list1[i].ToString());
                 row2EasySum += val;
+                if (list1[i] != '0')
+                {
+                    row2Counter += 1;
+                }
             }
 
             for (int i = 6; i < 9; i++)
             {
                 val = int.Parse(list1[i].ToString());
                 row3EasySum += val;
+                if (list1[i] != '0')
+                {
+                    row3Counter += 1;
+                }
             }
 
         }
@@ -1101,6 +1128,7 @@ namespace JennyCasey_Assignment5
         //if the user deletes a value, then subtract that from the derived totals
         private void deletedValue(object sender, KeyEventArgs e)
         {
+            
             TextBox textbox = (TextBox)sender;
             int value; 
 
@@ -1139,8 +1167,6 @@ namespace JennyCasey_Assignment5
         //whenever a number input changes on the board, we need to recalculate the derived totals
         private void numberInput(object sender,  EventArgs e)
         {
-            isGreen = false;
-            isRed = false;
             int value;
             TextBox textbox = (TextBox)sender;
             //set flags based on what board we are building
@@ -1181,6 +1207,7 @@ namespace JennyCasey_Assignment5
 
         private void numberInputChange(TextBox textbox)
         {
+            isCorrect = false;
             int value;
             value = int.Parse(textbox.Text);
 
@@ -1193,20 +1220,64 @@ namespace JennyCasey_Assignment5
             {
                 //row changing total values
                 //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
-                if (textbox.Name.Contains("easy") && textbox.Name.Contains("0") || textbox.Name.Contains("1")
-                                || textbox.Name.Contains("2"))
+                if (textbox.Name == "easyPuzzleCell0" || textbox.Name == "easyPuzzleCell1" || textbox.Name == "easyPuzzleCell2")
                 {
-
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row1Counter += 1;         
+                        }        
+                    }
+                    else
+                    {
+                        row1Counter--;
+                    }
                     row1EasySum += value;
-                    isGreenOrRed(row1EasySum, row1AnswerEasy);
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row1Counter == 3)
+                    {
+                        //if the answer is correct then print the output in green, else print it in red
+                        if (isAnswerCorrect(row1EasySum, row1AnswerEasy))
+                        {
+                            isCorrect = true;
+                        }
+                        else
+                        {
+                            isCorrect = false;
+                        }
+                    }
                     rowSumBox.Refresh();
                 }
                 //if the textbox name contains "easy" or any value between 0-2, we know we are in the first row
                 if (textbox.Name.Contains("easy") && textbox.Name.Contains("3") || textbox.Name.Contains("4")
                                     || textbox.Name.Contains("5"))
                 {
+                    if (!isDeletedValue)
+                    {
+                        if (!String.IsNullOrEmpty(textbox.Text))
+                        {
+                            row2Counter += 1;
+                        }
+                    }
+                    else
+                    {
+                        row2Counter--;
+                    }
                     row2EasySum += value;
-                    isGreenOrRed(row2EasySum, row2AnswerEasy);
+                    //if the row counter is 3 then we finished guessing a row, so let's see what color the total should be
+                    if (row2Counter == 3)
+                    {
+                        //if the answer is correct then print the output in green, else print it in red
+                        if (isAnswerCorrect(row2EasySum, row2AnswerEasy))
+                        {
+                            isCorrect = true;
+                        }
+                        else
+                        {
+                            isCorrect = false;
+                        }
+                    }
                     rowSumBox.Refresh();
                 }
 
@@ -1216,7 +1287,6 @@ namespace JennyCasey_Assignment5
                 {
 
                     row3EasySum += value;
-                    isGreenOrRed(row3EasySum, row3AnswerEasy);
                     rowSumBox.Refresh();
 
                 }
@@ -1473,18 +1543,16 @@ namespace JennyCasey_Assignment5
             completed_puzzle();
         }
         //function to tell whether the color to color in will be GREEN or RED (still need to adjust this)
-        private void isGreenOrRed(int a, int b)
+        private bool isAnswerCorrect(int a, int b)
         {
-            if (a < b || a > b)
-            {
-                isRed = true;
-            }
+
             if (a == b)
             {
-                isGreen = true;
+                return true;
             }
+            else
+                return false;
         }
-       
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
             isEasyBoard = false;
@@ -1536,11 +1604,10 @@ namespace JennyCasey_Assignment5
             i = 0;
 
             canvas.Refresh();
-
-            refresh_totals();
+            refresh_totals_and_canvas();
             
         }
-        private void refresh_totals()
+        private void refresh_totals_and_canvas()
         {
             row1AnswerEasy = 0;
             row1EasySum = 0;
@@ -1732,109 +1799,190 @@ namespace JennyCasey_Assignment5
             generatedHardTextboxes.Clear();
         }
 
+        private void paintEasyTotals(object sender, PaintEventArgs e, string a, string b, string c, Font font1, int heightDivide, int widthDivide, bool isRow, 
+                    bool isAnswer, Brush color)
+        {
+            if (!isRow)
+            {
+                //derived totals for columns on easy board
+                PointF pointF1 = new PointF(columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(a, font1, color, pointF1);
+
+                PointF pointF2 = new PointF(3 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(b, font1, color, pointF2);
+
+                PointF pointF3 = new PointF(5 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(c, font1, color, pointF3);
+            }
+            if(isRow)
+            {
+                if (!isAnswer)
+                {
+                    //if its correct, paint in green, otherwise paint it in the color since we are still in progress
+                    if (isCorrect)
+                    {
+
+                        PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
+                        e.Graphics.DrawString(a, font1, Brushes.Green, pointF4);
+
+                    }
+                    else
+                    {
+                        PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
+                        e.Graphics.DrawString(a, font1, color, pointF4);
+                    }
+                }
+                else
+                {
+                    PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
+                    e.Graphics.DrawString(a, font1, color, pointF4);
+                }
+               
+                PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(b, font1, color, pointF5);
+                
+                PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(c, font1, color, pointF6);
+            }
+
+
+        }
+        private void paintMediumTotals(object sender, PaintEventArgs e, string a, string b, string c, string d, string f,
+                Font font1, int heightDivide, int widthDivide, bool isRow, Brush color)
+        {
+            if(!isRow)
+            {
+                //derived totals
+                PointF pointF1 = new PointF(columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(a, font1, color, pointF1);
+
+                PointF pointF2 = new PointF(3 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(b, font1, color, pointF2);
+
+                PointF pointF3 = new PointF(5 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(c, font1, color, pointF3);
+
+                PointF pointF4 = new PointF(7 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(d, font1, color, pointF4);
+
+                PointF pointF5 = new PointF(9 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(f, font1, color, pointF5);
+
+
+            }
+            if (isRow)
+            {
+                //derived totals
+                PointF pointF1 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(a, font1, color, pointF1);
+
+                PointF pointF2 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(b, font1, color, pointF2);
+
+                PointF pointF3 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(c, font1, color, pointF3);
+
+                PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, 7 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(d, font1, color, pointF4);
+
+                PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 9 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(f, font1, color, pointF5);
+            }
+        }
+
+        private void paintHardTotals(object sender, PaintEventArgs e, string a, string b, string c, string d, string f, string g , string h,
+               Font font1, int heightDivide, int widthDivide, bool isRow, Brush color)
+        {
+            if(isRow)
+            {
+                //derived totals
+                PointF pointF1 = new PointF(rowSumBox.Width / widthDivide, rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(a, font1, color, pointF1);
+
+                PointF pointF2 = new PointF(rowSumBox.Width / widthDivide, 3 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(b, font1, color, pointF2);
+
+                PointF pointF3 = new PointF(rowSumBox.Width / widthDivide, 5 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(c, font1, color, pointF3);
+
+                PointF pointF4 = new PointF(rowSumBox.Width / widthDivide, 7 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(d, font1, color, pointF4);
+
+                PointF pointF5 = new PointF(rowSumBox.Width / widthDivide, 9 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(f, font1, color, pointF5);
+
+                PointF pointF6 = new PointF(rowSumBox.Width / widthDivide, 11 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(g, font1, color, pointF6);
+
+                PointF pointF7 = new PointF(rowSumBox.Width / widthDivide, 13 * rowSumBox.Height / heightDivide);
+                e.Graphics.DrawString(h, font1, color, pointF7);
+
+            }
+            if (!isRow)
+            {
+                PointF pointF1 = new PointF(columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(a, font1, color, pointF1);
+
+                PointF pointF2 = new PointF(3 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(b, font1, color, pointF2);
+
+                PointF pointF3 = new PointF(5 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(c, font1, color, pointF3);
+
+                PointF pointF4 = new PointF(7 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(d, font1, color, pointF4);
+
+                PointF pointF5 = new PointF(9 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(f, font1, color, pointF5);
+
+                PointF pointF6 = new PointF(11 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(g, font1, color, pointF6);
+
+                PointF pointF7 = new PointF(13 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
+                e.Graphics.DrawString(h, font1, color, pointF7);
+            }    
+        }
         //draw the derived and actual totals for rows for all boards
         private void rowSumBox_Paint(object sender, PaintEventArgs e)
         {
-
             Graphics graphics = e.Graphics;
 
             if (isBoardLoaded)
             {
                 if (isEasyBoard)
                 {
+                    //areRowsDone();
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
-                        //check if the first row is equal to actual value, if so we need to change color
-                        //NOTE-> need to adjust color to be grey while they are still guessing, once full row is guessed
-                        //then change color (if i read the assignment directions right)
-                        //this color changing only works for row 1 of easy board
-                        
                         if (Complete == true)
                         {
-                            PointF pointF1 = new PointF(rowSumBox.Width / 12, rowSumBox.Height / 6);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(rowSumBox.Width / 12, 3 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(rowSumBox.Width / 12, 5 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF3);
+                            paintEasyTotals(sender, e, "", "", "", font1, 6, 12, true, false, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF4 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 6);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF4);
-
-                            PointF pointF5 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF5);
-
-                            PointF pointF6 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF6);
+                            paintEasyTotals(sender, e, "", "", "", font1, 6, 2, true, true, Brushes.Black);
                         }
                         else if (Hide_Board == true)
                         {
-                            PointF pointF1 = new PointF(rowSumBox.Width / 12, rowSumBox.Height / 6);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF1);
+                            //if we hide the board then make the derived totals "?"
+                            paintEasyTotals(sender, e, "?", "?", "?", font1, 6, 12,true, false, Brushes.DarkGray);
 
-                            PointF pointF2 = new PointF(rowSumBox.Width / 12, 3 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(rowSumBox.Width / 12, 5 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF3);
-
-                            //actual totals
-                            PointF pointF4 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 6);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF4);
-
-                            PointF pointF5 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF5);
-
-                            PointF pointF6 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF6);
+                            //actual totals appear as "?" if we hide the board
+                            paintEasyTotals(sender, e, "?", "?", "?", font1, 6, 2,true, true, Brushes.Black);
                         }
                         else
                         {
-                            if (isRed)
-                            {
-                                //derived totals
-                                PointF pointF1 = new PointF(rowSumBox.Width / 12, rowSumBox.Height / 6);
-                                e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.Red, pointF1);
-                            }
-                            if (isGreen)
-                            {
-                                PointF pointF1 = new PointF(rowSumBox.Width / 12, rowSumBox.Height / 6);
-                                e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.Green, pointF1);
-                            }
-                            else if (!isRed && !isGreen)
-                            {
-                                //derived totals
-                                PointF pointF1 = new PointF(rowSumBox.Width / 12, rowSumBox.Height / 6);
-                                e.Graphics.DrawString(row1EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
-                            }
-
-                            PointF pointF2 = new PointF(rowSumBox.Width / 12, 3 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString(row2EasySum.ToString(), font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(rowSumBox.Width / 12, 5 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString(row3EasySum.ToString(), font1, Brushes.DarkGray, pointF3);
+                            //derived totals
+                            paintEasyTotals(sender, e, row1EasySum.ToString(), row2EasySum.ToString(), row3EasySum.ToString(), 
+                                    font1, 6, 12, true, false, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF4 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 6);
-                            e.Graphics.DrawString(row1AnswerEasy.ToString(), font1, Brushes.Black, pointF4);
-
-                            PointF pointF5 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString(row2AnswerEasy.ToString(), font1, Brushes.Black, pointF5);
-
-                            PointF pointF6 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 6);
-                            e.Graphics.DrawString(row3AnswerEasy.ToString(), font1, Brushes.Black, pointF6);
+                            paintEasyTotals(sender, e, row1AnswerEasy.ToString(), row2AnswerEasy.ToString(), row3AnswerEasy.ToString(), 
+                                        font1, 6, 2, true, true, Brushes.Black);
                         }
-
-                        
-
                         if (row1EasySum == row1AnswerEasy && row2EasySum == row2AnswerEasy && row3EasySum == row3AnswerEasy)
                         {
                             EasyRowCompleted = true;
                         }
-
                     }
                 }
                 if(isMediumBoard)
@@ -1843,105 +1991,29 @@ namespace JennyCasey_Assignment5
                     {
                         if (Hide_Board == true)
                         {
-                            //derived totals
-                            PointF pointF1 = new PointF(rowSumBox.Width / 20, rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF1);
+                            //derived totals painted as "?" if we pause
+                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 10, 20, true, Brushes.DarkGray);
 
-                            PointF pointF2 = new PointF(rowSumBox.Width / 20, 3 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(rowSumBox.Width / 20, 5 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(rowSumBox.Width / 20, 7 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(rowSumBox.Width / 20, 9 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF5);
-
-                            //actual totals
-                            PointF pointF6 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF6);
-
-                            PointF pointF7 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF7);
-
-                            PointF pointF8 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(rowSumBox.Width / 2, 7 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(rowSumBox.Width / 2, 9 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF10);
+                            //actual totals painted as "?" if we pause
+                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 10, 2, true, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
                             //derived totals
-                            PointF pointF1 = new PointF(rowSumBox.Width / 20, rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(rowSumBox.Width / 20, 3 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(rowSumBox.Width / 20, 5 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(rowSumBox.Width / 20, 7 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(rowSumBox.Width / 20, 9 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF5);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 10, 20, true, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF6 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF6);
-
-                            PointF pointF7 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF7);
-
-                            PointF pointF8 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(rowSumBox.Width / 2, 7 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(rowSumBox.Width / 2, 9 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF10);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 10, 2, true, Brushes.Black);
                         }
                         else
                         {
                             //derived totals
-                            PointF pointF1 = new PointF(rowSumBox.Width / 20, rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row1MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(rowSumBox.Width / 20, 3 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row2MediumSum.ToString(), font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(rowSumBox.Width / 20, 5 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row3MediumSum.ToString(), font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(rowSumBox.Width / 20, 7 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row4MediumSum.ToString(), font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(rowSumBox.Width / 20, 9 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row5MediumSum.ToString(), font1, Brushes.DarkGray, pointF5);
+                            paintMediumTotals(sender, e, row1MediumSum.ToString(), row2MediumSum.ToString(), row3MediumSum.ToString(),
+                               row4MediumSum.ToString(), row5MediumSum.ToString(), font1, 10, 20, true, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF6 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row1AnswerMed.ToString(), font1, Brushes.Black, pointF6);
-
-                            PointF pointF7 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row2AnswerMed.ToString(), font1, Brushes.Black, pointF7);
-
-                            PointF pointF8 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row3AnswerMed.ToString(), font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(rowSumBox.Width / 2, 7 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row4AnswerMed.ToString(), font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(rowSumBox.Width / 2, 9 * rowSumBox.Height / 10);
-                            e.Graphics.DrawString(row5AnswerMed.ToString(), font1, Brushes.Black, pointF10);
+                            paintMediumTotals(sender, e, row1AnswerMed.ToString(), row2AnswerMed.ToString(), row3AnswerMed.ToString(),
+                               row4AnswerMed.ToString(), row5AnswerMed.ToString(), font1, 10, 2, true, Brushes.Black);
                         }
 
                         if (row1MediumSum == row1AnswerMed && row2MediumSum == row2AnswerMed &&
@@ -1958,53 +2030,17 @@ namespace JennyCasey_Assignment5
                     {
                         if (Hide_Board == true)
                         {
-                            //derived totals
-                            PointF pointF1 = new PointF(rowSumBox.Width / 28, rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?",font1, Brushes.DarkGray, pointF1);
+                            //derived totals painted as "?" if paused
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 28, true, Brushes.DarkGray);
 
-                            PointF pointF2 = new PointF(rowSumBox.Width / 28, 3 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(rowSumBox.Width / 28, 5 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(rowSumBox.Width / 28, 7 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(rowSumBox.Width / 28, 9 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF5);
-
-                            PointF pointF6 = new PointF(rowSumBox.Width / 28, 11 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF6);
-
-                            PointF pointF7 = new PointF(rowSumBox.Width / 28, 13 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF7);
-
-                            //actual totals
-                            PointF pointF8 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF10);
-
-                            PointF pointF11 = new PointF(rowSumBox.Width / 2, 7 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF11);
-
-                            PointF pointF12 = new PointF(rowSumBox.Width / 2, 9 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF12);
-
-                            PointF pointF13 = new PointF(rowSumBox.Width / 2, 11 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF13);
-
-                            PointF pointF14 = new PointF(rowSumBox.Width / 2, 13 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF14);
+                            //actual totals printed as "?" if paused
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 2, true, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
-                            //derived totals
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 28, true, Brushes.DarkGray);
+
+                            /*
                             PointF pointF1 = new PointF(rowSumBox.Width / 28, rowSumBox.Height / 14);
                             e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF1);
 
@@ -2025,8 +2061,12 @@ namespace JennyCasey_Assignment5
 
                             PointF pointF7 = new PointF(rowSumBox.Width / 28, 13 * rowSumBox.Height / 14);
                             e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF7);
+                            */
 
-                            //actual totals
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 2, true, Brushes.Black);
+
+                            //WILL DELETE THIS ONCE THE HARD TIMER BUG GETS FIXED
+                            /*
                             PointF pointF8 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 14);
                             e.Graphics.DrawString("", font1, Brushes.Black, pointF8);
 
@@ -2047,52 +2087,19 @@ namespace JennyCasey_Assignment5
 
                             PointF pointF14 = new PointF(rowSumBox.Width / 2, 13 * rowSumBox.Height / 14);
                             e.Graphics.DrawString("", font1, Brushes.Black, pointF14);
+                            */
                         }
                         else
                         {
                             //derived totals
-                            PointF pointF1 = new PointF(rowSumBox.Width / 28, rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row1HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(rowSumBox.Width / 28, 3 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row2HardSum.ToString(), font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(rowSumBox.Width / 28, 5 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row3HardSum.ToString(), font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(rowSumBox.Width / 28, 7 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row4HardSum.ToString(), font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(rowSumBox.Width / 28, 9 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row5HardSum.ToString(), font1, Brushes.DarkGray, pointF5);
-
-                            PointF pointF6 = new PointF(rowSumBox.Width / 28, 11 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row6HardSum.ToString(), font1, Brushes.DarkGray, pointF6);
-
-                            PointF pointF7 = new PointF(rowSumBox.Width / 28, 13 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row7HardSum.ToString(), font1, Brushes.DarkGray, pointF7);
+                            paintHardTotals(sender, e, row1HardSum.ToString(), row2HardSum.ToString(), row3HardSum.ToString(),
+                                row4HardSum.ToString(), row5HardSum.ToString(), row6HardSum.ToString(),
+                                row7HardSum.ToString(), font1, 14, 28, true, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF8 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row1AnswerHard.ToString(), font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row2AnswerHard.ToString(), font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row3AnswerHard.ToString(), font1, Brushes.Black, pointF10);
-
-                            PointF pointF11 = new PointF(rowSumBox.Width / 2, 7 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row4AnswerHard.ToString(), font1, Brushes.Black, pointF11);
-
-                            PointF pointF12 = new PointF(rowSumBox.Width / 2, 9 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row5AnswerHard.ToString(), font1, Brushes.Black, pointF12);
-
-                            PointF pointF13 = new PointF(rowSumBox.Width / 2, 11 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row6AnswerHard.ToString(), font1, Brushes.Black, pointF13);
-
-                            PointF pointF14 = new PointF(rowSumBox.Width / 2, 13 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString(row7AnswerHard.ToString(), font1, Brushes.Black, pointF14);
+                            paintHardTotals(sender, e, row1AnswerHard.ToString(), row2AnswerHard.ToString(), row3AnswerHard.ToString(),
+                               row4AnswerHard.ToString(), row5AnswerHard.ToString(), row6AnswerHard.ToString(),
+                               row7AnswerHard.ToString(), font1, 14, 2, true, Brushes.Black);
                         }
                         
 
@@ -2121,69 +2128,27 @@ namespace JennyCasey_Assignment5
                     {
                         if (Hide_Board == true)
                         {
-                            //derived totals
-                            PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 12);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 12);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 12);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF3);
-
-                            //actual totals
-                            PointF pointF4 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF4);
-
-                            PointF pointF5 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF5);
-
-                            PointF pointF6 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF6);
+                            //derived totals as "?" when we pause the game
+                            paintEasyTotals(sender, e, "?", "?", "?", font1, 12, 6, false, false, Brushes.DarkGray);
+   
+                            //actual totals as "?" when we pause the game
+                            paintEasyTotals(sender, e, "?", "?", "?", font1, 2, 6, false, true, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
-                            //derived totals
-                            PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 12);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 12);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 12);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF3);
+                            paintEasyTotals(sender, e, "", "", "", font1, 12, 6, false, false, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF4 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF4);
-
-                            PointF pointF5 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF5);
-
-                            PointF pointF6 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF6);
+                            paintEasyTotals(sender, e, "", "", "", font1, 2, 6, false, true, Brushes.Black);
                         }
                         else
                         {
-                            //derived totals
-                            PointF pointF1 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 12);
-                            e.Graphics.DrawString(col1EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 12);
-                            e.Graphics.DrawString(col2EasySum.ToString(), font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 12);
-                            e.Graphics.DrawString(col3EasySum.ToString(), font1, Brushes.DarkGray, pointF3);
+                            //paint derived totals
+                            paintEasyTotals(sender, e, col1EasySum.ToString(), col2EasySum.ToString(), col3EasySum.ToString(), font1, 12, 6, false, false,  Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF4 = new PointF(columnSumBox.Width / 6, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col1AnswerEasy.ToString(), font1, Brushes.Black, pointF4);
-
-                            PointF pointF5 = new PointF(3 * columnSumBox.Width / 6, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col2AnswerEasy.ToString(), font1, Brushes.Black, pointF5);
-
-                            PointF pointF6 = new PointF(5 * columnSumBox.Width / 6, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col3AnswerEasy.ToString(), font1, Brushes.Black, pointF6);
+                            paintEasyTotals(sender, e, col1AnswerEasy.ToString(), col2AnswerEasy.ToString(), col3AnswerEasy.ToString(), font1, 2, 6,false, true, Brushes.Black);
+  
                         }
 
                         if (col1EasySum == col1AnswerEasy && col2EasySum == col2AnswerEasy && col3EasySum == col3AnswerEasy)
@@ -2199,105 +2164,29 @@ namespace JennyCasey_Assignment5
                     {
                         if (Hide_Board == true)
                         {
-                            //derived totals
-                            PointF pointF1 = new PointF(columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF1);
+                            //paint derived totals as "?" if we pause
+                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 20, 10, false, Brushes.DarkGray);
 
-                            PointF pointF2 = new PointF(3 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(5 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(7 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF5);
-
-                            //actual totals
-                            PointF pointF6 = new PointF(columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF6);
-
-                            PointF pointF7 = new PointF(3 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF7);
-
-                            PointF pointF8 = new PointF(5 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(7 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF10);
+                            //paint actual totals as "?" if we pause
+                            paintMediumTotals(sender, e, "?", "?", "?", "?", "?", font1, 2, 10, false, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
                             //derived totals
-                            PointF pointF1 = new PointF(columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(3 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(5 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(7 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF5);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 20, 10, false, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF6 = new PointF(columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF6);
-
-                            PointF pointF7 = new PointF(3 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF7);
-
-                            PointF pointF8 = new PointF(5 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(7 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF10);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 2, 10, false, Brushes.Black);
                         }
                         else
                         {
                             //derived totals
-                            PointF pointF1 = new PointF(columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString(col1MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(3 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString(col2MediumSum.ToString(), font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(5 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString(col3MediumSum.ToString(), font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(7 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString(col4MediumSum.ToString(), font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 20);
-                            e.Graphics.DrawString(col5MediumSum.ToString(), font1, Brushes.DarkGray, pointF5);
+                            paintMediumTotals(sender, e, col1MediumSum.ToString(), col2MediumSum.ToString(),
+                                col3MediumSum.ToString(), col4MediumSum.ToString(), col5MediumSum.ToString(), font1, 20, 10, false, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF6 = new PointF(columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col1AnswerMed.ToString(), font1, Brushes.Black, pointF6);
-
-                            PointF pointF7 = new PointF(3 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col2AnswerMed.ToString(), font1, Brushes.Black, pointF7);
-
-                            PointF pointF8 = new PointF(5 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col3AnswerMed.ToString(), font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(7 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col4AnswerMed.ToString(), font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(9 * columnSumBox.Width / 10, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col5AnswerMed.ToString(), font1, Brushes.Black, pointF10);
+                            paintMediumTotals(sender, e, col1AnswerMed.ToString(), col2AnswerMed.ToString(),
+                                col3AnswerMed.ToString(), col4AnswerMed.ToString(), col5AnswerMed.ToString(), font1, 2, 10, false, Brushes.Black);
                         }
 
                         if (col1MediumSum == col1AnswerMed && col2MediumSum == col2AnswerMed && col3MediumSum == col3AnswerMed
@@ -2314,53 +2203,19 @@ namespace JennyCasey_Assignment5
                     {
                         if (Hide_Board == true)
                         {
-                            //derived totals
-                            PointF pointF1 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(3 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(5 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(7 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(9 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF5);
-
-                            PointF pointF6 = new PointF(11 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF6);
-
-                            PointF pointF7 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("?", font1, Brushes.DarkGray, pointF7);
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 14, false, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF8 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(3 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(5 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF10);
-
-                            PointF pointF11 = new PointF(7 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF11);
-
-                            PointF pointF12 = new PointF(9 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF12);
-
-                            PointF pointF13 = new PointF(11 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF13);
-
-                            PointF pointF14 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("?", font1, Brushes.Black, pointF14);
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 2, 14, false, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
                             //derived totals
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 14, false, Brushes.DarkGray);
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 2, 14, false, Brushes.Black);
+
+                            //WILL DELETE WHEN TIMER BUG FOR COMPLETING HARD GETS FIXED
+                            /*
                             PointF pointF1 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 14);
                             e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF1);
 
@@ -2403,52 +2258,19 @@ namespace JennyCasey_Assignment5
 
                             PointF pointF14 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 2);
                             e.Graphics.DrawString("", font1, Brushes.Black, pointF14);
+                            */
                         }
                         else
                         {
                             //derived totals
-                            PointF pointF1 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString(col1HardSum.ToString(), font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(3 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString(col2HardSum.ToString(), font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(5 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString(col3HardSum.ToString(), font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(7 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString(col4HardSum.ToString(), font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(9 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString(col5HardSum.ToString(), font1, Brushes.DarkGray, pointF5);
-
-                            PointF pointF6 = new PointF(11 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString(col6HardSum.ToString(), font1, Brushes.DarkGray, pointF6);
-
-                            PointF pointF7 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString(col7HardSum.ToString(), font1, Brushes.DarkGray, pointF7);
+                            paintHardTotals(sender, e, col1HardSum.ToString(), col2HardSum.ToString(), col3HardSum.ToString(),
+                                col4HardSum.ToString(), col5HardSum.ToString(), col6HardSum.ToString(), col7HardSum.ToString(),
+                                font1, 14, 14, false, Brushes.DarkGray);
 
                             //actual totals
-                            PointF pointF8 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col1AnswerHard.ToString(), font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(3 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col2AnswerHard.ToString(), font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(5 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col3AnswerHard.ToString(), font1, Brushes.Black, pointF10);
-
-                            PointF pointF11 = new PointF(7 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col4AnswerHard.ToString(), font1, Brushes.Black, pointF11);
-
-                            PointF pointF12 = new PointF(9 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col5AnswerHard.ToString(), font1, Brushes.Black, pointF12);
-
-                            PointF pointF13 = new PointF(11 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col6AnswerHard.ToString(), font1, Brushes.Black, pointF13);
-
-                            PointF pointF14 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString(col7AnswerHard.ToString(), font1, Brushes.Black, pointF14);
+                            paintHardTotals(sender, e, col1AnswerHard.ToString(), col2AnswerHard.ToString(), col3AnswerHard.ToString(),
+                                col4AnswerHard.ToString(), col5AnswerHard.ToString(), col6AnswerHard.ToString(), col7AnswerHard.ToString(),
+                                font1, 2, 14, false, Brushes.Black);
                         }
 
                         if (col1HardSum == col1AnswerHard && col2HardSum == col2AnswerHard &&
@@ -2789,7 +2611,7 @@ namespace JennyCasey_Assignment5
                 Hide_Board = true;
                 Complete = false;
                 canvas.Refresh();
-                refresh_totals();
+                refresh_totals_and_canvas();
                 //canvas.Refresh();
             }
             else if (PauseResume_Button.Text == "Resume")
@@ -2799,7 +2621,7 @@ namespace JennyCasey_Assignment5
                 isDown = true;
                 Hide_Board = false;
                 canvas.Refresh();
-                refresh_totals();
+                refresh_totals_and_canvas();
                 //canvas.Refresh();
                 //somehow return to version previous to the pause
             }
@@ -2841,23 +2663,8 @@ namespace JennyCasey_Assignment5
             Timer_Label.Text = "Current Time: " + time;
         }
 
-
-        List<string> EasyTimer = new List<string>();
-        List<string> MedTimer = new List<string>();
-        List<string> HardTimer = new List<string>();
-        int easy_itr = 0;
-        int med_itr = 0;
-        int hard_itr = 0;
         private void completed_puzzle()
         {
-            /*if (EasyRowCompleted == true)
-            {
-                MessageBox.Show("Easy Row Completed");
-            }
-            if (EasyDiagnalCompleted2)
-            {
-                MessageBox.Show("Easy Dia2 Completed");
-            }*/
             if (EasyRowCompleted && EasyColCompleted && EasyDiagnalCompleted2)
             {
                 tmrCounter.Enabled = false;
@@ -2976,6 +2783,8 @@ namespace JennyCasey_Assignment5
                 {
                     int average = 0;
                     int numofTimes = 0;
+
+                    //ERRORS OUT HERE WHEN COMPLETING HARD PUZZLE
                     int smallest = int.Parse(HardTimer[0]);
                     foreach (string item in HardTimer)
                     {
@@ -3005,7 +2814,7 @@ namespace JennyCasey_Assignment5
             }
             if (Complete == true)
             {
-                refresh_totals();
+                refresh_totals_and_canvas();
                 PauseResume_Button.Text = "Pause";
                 Complete = false;
                 Hide_Board = false;
