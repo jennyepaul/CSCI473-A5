@@ -202,6 +202,7 @@ namespace JennyCasey_Assignment5
             gameValuesEasy1.Clear();
             gameValuesMedium1.Clear();
             gameValuesHard1.Clear();
+            isDown = false;
 
             //depending what difficulty the user entered, we need to draw the corresponding playing field
             if (gameDifficultyDropDown.Text == "Easy")
@@ -754,14 +755,11 @@ namespace JennyCasey_Assignment5
             }
             isBoardLoaded = true;
         }
-        
-     
+         
         //these 3 functions calculate the ACTUAL answers for Easy board rows, columns, and diagnals
         private void calculateAnswerEasyRow(List<char> list1)
         {
             int val;
-            //output.Clear();
-            //output.AppendText("row answers before adding are:  " + row1AnswerEasy + ", " + row2AnswerEasy + ", " + row3AnswerEasy + "\n");
             //calculate the answer key for the easy board's rows
             for (int i = 0; i < 3; i++)
             {
@@ -3546,9 +3544,14 @@ namespace JennyCasey_Assignment5
 
         private void PauseResume_Button_Click(object sender, EventArgs e)
         {
+            isEasyGame = false;
+            isMediumGame = false;
+            isHardGame = false;
+
             //Display the current time when user clicks pause
             if (PauseResume_Button.Text == "Pause")
             {
+               
                 Paused = true;
                 tmrCounter.Enabled = false;
                 PauseResume_Button.Text = "Resume";
@@ -3584,32 +3587,44 @@ namespace JennyCasey_Assignment5
                 diagnal2SumBox.Refresh();
                 //refresh_totals_and_canvas();                
             }
+            
             else if (PauseResume_Button.Text == "Resume")
             {
                 PauseResume_Button.Text = "Pause";
                 isDown = true;
                 tmrCounter.Enabled = true;
                 Hide_Board = false;
+                Paused = false;
+                
                 if (gameDifficultyDropDown.Text == "Easy")
                 {
                     isEasyGame = true;
+                    resetMediumPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
                 }
                 if(gameDifficultyDropDown.Text == "Medium")
                 {
                     isMediumGame = true;
+                    resetEasyPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
                 }
                 if(gameDifficultyDropDown.Text == "Hard")
                 {
                     isHardGame = true;
+                    resetEasyPuzzleTextboxes();
+                    resetMediumPuzzleTextboxes();
                 }
+                
                 Hide_Board = false;
                 canvas.Refresh();
                 rowSumBox.Refresh();
                 columnSumBox.Refresh();
                 diagnal1SumBox.Refresh();
                 diagnal2SumBox.Refresh();
+                
                 //refresh_totals_and_canvas();
             }
+            
         }
 
         static string convertseconds(int seconds)
