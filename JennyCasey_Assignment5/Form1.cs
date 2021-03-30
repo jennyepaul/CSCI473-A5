@@ -474,15 +474,12 @@ namespace JennyCasey_Assignment5
                         int ySub = 0;
                         for (int c = 0; c < 9; c++)
                         {
-                            
                             if (Hide_Board)
                             {
-                                resetEasyPuzzleTextboxes();
-
                                 PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
                             }
-                            
+
                             else if (gameValuesEasy1[c] != '0')
                             {
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
@@ -510,7 +507,6 @@ namespace JennyCasey_Assignment5
                                 txt.TextChanged += numberInput;
                                 txt.KeyDown += deletedValue;                                
                             }
-                            
                             //increment the x subscript
                             xSub++;
                             //if the subcript is at 3, we finished a row, so reset the xsubscript
@@ -528,10 +524,14 @@ namespace JennyCasey_Assignment5
                         {
                             canvas.Controls.Add(generatedEasyTextboxes[i]);
                         }
+
+                        
                     }
                     else if (isMediumGame)
                     {
                         isMediumBoard = true;
+                        generatedEasyTextboxes.Clear();
+                        generatedHardTextboxes.Clear();
                         //draw our vertical lines s
                         graphics.DrawLine(gamePen, W / 5, 0, W / 5, L);
                         for (int i = 2; i < 5; i++)
@@ -585,9 +585,6 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
-                                //remove all the textboxes from the board 
-                                resetMediumPuzzleTextboxes();
-
                                 //replace all the squares with a "?" to hide the board from the player
                                 PointF point = new PointF(xPoints[xSub] * (W / 10), yPoints[ySub] * (L / 10));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
@@ -691,9 +688,6 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
-                                //remove all of the text boxes currently on the board 
-                                resetHardPuzzleTextboxes();
-
                                 //replace each square with a "?" to hide the board from the user
                                 PointF point = new PointF(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
@@ -2848,24 +2842,7 @@ namespace JennyCasey_Assignment5
                 changePaintColors(sender, e, c, font1, heightDivide, widthDivide, 5, 1, isAnswer, col3Counter, col3MediumSum, col3AnswerMed, columnSumBox, 5);
                 changePaintColors(sender, e, d, font1, heightDivide, widthDivide, 7, 1, isAnswer, col4Counter, col4MediumSum, col4AnswerMed, columnSumBox, 5);
                 changePaintColors(sender, e, f, font1, heightDivide, widthDivide, 9, 1, isAnswer, col5Counter, col5MediumSum, col5AnswerMed, columnSumBox, 5);
-                /*
-                //derived totals
-                PointF pointF1 = new PointF(columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(a, font1, color, pointF1);
-
-                PointF pointF2 = new PointF(3 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(b, font1, color, pointF2);
-
-                PointF pointF3 = new PointF(5 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(c, font1, color, pointF3);
-
-                PointF pointF4 = new PointF(7 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(d, font1, color, pointF4);
-
-                PointF pointF5 = new PointF(9 * columnSumBox.Width / widthDivide, columnSumBox.Height / heightDivide);
-                e.Graphics.DrawString(f, font1, color, pointF5);
-                */
-
+    
             }
             if (isRow)
             {
@@ -3570,6 +3547,9 @@ namespace JennyCasey_Assignment5
                 Paused = true;
                 tmrCounter.Enabled = false;
                 PauseResume_Button.Text = "Resume";
+                isDown = true;
+                Hide_Board = true;
+                          
                 if (gameDifficultyDropDown.Text == "Easy")
                 {
                     isEasyGame = true;
@@ -3593,19 +3573,37 @@ namespace JennyCasey_Assignment5
                 Hide_Board = true;
                 Complete = false;
                 canvas.Refresh();
-                refresh_totals_and_canvas();
-                //canvas.Refresh();
+                rowSumBox.Refresh();
+                columnSumBox.Refresh();
+                diagnal1SumBox.Refresh();
+                diagnal2SumBox.Refresh();
+                //refresh_totals_and_canvas();                
             }
             else if (PauseResume_Button.Text == "Resume")
             {
                 PauseResume_Button.Text = "Pause";
-                tmrCounter.Enabled = true;
                 isDown = true;
+                tmrCounter.Enabled = true;
+                Hide_Board = false;
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    isEasyGame = true;
+                }
+                if(gameDifficultyDropDown.Text == "Medium")
+                {
+                    isMediumGame = true;
+                }
+                if(gameDifficultyDropDown.Text == "Hard")
+                {
+                    isHardGame = true;
+                }
                 Hide_Board = false;
                 canvas.Refresh();
-                refresh_totals_and_canvas();
-                //canvas.Refresh();
-                //somehow return to version previous to the pause
+                rowSumBox.Refresh();
+                columnSumBox.Refresh();
+                diagnal1SumBox.Refresh();
+                diagnal2SumBox.Refresh();
+                //refresh_totals_and_canvas();
             }
         }
 
@@ -3834,6 +3832,7 @@ namespace JennyCasey_Assignment5
         {
             //refresh everything and clear out the textboxes since we are resetting
             refresh_totals_and_canvas();
+            highlightValue = false;
             tmrCounter.Enabled = false;
 
             //clear out the textboxes
