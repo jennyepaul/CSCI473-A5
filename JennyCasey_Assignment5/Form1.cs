@@ -198,6 +198,11 @@ namespace JennyCasey_Assignment5
        
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //clear all the lists that hold the values when we switch a game
+            gameValuesEasy1.Clear();
+            gameValuesMedium1.Clear();
+            gameValuesHard1.Clear();
+
             //depending what difficulty the user entered, we need to draw the corresponding playing field
             if (gameDifficultyDropDown.Text == "Easy")
             {
@@ -217,7 +222,7 @@ namespace JennyCasey_Assignment5
             else if (gameDifficultyDropDown.Text == "Medium")
             {
                 isMediumGame = true;
-
+               
                 //reset all counters from previous game
                 row1Counter = 0;
                 row2Counter = 0;
@@ -476,7 +481,6 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
-                                resetEasyPuzzleTextboxes();
                                 PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
                             }
@@ -586,7 +590,6 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
-                                resetMediumPuzzleTextboxes();
                                 //replace all the squares with a "?" to hide the board from the player
                                 PointF point = new PointF(xPoints[xSub] * (W / 10), yPoints[ySub] * (L / 10));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
@@ -690,7 +693,6 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
-                                resetHardPuzzleTextboxes();
                                 //replace each square with a "?" to hide the board from the user
                                 PointF point = new PointF(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
