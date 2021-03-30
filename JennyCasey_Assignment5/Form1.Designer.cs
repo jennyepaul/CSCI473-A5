@@ -44,6 +44,7 @@ namespace JennyCasey_Assignment5
             this.tmrCounter = new System.Windows.Forms.Timer(this.components);
             this.Timer_Label = new System.Windows.Forms.Label();
             this.resetPuzzleButton = new System.Windows.Forms.Button();
+            this.TF_Label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).BeginInit();
@@ -56,7 +57,7 @@ namespace JennyCasey_Assignment5
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1371, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1371, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -166,11 +167,20 @@ namespace JennyCasey_Assignment5
             this.resetPuzzleButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.resetPuzzleButton_MouseDown);
             this.resetPuzzleButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.resetPuzzleButton_MouseUp);
             // 
+            // TF_Label
+            // 
+            this.TF_Label.AutoSize = true;
+            this.TF_Label.Location = new System.Drawing.Point(13, 187);
+            this.TF_Label.Name = "TF_Label";
+            this.TF_Label.Size = new System.Drawing.Size(0, 17);
+            this.TF_Label.TabIndex = 12;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
+            this.Controls.Add(this.TF_Label);
             this.Controls.Add(this.resetPuzzleButton);
             this.Controls.Add(this.Timer_Label);
             this.Controls.Add(this.PauseResume_Button);
@@ -210,6 +220,7 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.Timer tmrCounter;
         private System.Windows.Forms.Label Timer_Label;
         private System.Windows.Forms.Button resetPuzzleButton;
+        private System.Windows.Forms.Label TF_Label;
     }
 }
 
