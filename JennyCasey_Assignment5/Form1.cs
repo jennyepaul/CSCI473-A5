@@ -14,7 +14,8 @@ namespace JennyCasey_Assignment5
     public partial class Form1 : Form
     {
         private static bool isRight = false;
-        private static string easyGame;  
+        private static string easyGame;
+        private static string easyGame1;
         private static string mediumGame;
         private static string hardGame;
         private static int gameBoardCount = 1;
@@ -43,6 +44,7 @@ namespace JennyCasey_Assignment5
         private static bool HardDiagnalCompleted1 = false;
         private static bool HardDiagnalCompleted2 = false;
         private static bool Complete = false;
+        private static bool Saved = false;
 
         //all totals variables  for an easy board
         private static int row1EasySum = 0;
@@ -151,6 +153,10 @@ namespace JennyCasey_Assignment5
         public static int easy_itr = 0;
         public static int med_itr = 0;
         public static int hard_itr = 0;
+
+        public static int newgame_itr = 0;
+
+        public static List<string> EasySaved = new List<string>();
 
         //counters to tell us when a user finished guessing in rows, columns, and diagnals
         public static int row1Counter = 0;
@@ -270,24 +276,27 @@ namespace JennyCasey_Assignment5
                 {
                     if (gameBoardCount == 1)
                     {
-                        easyGame = "../../easy/e1.txt";
+                        easyGame1 = "../../easy/e1.txt";
+                        easyGame = "../../easy/e1Save.txt";     
                     }
                     else if (gameBoardCount == 2)
                     {
-                        easyGame = "../../easy/e2.txt";
+                        easyGame1 = "../../easy/e2.txt";
+                        easyGame = "../../easy/e2Save.txt";
                         gameStatsEasy1.Clear();
                         gameValuesEasy1.Clear();
                         gameAnswersEasy1.Clear();
                     }
                     else if(gameBoardCount == 3)
                     {
-                        easyGame = "../../easy/e3.txt";
+                        easyGame1 = "../../easy/e3.txt";
+                        easyGame = "../../easy/e3Save.txt";
                         gameStatsEasy1.Clear();
                         gameValuesEasy1.Clear();
                         gameAnswersEasy1.Clear();
                     }
                     //read in the info from an easy 1  file and store into a list
-                    using (StreamReader inFile = new StreamReader(easyGame))
+                    using (StreamReader inFile = new StreamReader(easyGame1))
                     {
 
                         while ((gameRecordEasy1 = inFile.ReadLine()) != null)
@@ -309,6 +318,19 @@ namespace JennyCasey_Assignment5
                         for (int j = 0; j < 3; j++)
                         {
                             gameAnswersEasy1.Add(gameStatsEasy1[n][j]);
+                        }
+                    }
+                    //add the values from file into the easy saved file 
+                    for (int i = 0; i < 9; i++)
+                    {
+
+                        if (gameValuesEasy1[i] == '0')
+                        {
+                            EasySaved.Add("");
+                        }
+                        else
+                        {
+                            EasySaved.Add(gameValuesEasy1[i].ToString());
                         }
                     }
                 }
@@ -497,7 +519,19 @@ namespace JennyCasey_Assignment5
                                 Point point2 = new Point(xPoints[xSub] * (W / 6) - 10, yPoints[ySub] * (L / 6));
                                 TextBox txt = new TextBox();
                                 txt.Name = "easyPuzzleCell" + c;
-                                txt.Text = "";
+                                if (Saved)
+                                {
+                                    //if a value has been saved then load it into the textbox
+                                    txt.Text = EasySaved[c];
+                                    if (txt.Text != "")
+                                    {
+                                        txt.Enter += numberInput;
+                                    }
+                                }
+                                else
+                                {
+                                    txt.Text = "";
+                                }
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
@@ -1451,6 +1485,13 @@ namespace JennyCasey_Assignment5
                 isEasyBoard = true;
                 isMediumBoard = false;
                 isHardBoard = false;
+
+                //place the saved value into the textbox
+                string newValue = textbox.Text;
+                char oldvalue = textbox.Name.Last();
+                int index = int.Parse(oldvalue.ToString());
+                if (index != -1)
+                    EasySaved[index] = newValue;
             }
             if (textbox.Name.Contains("med"))
             {
@@ -2506,7 +2547,39 @@ namespace JennyCasey_Assignment5
         }
 
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
-        {
+        {        
+            if (newgame_itr > 0 && !Complete)
+            {
+                Saved = true;
+                save_puzzle();
+                Hide_Board = false;
+                isEasyGame = false;
+                isMediumGame = false;
+                isHardGame = false;
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    isEasyGame = true;
+                    isEasyBoard = true;
+                    resetMediumPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    isMediumGame = true;
+                    isMediumBoard = true;
+                    resetEasyPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    isHardGame = true;
+                    isHardBoard = true;
+                    resetEasyPuzzleTextboxes();
+                    resetMediumPuzzleTextboxes();
+                }
+            }
+
+            newgame_itr++;
             isNewGame = true;
             isEasyBoard = false;
             isMediumBoard = false;
@@ -3787,6 +3860,14 @@ namespace JennyCasey_Assignment5
             {
                 refresh_totals_and_canvas();
                 PauseResume_Button.Text = "Pause";
+                if (Saved)
+                {
+                    FileStream fileStream = File.Open(easyGame, FileMode.Open);
+                    fileStream.SetLength(0);
+                    fileStream.Close();
+                    EasySaved.Clear();
+                }
+                Saved = false;
                 Complete = false;
                 Hide_Board = false;
                 isEasyGame = false;
@@ -3876,6 +3957,34 @@ namespace JennyCasey_Assignment5
                     }
                 }
             }
+        }
+        private void save_puzzle()
+        {
+            if (EasySaved.Count != 0)
+            {
+                using (StreamWriter writer = new StreamWriter(easyGame))
+                {
+                    for (int i = 0; i < 9; i++)
+                    {
+                        writer.WriteLine(EasySaved[i]);
+                    }
+                    for (int n = 4; n < 7; n++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            writer.WriteLine(gameStatsEasy1[n][j]);
+                        }
+                    }
+                }
+            }
+            refresh_totals_and_canvas();
+            resetEasyPuzzleTextboxes();
+            resetMediumPuzzleTextboxes();
+            resetHardPuzzleTextboxes();
+            Timer_Label.Text = "";
+            canvas.Refresh();
+
+            readInFileInfo();
         }
     }
 }
