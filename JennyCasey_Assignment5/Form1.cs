@@ -3850,9 +3850,15 @@ namespace JennyCasey_Assignment5
             i = 0;
         }
 
-     
+        private void highLightWrongArea(PaintEventArgs e, int indexOfBox )
+        {
+            //will do the highlighting here, need to figure out what cell the 
+        }
         private void progressButton_Click(object sender, EventArgs e)
         {
+            int textboxesFilled = 0;
+            int textboxesRight = 0;
+            int wrongIndex = 0;
             //if it is the easy board then we need to go through the easy textboxes
             if (isEasyBoard)
             {
@@ -3862,18 +3868,31 @@ namespace JennyCasey_Assignment5
                     //if the textbox is not empty see if it is equal to answer key
                     if (!String.IsNullOrEmpty(generatedEasyTextboxes[i].Text))
                     {
-                        //if it is equal then print the message box
+                        //add one to textboxed fille
+                        textboxesFilled++;
                         if (generatedEasyTextboxes[i].Text == gameAnswersEasy1[i].ToString())
                         {
-                            isRight = true;
-                            if(isRight)
-                            {
-                                //this works just prints it for each time we are right, need it to print once
-                                //IE- if we are right for textbox1, and textbox2, it will pop up twice
-                                MessageBox.Show("You're doing great! Keep it up!");
-                            }
+                            //if the value is right, then add one to the counter, if the number of boxes filled
+                            //equals the number of textboxes that are right, the user has entered all right values
+                            //else they entered a wrong value
+                            textboxesRight++;
+                        }
+                        else
+                        {
+                            //highLightWrongArea(e, i);
+                            wrongIndex = i;
                         }
                     }
+                }
+                if(textboxesFilled == textboxesRight)
+                {
+                    MessageBox.Show("You're doing great! Keep it up!");
+                }
+                else
+                {
+                    //will do highlighting here
+                    //MessageBox.Show("Some of your values are not correct! :(");
+                    highLightWrongArea((PaintEventArgs) e, wrongIndex);
                 }
             }
         }
