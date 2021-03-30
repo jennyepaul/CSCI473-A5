@@ -13,7 +13,7 @@ namespace JennyCasey_Assignment5
 {
     public partial class Form1 : Form
     {
-        private static bool isRight = false;
+        private static bool highlightValue = false; 
         private static string easyGame;  
         private static string mediumGame;
         private static string hardGame;
@@ -143,6 +143,8 @@ namespace JennyCasey_Assignment5
         public static List<char> gameAnswersEasy1 = new List<char>();
         public static List<char> gameAnswersMed1 = new List<char>();
         public static List<char> gameAnswersHard1 = new List<char>();
+
+        public static List<int> textboxesGuessed = new List<int>();
 
 
         public static List<string> EasyTimer = new List<string>();
@@ -411,7 +413,9 @@ namespace JennyCasey_Assignment5
            
             //draw the board
             Graphics graphics = e.Graphics;
-            if (isDown)
+
+            //if the user pressed down or is reading 
+            if (isDown || highlightValue)
             {
                 using (Pen gamePen = new Pen(Color.Black))
                 {
@@ -704,6 +708,7 @@ namespace JennyCasey_Assignment5
                                     e.Graphics.DrawString(gameValuesHard1[z].ToString(), font1, Brushes.Black, point);
                                     TextBox txt = new TextBox();
                                     txt.Name = "hardPuzzleCell" + z;
+                                    generatedHardTextboxes.Add(txt);
                                     txt.Visible = false;
                                 }
                             }
@@ -741,6 +746,11 @@ namespace JennyCasey_Assignment5
                     {
                         canvas.Controls.Add(generatedHardTextboxes[i]);
                     }
+                }
+                //if we want to see our progress & we have wrong values then highlight that area on the board
+                if(highlightValue)
+                {
+                    highLightWrongArea(e);
                 }
             }
             isBoardLoaded = true;
@@ -3820,8 +3830,6 @@ namespace JennyCasey_Assignment5
 
             }
         }
-
-
         private void resetPuzzleButton_MouseDown(object sender, MouseEventArgs e)
         {
             //refresh everything and clear out the textboxes since we are resetting
@@ -3850,32 +3858,310 @@ namespace JennyCasey_Assignment5
             i = 0;
         }
 
-     
+        private void highLightWrongArea(PaintEventArgs e )
+        {
+            Graphics graphics = e.Graphics;
+
+            //go through the textbox guesses list, and depending what index value it is and what 
+            //game board we are checking progress on, we will highlight that row, diagnal, and column
+            foreach (int i in textboxesGuessed)
+            { 
+                Pen highlighter = new Pen(Color.FromArgb(128, 255, 255, 0), 15);
+                using (highlighter)
+                {
+                    highlighter.Width = 30;
+
+                    if (isEasyBoard)
+                    {
+                        //first row
+                        if (i >= 0 && i < 3)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, canvas.Height / 6 + 10, canvas.Width, canvas.Height / 6 + 10);
+                        }
+                        //second row
+                        if(i >=3 && i < 6)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 3 * canvas.Height / 6 + 10, canvas.Width, 3 * canvas.Height / 6 + 10);
+                        }
+                        //third row
+                        if (i >= 6 && i < 9)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 5 * canvas.Height / 6 + 10, canvas.Width, 5 * canvas.Height / 6 + 10);
+                        }
+                        //first column
+                        if (i == 0 ||  i == 3 || i == 6)
+                        {
+                            e.Graphics.DrawLine(highlighter, canvas.Width / 6, 0,  canvas.Width / 6, canvas.Height);
+                        }
+                        //second column
+                        if(i == 1 || i == 4 || i == 7)
+                        {
+                            e.Graphics.DrawLine(highlighter, 3 * canvas.Width / 6, 0, 3 * canvas.Width / 6, canvas.Height);
+                        }
+                        //third column
+                        if (i == 2 || i == 5 || i == 8)
+                        {
+                            e.Graphics.DrawLine(highlighter, 5 * canvas.Width / 6, 0, 5 * canvas.Width / 6, canvas.Height);
+                        }
+                        //diagnal 1
+                        if(i == 2 || i == 4 || i == 6)
+                        {
+                            e.Graphics.DrawLine(highlighter, canvas.Width , 0, 0, canvas.Height);
+                        }
+                        //diagnal 2
+                        if (i == 0|| i == 4 || i == 8)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 0, canvas.Width, canvas.Height);
+                        }
+                    }
+                    if(isMediumBoard)
+                    {
+                        //rows of medium board
+                        if(i >= 0 && i < 5)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, canvas.Height / 10 + 10, canvas.Width, canvas.Height / 10 + 10);
+                        }
+                        if(i >= 5 && i < 9)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 3 * canvas.Height / 10 + 10, canvas.Width, 3 * canvas.Height / 10 + 10);
+                        }
+                        if (i >= 9 && i < 14)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 5 * canvas.Height / 10 + 10, canvas.Width, 5 * canvas.Height / 10 + 10);
+                        }
+                        if (i >= 14 && i < 19)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 7 * canvas.Height / 10 + 10, canvas.Width, 7 * canvas.Height / 10 + 10);
+                        }
+                        if (i >= 19 && i < 25)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 9 *canvas.Height / 10 + 10, canvas.Width, 9 * canvas.Height / 10 + 10);
+                        }
+                        //columns of medium board
+                        if(i == 0 || i == 5 || i == 10 || i == 15 || i == 20)
+                        {
+                            e.Graphics.DrawLine(highlighter, canvas.Width / 10 + 5, 0, canvas.Width / 10 + 5, canvas.Height);
+                        }
+                        if (i == 1 || i == 6 || i == 11 || i == 16 || i == 21)
+                        {
+                            e.Graphics.DrawLine(highlighter, 3 * canvas.Width / 10 + 5, 0, 3 * canvas.Width / 10 + 5, canvas.Height);
+                        }
+                        if (i == 2 || i == 7 || i == 12 || i == 17 || i == 22)
+                        {
+                            e.Graphics.DrawLine(highlighter, 5 * canvas.Width / 10 + 5, 0, 5 * canvas.Width / 10 + 5, canvas.Height);
+                        }
+                        if (i == 3 || i == 8 || i == 13 || i == 18 || i == 23)
+                        {
+                            e.Graphics.DrawLine(highlighter, 7 * canvas.Width / 10 + 5, 0, 7 * canvas.Width / 10 + 5, canvas.Height);
+                        }
+                        if (i == 4 || i == 9 || i == 14 || i == 19 || i == 24)
+                        {
+                            e.Graphics.DrawLine(highlighter, 9 * canvas.Width / 10 + 5, 0, 9 * canvas.Width / 10 + 5, canvas.Height);
+                        }
+                        //diagnal 1
+                        if (i == 4 || i == 8 || i == 12 || i == 16 || i == 20)
+                        {
+                            e.Graphics.DrawLine(highlighter, canvas.Width, 0, 0, canvas.Height);
+                        }
+                        //diagnal 2
+                        if (i == 0 || i == 6 || i == 12 || i == 18 || i == 24)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 0, canvas.Width, canvas.Height);
+                        }
+                    }
+                    if(isHardBoard)
+                    {
+                        //rows
+                        if(i >= 0 && i < 7)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, canvas.Height / 14, canvas.Width, canvas.Height / 14);
+                        }
+                        if(i >= 7 && i < 14)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 3 * canvas.Height / 14, canvas.Width, 3 * canvas.Height / 14);
+                        }
+                        if (i >= 14 && i < 21)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 5 * canvas.Height / 14, canvas.Width, 5 * canvas.Height / 14);
+                        }
+                        if (i >= 21 && i < 28)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 7 * canvas.Height / 14, canvas.Width, 7 * canvas.Height / 14);
+                        }
+                        if (i >= 28 && i < 35)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 9 * canvas.Height / 14, canvas.Width, 9 * canvas.Height / 14);
+                        }
+                        if (i >= 35 && i < 42)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 11 * canvas.Height / 14, canvas.Width, 11 * canvas.Height / 14);
+                        }
+                        if (i >= 42 && i < 49)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 13 * canvas.Height / 14, canvas.Width, 13 * canvas.Height / 14);
+                        }
+                        //columns
+                        if(i == 0 || i == 7 || i == 14 || i == 21 || i == 28 || i == 35 || i == 42)
+                        {
+                            e.Graphics.DrawLine(highlighter, canvas.Width / 14 + 5 , 0,  canvas.Width /14 + 5, canvas.Height);
+                        }
+                        if (i == 1 || i == 8 || i == 15 || i == 22 || i == 29 || i == 36 || i == 43)
+                        {
+                            e.Graphics.DrawLine(highlighter, 3 * canvas.Width / 14 + 5, 0, 3 * canvas.Width / 14 + 5, canvas.Height);
+                        }
+                        if (i == 2 || i == 9 || i == 16 || i == 23 || i == 30 || i == 37 || i == 44)
+                        {
+                            e.Graphics.DrawLine(highlighter, 5 * canvas.Width / 14 + 5, 0, 5 * canvas.Width / 14 + 5, canvas.Height);
+                        }
+                        if (i == 3 || i == 10 || i == 17 || i == 24 || i == 31 || i == 38 || i == 45)
+                        {
+                            e.Graphics.DrawLine(highlighter, 7 * canvas.Width / 14 + 5, 0, 7 * canvas.Width / 14 + 5, canvas.Height);
+                        }
+                        if (i == 4 || i == 11 || i == 18 || i == 25 || i == 32 || i == 39 || i == 46)
+                        {
+                            e.Graphics.DrawLine(highlighter, 9 * canvas.Width / 14 + 5, 0, 9 * canvas.Width / 14 + 5, canvas.Height);
+                        }
+                        if (i == 5 || i == 12 || i == 19 || i == 26 || i == 33 || i == 40 || i == 47)
+                        {
+                            e.Graphics.DrawLine(highlighter, 11 * canvas.Width / 14 + 5, 0, 11 * canvas.Width / 14 + 5, canvas.Height);
+                        }
+                        if (i == 6 || i == 13 || i == 20 || i == 27 || i == 34 || i == 41 || i == 48)
+                        {
+                            e.Graphics.DrawLine(highlighter, 13 * canvas.Width / 14 + 5, 0, 13 * canvas.Width / 14 + 5, canvas.Height);
+                        }
+                        //diagnal 1
+                        if (i == 6 || i == 12 || i == 18 || i == 24 || i == 30 || i == 36 || i == 42)
+                        {
+                            e.Graphics.DrawLine(highlighter, canvas.Width, 0, 0, canvas.Height);
+                        }
+                        //diagnal 2
+                        if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48)
+                        {
+                            e.Graphics.DrawLine(highlighter, 0, 0, canvas.Width, canvas.Height);
+                        }
+
+                    }
+                }
+            }
+        }
+        
         private void progressButton_Click(object sender, EventArgs e)
         {
+            int textboxesFilled = 0;
+            int textboxesRight = 0;
+            //clear out the textboxes we have guessed
+            textboxesGuessed.Clear();
+
             //if it is the easy board then we need to go through the easy textboxes
             if (isEasyBoard)
             {
+                textboxesFilled = 0;
+                textboxesRight = 0;
+                isEasyGame = true;
                 for (int i = 0; i < generatedEasyTextboxes.Count; i++)
                 {
-                    isRight = false;
                     //if the textbox is not empty see if it is equal to answer key
                     if (!String.IsNullOrEmpty(generatedEasyTextboxes[i].Text))
                     {
-                        //if it is equal then print the message box
+                        //add one to textboxed fille
+                        textboxesFilled++;
                         if (generatedEasyTextboxes[i].Text == gameAnswersEasy1[i].ToString())
                         {
-                            isRight = true;
-                            if(isRight)
-                            {
-                                //this works just prints it for each time we are right, need it to print once
-                                //IE- if we are right for textbox1, and textbox2, it will pop up twice
-                                MessageBox.Show("You're doing great! Keep it up!");
-                            }
+                            //if the value is right, then add one to the counter, if the number of boxes filled
+                            //equals the number of textboxes that are right, the user has entered all right values
+                            //else they entered a wrong value
+                            textboxesRight++;
+                        }
+                        else
+                        {
+                            //add the index to the textbox
+                            textboxesGuessed.Add(i);
                         }
                     }
                 }
             }
+            if (isMediumBoard)
+            {
+                textboxesFilled = 0;
+                textboxesRight = 0;
+                isMediumGame = true;
+
+                for (int i = 0; i < generatedMedTextboxes.Count; i++)
+                {
+                    //if the textbox is not empty see if it is equal to answer key
+                    if (!String.IsNullOrEmpty(generatedMedTextboxes[i].Text))
+                    {
+                        //add one to textboxed fille
+                        textboxesFilled++;
+                        if (generatedMedTextboxes[i].Text == gameAnswersMed1[i].ToString())
+                        {
+                            //if the value is right, then add one to the counter, if the number of boxes filled
+                            //equals the number of textboxes that are right, the user has entered all right values
+                            //else they entered a wrong value
+                            textboxesRight++;
+                        }
+                        else
+                        {
+                            //add the index to the textbox
+                            textboxesGuessed.Add(i);
+                        }
+                    }
+                }
+            }
+            if(isHardBoard)
+            {
+                textboxesFilled = 0;
+                textboxesRight = 0;
+                isHardGame = true;
+
+                for (int i = 0; i < generatedHardTextboxes.Count; i++)
+                {
+                    //if the textbox is not empty see if it is equal to answer key
+                    if (!String.IsNullOrEmpty(generatedHardTextboxes[i].Text))
+                    {
+                        //add one to textboxed fille
+                        textboxesFilled++;
+                        if (generatedHardTextboxes[i].Text == gameAnswersHard1[i].ToString())
+                        {
+                            //if the value is right, then add one to the counter, if the number of boxes filled
+                            //equals the number of textboxes that are right, the user has entered all right values
+                            //else they entered a wrong value
+                            textboxesRight++;
+                        }
+                        else
+                        {
+                            //add the index to the textbox
+                            textboxesGuessed.Add(i);
+                        }
+                    }
+                }
+            }
+
+                //if the amount of boxes we filles equals the amount right, that means
+                //all our guesses have been right so send a messagebox message and refresh the board
+                //if we previously highlighted it to get rid of highlight bar
+                if (textboxesFilled == textboxesRight)
+                {
+                    if (textboxesFilled != 0)
+                    {
+                        MessageBox.Show("You're doing great! Keep it up!");
+                        if (highlightValue)
+                        {
+                            canvas.Refresh();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please enter a value guess before seeing progress!");
+                    }
+                }
+                else
+                {
+                    highlightValue = true;
+                    canvas.Refresh();
+                }
+            
+            
         }
     }
 }
