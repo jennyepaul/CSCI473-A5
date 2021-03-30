@@ -144,6 +144,8 @@ namespace JennyCasey_Assignment5
         public static List<char> gameAnswersMed1 = new List<char>();
         public static List<char> gameAnswersHard1 = new List<char>();
 
+        public static List<int> textboxesGuessed = new List<int>();
+
 
         public static List<string> EasyTimer = new List<string>();
         public static List<string> MedTimer = new List<string>();
@@ -3850,15 +3852,27 @@ namespace JennyCasey_Assignment5
             i = 0;
         }
 
-        private void highLightWrongArea(PaintEventArgs e, int indexOfBox )
+        private void highLightWrongArea(PaintEventArgs e )
         {
+            Graphics graphics = e.Graphics;
+
             //will do the highlighting here, need to figure out what cell the 
+            foreach (int i in textboxesGuessed)
+            {
+                using (Pen gamePen = new Pen(Color.LightYellow))
+                {
+                    gamePen.Width = 5;
+                    if (i >= 0 && i < 3)
+                    {
+                        e.Graphics.DrawLine(gamePen, 0, canvas.Width);
+                    }
+                }
+            }
         }
         private void progressButton_Click(object sender, EventArgs e)
         {
             int textboxesFilled = 0;
             int textboxesRight = 0;
-            int wrongIndex = 0;
             //if it is the easy board then we need to go through the easy textboxes
             if (isEasyBoard)
             {
@@ -3879,8 +3893,8 @@ namespace JennyCasey_Assignment5
                         }
                         else
                         {
-                            //highLightWrongArea(e, i);
-                            wrongIndex = i;
+                            //add the index to the textbox
+                            textboxesGuessed.Add(i);
                         }
                     }
                 }
@@ -3892,7 +3906,6 @@ namespace JennyCasey_Assignment5
                 {
                     //will do highlighting here
                     //MessageBox.Show("Some of your values are not correct! :(");
-                    highLightWrongArea((PaintEventArgs) e, wrongIndex);
                 }
             }
         }
