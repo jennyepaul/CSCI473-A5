@@ -13,6 +13,7 @@ namespace JennyCasey_Assignment5
 {
     public partial class Form1 : Form
     {
+        private static bool isRight = false;
         private static string easyGame;  
         private static string mediumGame;
         private static string hardGame;
@@ -192,6 +193,7 @@ namespace JennyCasey_Assignment5
             gameDifficultyDropDown.Items.Add("Hard");
         }
 
+       
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             //depending what difficulty the user entered, we need to draw the corresponding playing field
@@ -468,6 +470,7 @@ namespace JennyCasey_Assignment5
                         int ySub = 0;
                         for (int c = 0; c < 9; c++)
                         {
+                            
                             if (Hide_Board)
                             {
                                 resetEasyPuzzleTextboxes();
@@ -475,6 +478,7 @@ namespace JennyCasey_Assignment5
                                 PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
                             }
+                            
                             else if (gameValuesEasy1[c] != '0')
                             {
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
@@ -482,12 +486,14 @@ namespace JennyCasey_Assignment5
                                     //we have a value so print that to the board
                                     PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
                                     e.Graphics.DrawString(gameValuesEasy1[c].ToString(), font1, Brushes.Black, point);
-                                    
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "easyPuzzleCell" + c;
+                                    generatedEasyTextboxes.Add(txt);
+                                    txt.Visible = false;
                                 }
-
                             }
                             else
-                            {
+                            {   
                                 Point point2 = new Point(xPoints[xSub] * (W / 6) - 10, yPoints[ySub] * (L / 6));
                                 TextBox txt = new TextBox();
                                 txt.Name = "easyPuzzleCell" + c;
@@ -495,12 +501,12 @@ namespace JennyCasey_Assignment5
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
-                                txt.Font = new Font(txt.Font.FontFamily, 14);
-                                canvas.Controls.Add(txt);
+                                txt.Font = new Font(txt.Font.FontFamily, 14);                      
                                 generatedEasyTextboxes.Add(txt);
                                 txt.TextChanged += numberInput;
-                                txt.KeyDown += deletedValue;
+                                txt.KeyDown += deletedValue;                                
                             }
+                            
                             //increment the x subscript
                             xSub++;
                             //if the subcript is at 3, we finished a row, so reset the xsubscript
@@ -510,6 +516,13 @@ namespace JennyCasey_Assignment5
                                 xSub = 0;
                                 ySub++;
                             }
+                        }
+                        isEasyGame = false;
+
+                        //draw the textboxes on the board now
+                        for (int i = 0; i < generatedEasyTextboxes.Count; i++)
+                        {
+                            canvas.Controls.Add(generatedEasyTextboxes[i]);
                         }
                     }
                     else if (isMediumGame)
@@ -582,6 +595,10 @@ namespace JennyCasey_Assignment5
                                     //we have a value so print that to the board
                                     PointF point = new PointF(xPoints[xSub] * (W / 10), yPoints[ySub] * (L / 10));
                                     e.Graphics.DrawString(gameValuesMedium1[c].ToString(), font1, Brushes.Black, point);
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "medPuzzleCell" + c;
+                                    generatedMedTextboxes.Add(txt);
+                                    txt.Visible = false;
                                 }
                             }
                             else
@@ -594,8 +611,6 @@ namespace JennyCasey_Assignment5
                                 txt.Height = 30;
                                 txt.Width = 30;
                                 txt.Font = new Font(txt.Font.FontFamily, 14);
-                                //txt.Font.Size = 24
-                                canvas.Controls.Add(txt);
                                 generatedMedTextboxes.Add(txt);
                                 txt.TextChanged += numberInput;
                                 txt.KeyDown += deletedValue;
@@ -610,6 +625,13 @@ namespace JennyCasey_Assignment5
                                 xSub = 0;
                                 ySub++;
                             }
+                        }
+                        isMediumGame = false;
+
+                        //draw the textboxes on the board now
+                        for (int i = 0; i < generatedMedTextboxes.Count; i++)
+                        {
+                            canvas.Controls.Add(generatedMedTextboxes[i]);
                         }
                     }
                     else if (isHardGame)
@@ -628,8 +650,6 @@ namespace JennyCasey_Assignment5
                         {
                             graphics.DrawLine(gamePen, 0, (i * L / 7), W, (i * L / 7));
                         }
-
-                        PointF pointF1;
                         int x, y;
                         int[] xPoints = new int[8];
                         int[] yPoints = new int[8];
@@ -680,15 +700,16 @@ namespace JennyCasey_Assignment5
                                 using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                                 {
                                     //we have a value so print that to the board
-                                    PointF point = new PointF(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
+                                    PointF point = new PointF(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14) - 10);
                                     e.Graphics.DrawString(gameValuesHard1[z].ToString(), font1, Brushes.Black, point);
-
+                                    TextBox txt = new TextBox();
+                                    txt.Name = "hardPuzzleCell" + z;
+                                    txt.Visible = false;
                                 }
                             }
                             //else it IS a 0, so we want to allow the user to guess what the value could be
                             else
                             {
-
                                 //it is zero, so user has to figure out what the value is, so we need to add a textbox
                                 Point point2 = new Point(xPoints[xSub] * (W / 14) - 10, yPoints[ySub] * (L / 14) - 10);
                                 TextBox txt = new TextBox();
@@ -698,13 +719,9 @@ namespace JennyCasey_Assignment5
                                 txt.Height = 30;
                                 txt.Width = 30;
                                 txt.Font = new Font(txt.Font.FontFamily, 14);
-                                canvas.Controls.Add(txt);
                                 generatedHardTextboxes.Add(txt);
                                 txt.KeyDown += deletedValue;
-                                //add event when the user enters a number
                                 txt.TextChanged += numberInput;
-
-
                             }
                             //increment the x subscript
                             xSub++;
@@ -717,11 +734,19 @@ namespace JennyCasey_Assignment5
                             }
                         }
                     }
+                    isHardGame = false;
+
+                    //draw the textboxes on the board now
+                    for (int i = 0; i < generatedHardTextboxes.Count; i++)
+                    {
+                        canvas.Controls.Add(generatedHardTextboxes[i]);
+                    }
                 }
             }
-            isBoardLoaded = true;         
+            isBoardLoaded = true;
         }
-
+        
+     
         //these 3 functions calculate the ACTUAL answers for Easy board rows, columns, and diagnals
         private void calculateAnswerEasyRow(List<char> list1)
         {
@@ -2962,55 +2987,7 @@ namespace JennyCasey_Assignment5
                         else if (Complete == true)
                         {
                             paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 28, true, false,Brushes.DarkGray);
-
-                            /*
-                            PointF pointF1 = new PointF(rowSumBox.Width / 28, rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(rowSumBox.Width / 28, 3 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(rowSumBox.Width / 28, 5 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(rowSumBox.Width / 28, 7 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(rowSumBox.Width / 28, 9 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF5);
-
-                            PointF pointF6 = new PointF(rowSumBox.Width / 28, 11 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF6);
-
-                            PointF pointF7 = new PointF(rowSumBox.Width / 28, 13 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF7);
-                            */
-
                             paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 2, true, true, Brushes.Black);
-
-                            //WILL DELETE THIS ONCE THE HARD TIMER BUG GETS FIXED
-                            /*
-                            PointF pointF8 = new PointF(rowSumBox.Width / 2, rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(rowSumBox.Width / 2, 3 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(rowSumBox.Width / 2, 5 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF10);
-
-                            PointF pointF11 = new PointF(rowSumBox.Width / 2, 7 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF11);
-
-                            PointF pointF12 = new PointF(rowSumBox.Width / 2, 9 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF12);
-
-                            PointF pointF13 = new PointF(rowSumBox.Width / 2, 11 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF13);
-
-                            PointF pointF14 = new PointF(rowSumBox.Width / 2, 13 * rowSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF14);
-                            */
                         }
                         else
                         {
@@ -3136,52 +3113,6 @@ namespace JennyCasey_Assignment5
                             //derived totals
                             paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 14, false,false,  Brushes.DarkGray);
                             paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 2, 14, false, true, Brushes.Black);
-
-                            //WILL DELETE WHEN TIMER BUG FOR COMPLETING HARD GETS FIXED
-                            /*
-                            PointF pointF1 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF1);
-
-                            PointF pointF2 = new PointF(3 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF2);
-
-                            PointF pointF3 = new PointF(5 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF3);
-
-                            PointF pointF4 = new PointF(7 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF4);
-
-                            PointF pointF5 = new PointF(9 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF5);
-
-                            PointF pointF6 = new PointF(11 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF6);
-
-                            PointF pointF7 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 14);
-                            e.Graphics.DrawString("", font1, Brushes.DarkGray, pointF7);
-
-                            //actual totals
-                            PointF pointF8 = new PointF(columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF8);
-
-                            PointF pointF9 = new PointF(3 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF9);
-
-                            PointF pointF10 = new PointF(5 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF10);
-
-                            PointF pointF11 = new PointF(7 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF11);
-
-                            PointF pointF12 = new PointF(9 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF12);
-
-                            PointF pointF13 = new PointF(11 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF13);
-
-                            PointF pointF14 = new PointF(13 * columnSumBox.Width / 14, columnSumBox.Height / 2);
-                            e.Graphics.DrawString("", font1, Brushes.Black, pointF14);
-                            */
                         }
                         else
                         {
@@ -3917,6 +3848,34 @@ namespace JennyCasey_Assignment5
             //enable the timer and restart the clock
             tmrCounter.Enabled = true;
             i = 0;
+        }
+
+     
+        private void progressButton_Click(object sender, EventArgs e)
+        {
+            //if it is the easy board then we need to go through the easy textboxes
+            if (isEasyBoard)
+            {
+                for (int i = 0; i < generatedEasyTextboxes.Count; i++)
+                {
+                    isRight = false;
+                    //if the textbox is not empty see if it is equal to answer key
+                    if (!String.IsNullOrEmpty(generatedEasyTextboxes[i].Text))
+                    {
+                        //if it is equal then print the message box
+                        if (generatedEasyTextboxes[i].Text == gameAnswersEasy1[i].ToString())
+                        {
+                            isRight = true;
+                            if(isRight)
+                            {
+                                //this works just prints it for each time we are right, need it to print once
+                                //IE- if we are right for textbox1, and textbox2, it will pop up twice
+                                MessageBox.Show("You're doing great! Keep it up!");
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
