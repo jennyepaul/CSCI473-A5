@@ -44,6 +44,7 @@ namespace JennyCasey_Assignment5
             this.tmrCounter = new System.Windows.Forms.Timer(this.components);
             this.Timer_Label = new System.Windows.Forms.Label();
             this.resetPuzzleButton = new System.Windows.Forms.Button();
+            this.progressButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).BeginInit();
@@ -157,7 +158,7 @@ namespace JennyCasey_Assignment5
             // 
             // resetPuzzleButton
             // 
-            this.resetPuzzleButton.Location = new System.Drawing.Point(1020, 2);
+            this.resetPuzzleButton.Location = new System.Drawing.Point(1047, 2);
             this.resetPuzzleButton.Name = "resetPuzzleButton";
             this.resetPuzzleButton.Size = new System.Drawing.Size(129, 45);
             this.resetPuzzleButton.TabIndex = 11;
@@ -166,11 +167,22 @@ namespace JennyCasey_Assignment5
             this.resetPuzzleButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.resetPuzzleButton_MouseDown);
             this.resetPuzzleButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.resetPuzzleButton_MouseUp);
             // 
+            // progressButton
+            // 
+            this.progressButton.Location = new System.Drawing.Point(12, 589);
+            this.progressButton.Name = "progressButton";
+            this.progressButton.Size = new System.Drawing.Size(121, 65);
+            this.progressButton.TabIndex = 12;
+            this.progressButton.Text = "Progress";
+            this.progressButton.UseVisualStyleBackColor = true;
+            this.progressButton.Click += new System.EventHandler(this.progressButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
+            this.Controls.Add(this.progressButton);
             this.Controls.Add(this.resetPuzzleButton);
             this.Controls.Add(this.Timer_Label);
             this.Controls.Add(this.PauseResume_Button);
@@ -210,6 +222,7 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.Timer tmrCounter;
         private System.Windows.Forms.Label Timer_Label;
         private System.Windows.Forms.Button resetPuzzleButton;
+        private System.Windows.Forms.Button progressButton;
     }
 }
 
