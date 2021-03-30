@@ -476,6 +476,7 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
+                                resetEasyPuzzleTextboxes();
                                 PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
                             }
@@ -585,6 +586,7 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
+                                resetMediumPuzzleTextboxes();
                                 //replace all the squares with a "?" to hide the board from the player
                                 PointF point = new PointF(xPoints[xSub] * (W / 10), yPoints[ySub] * (L / 10));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
@@ -688,6 +690,7 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
+                                resetHardPuzzleTextboxes();
                                 //replace each square with a "?" to hide the board from the user
                                 PointF point = new PointF(xPoints[xSub] * (W / 14), yPoints[ySub] * (L / 14));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
