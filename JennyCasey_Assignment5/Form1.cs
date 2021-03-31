@@ -13,6 +13,7 @@ namespace JennyCasey_Assignment5
 {
     public partial class Form1 : Form
     {
+
         private static bool highlightValue = false; 
         private static string easyGame;
         private static string easyGame1;
@@ -201,8 +202,8 @@ namespace JennyCasey_Assignment5
             gameDifficultyDropDown.Items.Add("Medium");
             gameDifficultyDropDown.Items.Add("Hard");
         }
+      
 
-       
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             //clear all the lists that hold the values when we switch a game
@@ -669,7 +670,7 @@ namespace JennyCasey_Assignment5
                                     txt.Text = MediumSaved[c];
                                     if (txt.Text != "")
                                     {
-                                        txt.Enter += numberInput;
+                                        txt.Click += numberInput;
                                     }
                                 }
                                 else
