@@ -20,6 +20,7 @@ namespace JennyCasey_Assignment5
         private static string mediumGame;
         private static string mediumGame1;
         private static string hardGame;
+        private static string hardGame1;
         private static int gameBoardCount = 1;
         private static bool isNewGame = false;
         private static bool isEasyGame = false;
@@ -161,6 +162,7 @@ namespace JennyCasey_Assignment5
 
         public static List<string> EasySaved = new List<string>();
         public static List<string> MediumSaved = new List<string>();
+        public static List<string> HardSaved = new List<string>();
 
         //counters to tell us when a user finished guessing in rows, columns, and diagnals
         public static int row1Counter = 0;
@@ -408,24 +410,27 @@ namespace JennyCasey_Assignment5
                 {
                     if (gameBoardCount == 1)
                     {
-                        hardGame = "../../hard/h1.txt";
+                        hardGame1 = "../../hard/h1.txt";
+                        hardGame = "../../hard/h1Save.txt";
                     }
                     else if (gameBoardCount == 2)
                     {
-                        hardGame = "../../hard/h2.txt";
+                        hardGame1 = "../../hard/h2.txt";
+                        hardGame = "../../hard/h2Save.txt";
                         gameStatsHard1.Clear();
                         gameValuesHard1.Clear();
                         gameAnswersHard1.Clear();
                     }
                     else if (gameBoardCount == 3)
                     {
-                        hardGame = "../../hard/h3.txt";
+                        hardGame1 = "../../hard/h3.txt";
+                        hardGame = "../../hard/h3Save.txt";
                         gameStatsHard1.Clear();
                         gameValuesHard1.Clear();
                         gameAnswersHard1.Clear();
                     }
                     //read in the info from an hard 1  file and store into a list
-                    using (StreamReader inFile = new StreamReader(hardGame))
+                    using (StreamReader inFile = new StreamReader(hardGame1))
                     {
                         while ((gameRecordHard1 = inFile.ReadLine()) != null)
                         {
@@ -446,6 +451,17 @@ namespace JennyCasey_Assignment5
                         for (int j = 0; j < 7; j++)
                         {
                             gameAnswersHard1.Add(gameStatsHard1[n][j]);
+                        }
+                    }
+                    for (int i = 0; i < 49; i++)
+                    {
+                        if (gameValuesHard1[i] == '0')
+                        {
+                            HardSaved.Add("");
+                        }
+                        else
+                        {
+                            HardSaved.Add(gameValuesHard1[i].ToString());
                         }
                     }
                 }
@@ -782,7 +798,19 @@ namespace JennyCasey_Assignment5
                                 Point point2 = new Point(xPoints[xSub] * (W / 14) - 10, yPoints[ySub] * (L / 14) - 10);
                                 TextBox txt = new TextBox();
                                 txt.Name = "hardPuzzleCell" + z;
-                                txt.Text = "";
+                                if (Saved)
+                                {
+                                    //if a value has been saved then load it into the textbox	
+                                    txt.Text = HardSaved[z];
+                                    if (txt.Text != "")
+                                    {
+                                        txt.Click += numberInput;
+                                    }
+                                }
+                                else
+                                {
+                                    txt.Text = "";
+                                }
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
@@ -1564,6 +1592,28 @@ namespace JennyCasey_Assignment5
                 isHardBoard = true;
                 isMediumBoard = false;
                 isEasyBoard = false;
+
+                //place the saved value into the textbox	
+                string newValue = textbox.Text;
+                char oldvalue = textbox.Name.Last();
+                string name = textbox.Name;
+                string sub_name = name.Substring(name.Length - 2);
+                int num = 0;
+                bool can_convert = int.TryParse(sub_name, out num);
+                int index;
+                if (can_convert)
+                {
+                    index = int.Parse(sub_name);
+                }
+                else
+                {
+                    index = int.Parse(oldvalue.ToString());
+                }
+
+                if (index != -1)
+                {
+                    HardSaved[index] = newValue;
+                }
             }
             
             //if we can parse it to an integer then do math because it is a valid number
@@ -3942,14 +3992,29 @@ namespace JennyCasey_Assignment5
                 PauseResume_Button.Text = "Pause";
                 if (Saved)
                 {
-                    FileStream easyfileStream = File.Open(easyGame, FileMode.Open);
-                    easyfileStream.SetLength(0);
-                    easyfileStream.Close();
-                    EasySaved.Clear();
-                    FileStream medfileStream = File.Open(mediumGame, FileMode.Open);
-                    medfileStream.SetLength(0);
-                    medfileStream.Close();
-                    MediumSaved.Clear();
+                    if (!string.IsNullOrEmpty(easyGame))
+                    {
+                        FileStream easyfileStream = File.Open(easyGame, FileMode.Open);
+                        easyfileStream.SetLength(0);
+                        easyfileStream.Close();
+                        EasySaved.Clear();
+                    }
+
+                    if (!string.IsNullOrEmpty(mediumGame))
+                    {
+                        FileStream medfileStream = File.Open(mediumGame, FileMode.Open);
+                        medfileStream.SetLength(0);
+                        medfileStream.Close();
+                        MediumSaved.Clear();
+                    }
+
+                    if (!string.IsNullOrEmpty(hardGame))
+                    {
+                        FileStream hardfileStream = File.Open(hardGame, FileMode.Open);
+                        hardfileStream.SetLength(0);
+                        hardfileStream.Close();
+                        HardSaved.Clear();
+                    }
                 }
                 Saved = false;
                 Complete = false;
@@ -4351,6 +4416,24 @@ namespace JennyCasey_Assignment5
                         for (int j = 0; j < 5; j++)
                         {
                             writer.WriteLine(gameStatsMedium1[n][j]);
+                        }
+                    }
+                }
+            }
+            if (HardSaved.Count != 0 && isHardGame)
+            {
+                using (StreamWriter writer = new StreamWriter(hardGame))
+                {
+                    for (int i = 0; i < 49; i++)
+                    {
+                        writer.WriteLine(HardSaved[i]);
+                    }
+
+                    for (int n = 8; n < 15; n++)
+                    {
+                        for (int j = 0; j < 7; j++)
+                        {
+                            writer.WriteLine(gameStatsHard1[n][j]);
                         }
                     }
                 }
