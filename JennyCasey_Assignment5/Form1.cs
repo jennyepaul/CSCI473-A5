@@ -13,11 +13,17 @@ namespace JennyCasey_Assignment5
 {
     public partial class Form1 : Form
     {
-        private static bool highlightValue = false; 
-        private static string easyGame;  
+
+        private static bool highlightValue = false;
+        private static string easyGame;
+        private static string easyGame1;
         private static string mediumGame;
+        private static string mediumGame1;
         private static string hardGame;
-        private static int gameBoardCount = 1;
+        private static string hardGame1;
+        private static int EasygameBoardCount = 1;
+        private static int MediumgameBoardCount = 1;
+        private static int HardgameBoardCount = 1;
         private static bool isNewGame = false;
         private static bool isEasyGame = false;
         private static bool isMediumGame = false;
@@ -43,6 +49,10 @@ namespace JennyCasey_Assignment5
         private static bool HardDiagnalCompleted1 = false;
         private static bool HardDiagnalCompleted2 = false;
         private static bool Complete = false;
+        private static bool EasySavedFlag = false;
+        private static bool MediumSavedFlag = false;
+        private static bool HardSavedFlag = false;
+
 
         //all totals variables  for an easy board
         private static int row1EasySum = 0;
@@ -58,8 +68,8 @@ namespace JennyCasey_Assignment5
         private static int row2AnswerEasy = 0;
         private static int row3AnswerEasy = 0;
         private static int col1AnswerEasy = 0;
-        private static int col2AnswerEasy= 0;
-        private static int col3AnswerEasy= 0;
+        private static int col2AnswerEasy = 0;
+        private static int col3AnswerEasy = 0;
         private static int diagnal1AnswerEasy = 0;
         private static int diagnal2AnswerEasy = 0;
 
@@ -118,7 +128,7 @@ namespace JennyCasey_Assignment5
         private static int row5AnswerHard = 0;
         private static int row6AnswerHard = 0;
         private static int row7AnswerHard = 0;
-        private static int col1AnswerHard= 0;
+        private static int col1AnswerHard = 0;
         private static int col2AnswerHard = 0;
         private static int col3AnswerHard = 0;
         private static int col4AnswerHard = 0;
@@ -153,6 +163,11 @@ namespace JennyCasey_Assignment5
         public static int easy_itr = 0;
         public static int med_itr = 0;
         public static int hard_itr = 0;
+        public static int newgame_itr = 0;
+
+        public static List<string> EasySaved = new List<string>();
+        public static List<string> MediumSaved = new List<string>();
+        public static List<string> HardSaved = new List<string>();
 
         //counters to tell us when a user finished guessing in rows, columns, and diagnals
         public static int row1Counter = 0;
@@ -195,14 +210,17 @@ namespace JennyCasey_Assignment5
             gameDifficultyDropDown.Items.Add("Hard");
         }
 
-       
+
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             //clear all the lists that hold the values when we switch a game
-            gameValuesEasy1.Clear();
-            gameValuesMedium1.Clear();
-            gameValuesHard1.Clear();
+            //gameValuesEasy1.Clear();
+            //gameValuesMedium1.Clear();
+            //gameValuesHard1.Clear();
+
+            //clearing flags that start drawing process to eliminate any possibly crashing from using previous board info
             isDown = false;
+            highlightValue = false;
 
             //depending what difficulty the user entered, we need to draw the corresponding playing field
             if (gameDifficultyDropDown.Text == "Easy")
@@ -223,7 +241,7 @@ namespace JennyCasey_Assignment5
             else if (gameDifficultyDropDown.Text == "Medium")
             {
                 isMediumGame = true;
-               
+
                 //reset all counters from previous game
                 row1Counter = 0;
                 row2Counter = 0;
@@ -276,26 +294,29 @@ namespace JennyCasey_Assignment5
                 //solved e1 (count == 2), then we load easy puzzle 2
                 if (isEasyGame)
                 {
-                    if (gameBoardCount == 1)
+                    if (EasygameBoardCount == 1)
                     {
-                        easyGame = "../../easy/e1.txt";
+                        easyGame1 = "../../easy/e1.txt";
+                        easyGame = "../../easy/e1Save.txt";
                     }
-                    else if (gameBoardCount == 2)
+                    else if (EasygameBoardCount == 2)
                     {
-                        easyGame = "../../easy/e2.txt";
+                        easyGame1 = "../../easy/e2.txt";
+                        easyGame = "../../easy/e2Save.txt";
                         gameStatsEasy1.Clear();
                         gameValuesEasy1.Clear();
                         gameAnswersEasy1.Clear();
                     }
-                    else if(gameBoardCount == 3)
+                    else if (EasygameBoardCount == 3)
                     {
-                        easyGame = "../../easy/e3.txt";
+                        easyGame1 = "../../easy/e3.txt";
+                        easyGame = "../../easy/e3Save.txt";
                         gameStatsEasy1.Clear();
                         gameValuesEasy1.Clear();
                         gameAnswersEasy1.Clear();
                     }
                     //read in the info from an easy 1  file and store into a list
-                    using (StreamReader inFile = new StreamReader(easyGame))
+                    using (StreamReader inFile = new StreamReader(easyGame1))
                     {
 
                         while ((gameRecordEasy1 = inFile.ReadLine()) != null)
@@ -319,30 +340,45 @@ namespace JennyCasey_Assignment5
                             gameAnswersEasy1.Add(gameStatsEasy1[n][j]);
                         }
                     }
+                    //add the values from file into the easy saved file 	
+                    for (int i = 0; i < 9; i++)
+                    {
+                        if (gameValuesEasy1[i] == '0')
+                        {
+                            EasySaved.Add("");
+                        }
+                        else
+                        {
+                            EasySaved.Add(gameValuesEasy1[i].ToString());
+                        }
+                    }
                 }
                 if (isMediumGame)
-                { 
-                    if (gameBoardCount == 1)
+                {
+                    if (MediumgameBoardCount == 1)
                     {
-                        mediumGame = "../../medium/m1.txt";
+                        mediumGame1 = "../../medium/m1.txt";
+                        mediumGame = "../../medium/m1Save.txt";
                     }
-                    else if (gameBoardCount == 2)
+                    else if (MediumgameBoardCount == 2)
                     {
-                        mediumGame = "../../medium/m2.txt";
+                        mediumGame1 = "../../medium/m2.txt";
+                        mediumGame = "../../medium/m2Save.txt";
                         gameStatsMedium1.Clear();
                         gameValuesMedium1.Clear();
                         gameAnswersMed1.Clear();
                     }
-                    else if (gameBoardCount == 3)
+                    else if (MediumgameBoardCount == 3)
                     {
-                        mediumGame = "../../medium/m3.txt";
+                        mediumGame1 = "../../medium/m3.txt";
+                        mediumGame = "../../medium/m3Save.txt";
                         gameStatsMedium1.Clear();
                         gameValuesMedium1.Clear();
                         gameAnswersMed1.Clear();
                     }
-                
+
                     //read in the info from an medium 1  file and store into a list
-                    using (StreamReader inFile = new StreamReader(mediumGame))
+                    using (StreamReader inFile = new StreamReader(mediumGame1))
                     {
                         while ((gameRecordMedium1 = inFile.ReadLine()) != null)
                         {
@@ -365,29 +401,44 @@ namespace JennyCasey_Assignment5
                             gameAnswersMed1.Add(gameStatsMedium1[n][j]);
                         }
                     }
+                    //put values in the medium saved list	
+                    for (int i = 0; i < 25; i++)
+                    {
+                        if (gameValuesMedium1[i] == '0')
+                        {
+                            MediumSaved.Add("");
+                        }
+                        else
+                        {
+                            MediumSaved.Add(gameValuesMedium1[i].ToString());
+                        }
+                    }
                 }
                 if (isHardGame)
                 {
-                    if (gameBoardCount == 1)
+                    if (HardgameBoardCount == 1)
                     {
-                        hardGame = "../../hard/h1.txt";
+                        hardGame1 = "../../hard/h1.txt";
+                        hardGame = "../../hard/h1Save.txt";
                     }
-                    else if (gameBoardCount == 2)
+                    else if (HardgameBoardCount == 2)
                     {
-                        hardGame = "../../hard/h2.txt";
+                        hardGame1 = "../../hard/h2.txt";
+                        hardGame = "../../hard/h2Save.txt";
                         gameStatsHard1.Clear();
                         gameValuesHard1.Clear();
                         gameAnswersHard1.Clear();
                     }
-                    else if (gameBoardCount == 3)
+                    else if (HardgameBoardCount == 3)
                     {
-                        hardGame = "../../hard/h3.txt";
+                        hardGame1 = "../../hard/h3.txt";
+                        hardGame = "../../hard/h3Save.txt";
                         gameStatsHard1.Clear();
                         gameValuesHard1.Clear();
                         gameAnswersHard1.Clear();
                     }
                     //read in the info from an hard 1  file and store into a list
-                    using (StreamReader inFile = new StreamReader(hardGame))
+                    using (StreamReader inFile = new StreamReader(hardGame1))
                     {
                         while ((gameRecordHard1 = inFile.ReadLine()) != null)
                         {
@@ -410,13 +461,24 @@ namespace JennyCasey_Assignment5
                             gameAnswersHard1.Add(gameStatsHard1[n][j]);
                         }
                     }
+                    for (int i = 0; i < 49; i++)
+                    {
+                        if (gameValuesHard1[i] == '0')
+                        {
+                            HardSaved.Add("");
+                        }
+                        else
+                        {
+                            HardSaved.Add(gameValuesHard1[i].ToString());
+                        }
+                    }
                 }
             }
         }
         private void canvas_Paint(object sender, PaintEventArgs e)
         {
             readInFileInfo();
-           
+
             //draw the board
             Graphics graphics = e.Graphics;
 
@@ -482,6 +544,7 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
+
                                 PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
                             }
@@ -500,18 +563,30 @@ namespace JennyCasey_Assignment5
                                 }
                             }
                             else
-                            {   
+                            {
                                 Point point2 = new Point(xPoints[xSub] * (W / 6) - 10, yPoints[ySub] * (L / 6));
                                 TextBox txt = new TextBox();
                                 txt.Name = "easyPuzzleCell" + c;
-                                txt.Text = "";
+                                if (EasySavedFlag)
+                                {
+                                    //if a value has been saved then load it into the textbox	
+                                    txt.Text = EasySaved[c];
+                                    if (txt.Text != "")
+                                    {
+                                        txt.Click += numberInput;
+                                    }
+                                }
+                                else
+                                {
+                                    txt.Text = "";
+                                }
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
-                                txt.Font = new Font(txt.Font.FontFamily, 14);                      
+                                txt.Font = new Font(txt.Font.FontFamily, 14);
                                 generatedEasyTextboxes.Add(txt);
                                 txt.TextChanged += numberInput;
-                                txt.KeyDown += deletedValue;                                
+                                txt.KeyDown += deletedValue;
                             }
                             //increment the x subscript
                             xSub++;
@@ -531,7 +606,7 @@ namespace JennyCasey_Assignment5
                             canvas.Controls.Add(generatedEasyTextboxes[i]);
                         }
 
-                        
+
                     }
                     else if (isMediumGame)
                     {
@@ -613,7 +688,19 @@ namespace JennyCasey_Assignment5
                                 Point point2 = new Point(xPoints[xSub] * (W / 10) - 10, yPoints[ySub] * (L / 10));
                                 TextBox txt = new TextBox();
                                 txt.Name = "medPuzzleCell" + c;
-                                txt.Text = "";
+                                if (MediumSavedFlag)
+                                {
+                                    //if a value has been saved then load it into the textbox	
+                                    txt.Text = MediumSaved[c];
+                                    if (txt.Text != "")
+                                    {
+                                        txt.Click += numberInput;
+                                    }
+                                }
+                                else
+                                {
+                                    txt.Text = "";
+                                }
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
@@ -719,7 +806,19 @@ namespace JennyCasey_Assignment5
                                 Point point2 = new Point(xPoints[xSub] * (W / 14) - 10, yPoints[ySub] * (L / 14) - 10);
                                 TextBox txt = new TextBox();
                                 txt.Name = "hardPuzzleCell" + z;
-                                txt.Text = "";
+                                if (HardSavedFlag)
+                                {
+                                    //if a value has been saved then load it into the textbox	
+                                    txt.Text = HardSaved[z];
+                                    if (txt.Text != "")
+                                    {
+                                        txt.Click += numberInput;
+                                    }
+                                }
+                                else
+                                {
+                                    txt.Text = "";
+                                }
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
@@ -748,14 +847,14 @@ namespace JennyCasey_Assignment5
                     }
                 }
                 //if we want to see our progress & we have wrong values then highlight that area on the board
-                if(highlightValue)
+                if (highlightValue)
                 {
                     highLightWrongArea(e);
                 }
             }
             isBoardLoaded = true;
         }
-         
+
         //these 3 functions calculate the ACTUAL answers for Easy board rows, columns, and diagnals
         private void calculateAnswerEasyRow(List<char> list1)
         {
@@ -838,7 +937,7 @@ namespace JennyCasey_Assignment5
                 //if the value is not 0, then add it to the counter for rows since theres a value
                 //once we hit 3 values the row is done being guessed/completed and the total will be
                 //red or green depending how accurate it is compared to the actual total
-                if(list1[i] != '0')
+                if (list1[i] != '0')
                 {
                     row1Counter += 1;
                 }
@@ -846,7 +945,7 @@ namespace JennyCasey_Assignment5
 
             for (int i = 3; i < 6; i++)
             {
-                
+
                 val = int.Parse(list1[i].ToString());
                 row2EasySum += val;
                 if (list1[i] != '0')
@@ -874,7 +973,7 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 col1EasySum += val;
-                if(list1[i] != '0')
+                if (list1[i] != '0')
                 {
                     col1Counter += 1;
                 }
@@ -910,7 +1009,7 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 diagnal1EasySum += val;
-                if(list1[i] != '0')
+                if (list1[i] != '0')
                 {
                     diagnal1Counter++;
                 }
@@ -1020,7 +1119,7 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 row1MediumSum += val;
-                if(list1[i] != '0')
+                if (list1[i] != '0')
                 {
                     row1Counter++;
                 }
@@ -1069,17 +1168,17 @@ namespace JennyCasey_Assignment5
         {
             int val;
             //go through the medium board
-            for (int i = 0; i < 21; i+=5)
+            for (int i = 0; i < 21; i += 5)
             {
                 val = int.Parse(list1[i].ToString());
                 col1MediumSum += val;
-                if(list1[i] != '0')
+                if (list1[i] != '0')
                 {
                     col1Counter++;
                 }
             }
 
-            for (int i = 1; i < 22; i+=5)
+            for (int i = 1; i < 22; i += 5)
             {
                 val = int.Parse(list1[i].ToString());
                 col2MediumSum += val;
@@ -1089,7 +1188,7 @@ namespace JennyCasey_Assignment5
                 }
             }
 
-            for (int i = 2; i < 23; i+=5)
+            for (int i = 2; i < 23; i += 5)
             {
                 val = int.Parse(list1[i].ToString());
                 col3MediumSum += val;
@@ -1098,7 +1197,7 @@ namespace JennyCasey_Assignment5
                     col3Counter++;
                 }
             }
-            for (int i = 3; i < 24; i+=5)
+            for (int i = 3; i < 24; i += 5)
             {
                 val = int.Parse(list1[i].ToString());
                 col4MediumSum += val;
@@ -1107,7 +1206,7 @@ namespace JennyCasey_Assignment5
                     col4Counter++;
                 }
             }
-            for (int i = 4; i < 25; i+=5)
+            for (int i = 4; i < 25; i += 5)
             {
                 val = int.Parse(list1[i].ToString());
                 col5MediumSum += val;
@@ -1249,7 +1348,7 @@ namespace JennyCasey_Assignment5
             {
                 val = int.Parse(list1[i].ToString());
                 row1HardSum += val;
-                if(list1[i] != '0')
+                if (list1[i] != '0')
                 {
                     row1Counter++;
                 }
@@ -1315,17 +1414,17 @@ namespace JennyCasey_Assignment5
         {
             int val;
             //go through the hard board columns and calculate the initial values 
-            for (int i = 0; i < 43; i+=7)
+            for (int i = 0; i < 43; i += 7)
             {
                 val = int.Parse(list1[i].ToString());
                 col1HardSum += val;
-                if(list1[i] != '0')
+                if (list1[i] != '0')
                 {
                     col1Counter++;
                 }
             }
 
-            for (int i = 1; i < 44; i+=7)
+            for (int i = 1; i < 44; i += 7)
             {
                 val = int.Parse(list1[i].ToString());
                 col2HardSum += val;
@@ -1335,7 +1434,7 @@ namespace JennyCasey_Assignment5
                 }
             }
 
-            for (int i = 2; i < 45; i+=7)
+            for (int i = 2; i < 45; i += 7)
             {
                 val = int.Parse(list1[i].ToString());
                 col3HardSum += val;
@@ -1344,7 +1443,7 @@ namespace JennyCasey_Assignment5
                     col3Counter++;
                 }
             }
-            for (int i = 3; i < 46; i+=7)
+            for (int i = 3; i < 46; i += 7)
             {
                 val = int.Parse(list1[i].ToString());
                 col4HardSum += val;
@@ -1353,7 +1452,7 @@ namespace JennyCasey_Assignment5
                     col4Counter++;
                 }
             }
-            for (int i = 4; i < 47; i+=7)
+            for (int i = 4; i < 47; i += 7)
             {
                 val = int.Parse(list1[i].ToString());
                 col5HardSum += val;
@@ -1362,7 +1461,7 @@ namespace JennyCasey_Assignment5
                     col5Counter++;
                 }
             }
-            for (int i = 5; i < 48; i+=7)
+            for (int i = 5; i < 48; i += 7)
             {
                 val = int.Parse(list1[i].ToString());
                 col6HardSum += val;
@@ -1371,7 +1470,7 @@ namespace JennyCasey_Assignment5
                     col6Counter++;
                 }
             }
-            for (int i = 6; i < 49; i+=7)
+            for (int i = 6; i < 49; i += 7)
             {
                 val = int.Parse(list1[i].ToString());
                 col7HardSum += val;
@@ -1381,7 +1480,7 @@ namespace JennyCasey_Assignment5
                 }
             }
         }
-        private void calculateInitialHardDiagnalSums(List <char> list1)
+        private void calculateInitialHardDiagnalSums(List<char> list1)
         {
             int val;
 
@@ -1407,19 +1506,19 @@ namespace JennyCasey_Assignment5
                 }
             }
         }
-        
+
         //if the user deletes a value, then subtract that from the derived totals
         private void deletedValue(object sender, KeyEventArgs e)
         {
-            
+
             TextBox textbox = (TextBox)sender;
-            int value; 
+            int value;
 
             //if they deleted a value from the board while guessing
             //we need to update the totals to reflect that
             if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
             {
-                isDeletedValue = true;                
+                isDeletedValue = true;
                 //set flags based on what board we are building
                 if (textbox.Name.Contains("easy"))
                 {
@@ -1446,9 +1545,9 @@ namespace JennyCasey_Assignment5
                 }
             }
         }
-        
+
         //whenever a number input changes on the board, we need to recalculate the derived totals
-        private void numberInput(object sender,  EventArgs e)
+        private void numberInput(object sender, EventArgs e)
         {
             int value;
             TextBox textbox = (TextBox)sender;
@@ -1458,20 +1557,73 @@ namespace JennyCasey_Assignment5
                 isEasyBoard = true;
                 isMediumBoard = false;
                 isHardBoard = false;
+
+                //place the saved value into the textbox	
+                string newValue = textbox.Text;
+                char oldvalue = textbox.Name.Last();
+                int index = int.Parse(oldvalue.ToString());
+                if (index != -1)
+                {
+                    EasySaved[index] = newValue;
+                }
             }
             if (textbox.Name.Contains("med"))
             {
                 isMediumBoard = true;
                 isEasyBoard = false;
                 isHardBoard = false;
+
+                //place the saved value into the textbox	
+                string newValue = textbox.Text;
+                char oldvalue = textbox.Name.Last();
+                string name = textbox.Name;
+                string sub_name = name.Substring(name.Length - 2);
+                int num = 0;
+                bool can_convert = int.TryParse(sub_name, out num);
+                int index;
+                if (can_convert)
+                {
+                    index = int.Parse(sub_name);
+                }
+                else
+                {
+                    index = int.Parse(oldvalue.ToString());
+                }
+
+                if (index != -1)
+                {
+                    MediumSaved[index] = newValue;
+                }
             }
             if (textbox.Name.Contains("hard"))
             {
                 isHardBoard = true;
                 isMediumBoard = false;
                 isEasyBoard = false;
+
+                //place the saved value into the textbox	
+                string newValue = textbox.Text;
+                char oldvalue = textbox.Name.Last();
+                string name = textbox.Name;
+                string sub_name = name.Substring(name.Length - 2);
+                int num = 0;
+                bool can_convert = int.TryParse(sub_name, out num);
+                int index;
+                if (can_convert)
+                {
+                    index = int.Parse(sub_name);
+                }
+                else
+                {
+                    index = int.Parse(oldvalue.ToString());
+                }
+
+                if (index != -1)
+                {
+                    HardSaved[index] = newValue;
+                }
             }
-            
+
             //if we can parse it to an integer then do math because it is a valid number
             if (int.TryParse(textbox.Text, out value))
             {
@@ -1480,7 +1632,7 @@ namespace JennyCasey_Assignment5
             //else user entered something else so not valid
             else
             {
-                if(textbox.Text != "")
+                if (textbox.Text != "")
                 {
                     MessageBox.Show("Please enter numbers 1-9 only");
                 }
@@ -1582,7 +1734,7 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-             
+
                 }
                 //columns changing total values
                 //if the textbox name contains "easy" or values 0, 3, 6 we are in first column
@@ -1749,7 +1901,7 @@ namespace JennyCasey_Assignment5
                     {
                         if (!String.IsNullOrEmpty(textbox.Text))
                         {
-                            row1Counter+= 1;
+                            row1Counter += 1;
                         }
                     }
                     //if we did delete a value then remove form counter
@@ -2514,6 +2666,48 @@ namespace JennyCasey_Assignment5
 
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
+            if (newgame_itr > 0 && !Complete)
+            {
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    EasySavedFlag = true;
+                }
+                else if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    MediumSavedFlag = true;
+                }
+                else if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    HardSavedFlag = true;
+                }
+                save_puzzle();
+                Hide_Board = false;
+                isEasyGame = false;
+                isMediumGame = false;
+                isHardGame = false;
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    isEasyGame = true;
+                    isEasyBoard = true;
+                    resetMediumPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    isMediumGame = true;
+                    isMediumBoard = true;
+                    resetEasyPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    isHardGame = true;
+                    isHardBoard = true;
+                    resetEasyPuzzleTextboxes();
+                    resetMediumPuzzleTextboxes();
+                }
+            }
+            newgame_itr++;
             isNewGame = true;
             isEasyBoard = false;
             isMediumBoard = false;
@@ -2562,7 +2756,7 @@ namespace JennyCasey_Assignment5
 
             canvas.Refresh();
             refresh_totals_and_canvas();
-            
+
         }
         private void refresh_totals_and_canvas()
         {
@@ -2594,6 +2788,7 @@ namespace JennyCasey_Assignment5
             col1EasySum = 0;
             col2EasySum = 0;
             col3EasySum = 0;
+
             //actual answer for easy board
             row1AnswerEasy = 0;
             row2AnswerEasy = 0;
@@ -2777,7 +2972,7 @@ namespace JennyCasey_Assignment5
 
         //this function will decide what color we paint the derived totals in when the user is done guessing for a row, column, and diagnal
         // GREEN if the derived sum is equal to actual sum, RED if it is different, and GREY if they are still in the process of guessing
-        private void changePaintColors(object sender, PaintEventArgs e, string valueToPrint, Font font1, int heightDivide, 
+        private void changePaintColors(object sender, PaintEventArgs e, string valueToPrint, Font font1, int heightDivide,
             int widthDivide, int widthMultiply, int heightMultiply, bool isAnswer, int counter, int derivedSum, int actualSum, PictureBox box, int cellNumber)
         {
             //widthDivide, heightDivide, widthMultiple, heightMultiply -> adjusts what column and row we are in depending on board difficulty
@@ -2804,7 +2999,7 @@ namespace JennyCasey_Assignment5
                 }
                 else
                 {
-                    PointF pointF4 = new PointF(widthMultiply * box.Width / widthDivide, heightMultiply* box.Height / heightDivide);
+                    PointF pointF4 = new PointF(widthMultiply * box.Width / widthDivide, heightMultiply * box.Height / heightDivide);
                     e.Graphics.DrawString(valueToPrint, font1, Brushes.DarkGray, pointF4);
                 }
 
@@ -2818,7 +3013,7 @@ namespace JennyCasey_Assignment5
 
         //paints the easy totals for rows and columns, calls the changePaintColors to see what color to paint them
         private void paintEasyTotals(object sender, PaintEventArgs e, string a, string b, string c, Font font1, int heightDivide, int widthDivide,
-                 bool isRow,  bool isAnswer, Brush color)
+                 bool isRow, bool isAnswer, Brush color)
         {
             //we have a column
             if (!isRow)
@@ -2838,14 +3033,14 @@ namespace JennyCasey_Assignment5
         private void paintMediumTotals(object sender, PaintEventArgs e, string a, string b, string c, string d, string f,
                 Font font1, int heightDivide, int widthDivide, bool isRow, bool isAnswer, Brush color)
         {
-            if(!isRow)
+            if (!isRow)
             {
                 changePaintColors(sender, e, a, font1, heightDivide, widthDivide, 1, 1, isAnswer, col1Counter, col1MediumSum, col1AnswerMed, columnSumBox, 5);
                 changePaintColors(sender, e, b, font1, heightDivide, widthDivide, 3, 1, isAnswer, col2Counter, col2MediumSum, col2AnswerMed, columnSumBox, 5);
                 changePaintColors(sender, e, c, font1, heightDivide, widthDivide, 5, 1, isAnswer, col3Counter, col3MediumSum, col3AnswerMed, columnSumBox, 5);
                 changePaintColors(sender, e, d, font1, heightDivide, widthDivide, 7, 1, isAnswer, col4Counter, col4MediumSum, col4AnswerMed, columnSumBox, 5);
                 changePaintColors(sender, e, f, font1, heightDivide, widthDivide, 9, 1, isAnswer, col5Counter, col5MediumSum, col5AnswerMed, columnSumBox, 5);
-    
+
             }
             if (isRow)
             {
@@ -2857,10 +3052,10 @@ namespace JennyCasey_Assignment5
             }
         }
         //paints the hard totals for rows and columns, calls the changePaintColors to see what color to paint them
-        private void paintHardTotals(object sender, PaintEventArgs e, string a, string b, string c, string d, string f, string g , string h,
+        private void paintHardTotals(object sender, PaintEventArgs e, string a, string b, string c, string d, string f, string g, string h,
                Font font1, int heightDivide, int widthDivide, bool isRow, bool isAnswer, Brush color)
         {
-            if(isRow)
+            if (isRow)
             {
                 changePaintColors(sender, e, a, font1, heightDivide, widthDivide, 1, 1, isAnswer, row1Counter, row1HardSum, row1AnswerHard, rowSumBox, 7);
                 changePaintColors(sender, e, b, font1, heightDivide, widthDivide, 1, 3, isAnswer, row2Counter, row2HardSum, row2AnswerHard, rowSumBox, 7);
@@ -2902,19 +3097,19 @@ namespace JennyCasey_Assignment5
                         else if (Hide_Board == true)
                         {
                             //if we hide the board then make the derived totals "?"
-                            paintEasyTotals(sender, e, "?", "?", "?", font1, 6, 12,true, false, Brushes.DarkGray);
+                            paintEasyTotals(sender, e, "?", "?", "?", font1, 6, 12, true, false, Brushes.DarkGray);
 
                             //actual totals appear as "?" if we hide the board
-                            paintEasyTotals(sender, e, "?", "?", "?", font1, 6, 2,true, true, Brushes.Black);
+                            paintEasyTotals(sender, e, "?", "?", "?", font1, 6, 2, true, true, Brushes.Black);
                         }
                         else
                         {
                             //derived totals
-                            paintEasyTotals(sender, e, row1EasySum.ToString(), row2EasySum.ToString(), row3EasySum.ToString(), 
+                            paintEasyTotals(sender, e, row1EasySum.ToString(), row2EasySum.ToString(), row3EasySum.ToString(),
                                     font1, 6, 12, true, false, Brushes.DarkGray);
 
                             //actual totals
-                            paintEasyTotals(sender, e, row1AnswerEasy.ToString(), row2AnswerEasy.ToString(), row3AnswerEasy.ToString(), 
+                            paintEasyTotals(sender, e, row1AnswerEasy.ToString(), row2AnswerEasy.ToString(), row3AnswerEasy.ToString(),
                                         font1, 6, 2, true, true, Brushes.Black);
                         }
                         if (row1EasySum == row1AnswerEasy && row2EasySum == row2AnswerEasy && row3EasySum == row3AnswerEasy)
@@ -2923,7 +3118,7 @@ namespace JennyCasey_Assignment5
                         }
                     }
                 }
-                if(isMediumBoard)
+                if (isMediumBoard)
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
@@ -2941,17 +3136,17 @@ namespace JennyCasey_Assignment5
                             paintMediumTotals(sender, e, "", "", "", "", "", font1, 10, 20, true, false, Brushes.DarkGray);
 
                             //actual totals
-                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 10, 2, true,true, Brushes.Black);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 10, 2, true, true, Brushes.Black);
                         }
                         else
                         {
                             //derived totals
                             paintMediumTotals(sender, e, row1MediumSum.ToString(), row2MediumSum.ToString(), row3MediumSum.ToString(),
-                               row4MediumSum.ToString(), row5MediumSum.ToString(), font1, 10, 20, true, false,Brushes.DarkGray);
+                               row4MediumSum.ToString(), row5MediumSum.ToString(), font1, 10, 20, true, false, Brushes.DarkGray);
 
                             //actual totals
                             paintMediumTotals(sender, e, row1AnswerMed.ToString(), row2AnswerMed.ToString(), row3AnswerMed.ToString(),
-                               row4AnswerMed.ToString(), row5AnswerMed.ToString(), font1, 10, 2, true, true,  Brushes.Black);
+                               row4AnswerMed.ToString(), row5AnswerMed.ToString(), font1, 10, 2, true, true, Brushes.Black);
                         }
 
                         if (row1MediumSum == row1AnswerMed && row2MediumSum == row2AnswerMed &&
@@ -2962,21 +3157,21 @@ namespace JennyCasey_Assignment5
 
                     }
                 }
-                if(isHardBoard)
+                if (isHardBoard)
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         if (Hide_Board == true)
                         {
                             //derived totals painted as "?" if paused
-                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 28, true,false, Brushes.DarkGray);
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 28, true, false, Brushes.DarkGray);
 
                             //actual totals printed as "?" if paused
                             paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 2, true, true, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
-                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 28, true, false,Brushes.DarkGray);
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 28, true, false, Brushes.DarkGray);
                             paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 2, true, true, Brushes.Black);
                         }
                         else
@@ -2989,9 +3184,9 @@ namespace JennyCasey_Assignment5
                             //actual totals
                             paintHardTotals(sender, e, row1AnswerHard.ToString(), row2AnswerHard.ToString(), row3AnswerHard.ToString(),
                                row4AnswerHard.ToString(), row5AnswerHard.ToString(), row6AnswerHard.ToString(),
-                               row7AnswerHard.ToString(), font1, 14, 2, true, true,Brushes.Black);
+                               row7AnswerHard.ToString(), font1, 14, 2, true, true, Brushes.Black);
                         }
-                        
+
 
                         if (row1HardSum == row1AnswerHard && row2HardSum == row2AnswerHard &&
                             row3HardSum == row3AnswerHard && row4HardSum == row4AnswerHard && row5HardSum == row5AnswerHard &&
@@ -3020,7 +3215,7 @@ namespace JennyCasey_Assignment5
                         {
                             //derived totals as "?" when we pause the game
                             paintEasyTotals(sender, e, "?", "?", "?", font1, 12, 6, false, false, Brushes.DarkGray);
-   
+
                             //actual totals as "?" when we pause the game
                             paintEasyTotals(sender, e, "?", "?", "?", font1, 2, 6, false, true, Brushes.Black);
                         }
@@ -3034,11 +3229,11 @@ namespace JennyCasey_Assignment5
                         else
                         {
                             //paint derived totals
-                            paintEasyTotals(sender, e, col1EasySum.ToString(), col2EasySum.ToString(), col3EasySum.ToString(), font1, 12, 6, false, false,  Brushes.DarkGray);
+                            paintEasyTotals(sender, e, col1EasySum.ToString(), col2EasySum.ToString(), col3EasySum.ToString(), font1, 12, 6, false, false, Brushes.DarkGray);
 
                             //actual totals
-                            paintEasyTotals(sender, e, col1AnswerEasy.ToString(), col2AnswerEasy.ToString(), col3AnswerEasy.ToString(), font1, 2, 6,false, true, Brushes.Black);
-  
+                            paintEasyTotals(sender, e, col1AnswerEasy.ToString(), col2AnswerEasy.ToString(), col3AnswerEasy.ToString(), font1, 2, 6, false, true, Brushes.Black);
+
                         }
 
                         if (col1EasySum == col1AnswerEasy && col2EasySum == col2AnswerEasy && col3EasySum == col3AnswerEasy)
@@ -3048,7 +3243,7 @@ namespace JennyCasey_Assignment5
 
                     }
                 }
-                if(isMediumBoard)
+                if (isMediumBoard)
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
@@ -3063,7 +3258,7 @@ namespace JennyCasey_Assignment5
                         else if (Complete == true)
                         {
                             //derived totals
-                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 20, 10, false,false,  Brushes.DarkGray);
+                            paintMediumTotals(sender, e, "", "", "", "", "", font1, 20, 10, false, false, Brushes.DarkGray);
 
                             //actual totals
                             paintMediumTotals(sender, e, "", "", "", "", "", font1, 2, 10, false, true, Brushes.Black);
@@ -3087,21 +3282,21 @@ namespace JennyCasey_Assignment5
                     }
                 }
 
-                if(isHardBoard)
+                if (isHardBoard)
                 {
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
                         if (Hide_Board == true)
                         {
-                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 14, false, false,Brushes.DarkGray);
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 14, 14, false, false, Brushes.DarkGray);
 
                             //actual totals
-                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 2, 14, false,  true, Brushes.Black);
+                            paintHardTotals(sender, e, "?", "?", "?", "?", "?", "?", "?", font1, 2, 14, false, true, Brushes.Black);
                         }
                         else if (Complete == true)
                         {
                             //derived totals
-                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 14, false,false,  Brushes.DarkGray);
+                            paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 14, 14, false, false, Brushes.DarkGray);
                             paintHardTotals(sender, e, "", "", "", "", "", "", "", font1, 2, 14, false, true, Brushes.Black);
                         }
                         else
@@ -3114,7 +3309,7 @@ namespace JennyCasey_Assignment5
                             //actual totals
                             paintHardTotals(sender, e, col1AnswerHard.ToString(), col2AnswerHard.ToString(), col3AnswerHard.ToString(),
                                 col4AnswerHard.ToString(), col5AnswerHard.ToString(), col6AnswerHard.ToString(), col7AnswerHard.ToString(),
-                                font1, 2, 14, false,true, Brushes.Black);
+                                font1, 2, 14, false, true, Brushes.Black);
                         }
 
                         if (col1HardSum == col1AnswerHard && col2HardSum == col2AnswerHard &&
@@ -3124,7 +3319,7 @@ namespace JennyCasey_Assignment5
                             HardColCompleted = true;
                         }
                     }
-                }   
+                }
             }
         }
 
@@ -3170,7 +3365,7 @@ namespace JennyCasey_Assignment5
                                 PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
                                 e.Graphics.DrawString(diagnal1EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
                             }
-                          
+
                         }
                     }
 
@@ -3236,7 +3431,7 @@ namespace JennyCasey_Assignment5
                                 PointF pointF1 = new PointF(diagnal1SumBox.Width / 6 - 10, diagnal1SumBox.Height / 3);
                                 e.Graphics.DrawString(diagnal1MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
                             }
-                            
+
                         }
                     }
                     //actual total
@@ -3264,7 +3459,7 @@ namespace JennyCasey_Assignment5
                         MediumDiagnalCompleted1 = true;
                     }
                 }
-                if(isHardBoard)
+                if (isHardBoard)
                 {
                     //derived total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
@@ -3340,8 +3535,8 @@ namespace JennyCasey_Assignment5
                 if (isEasyBoard)
                 {
                     //derived total
-                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
-                     {
+                    using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
+                    {
                         if (Hide_Board == true)
                         {
                             PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
@@ -3375,8 +3570,8 @@ namespace JennyCasey_Assignment5
                                 e.Graphics.DrawString(diagnal2EasySum.ToString(), font1, Brushes.DarkGray, pointF1);
                             }
                         }
-                     }
-                   
+                    }
+
                     //actual total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
@@ -3472,7 +3667,7 @@ namespace JennyCasey_Assignment5
                         MediumDiagnalCompleted2 = true;
                     }
                 }
-                if(isHardBoard)
+                if (isHardBoard)
                 {
                     //derived total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
@@ -3511,7 +3706,7 @@ namespace JennyCasey_Assignment5
                             }
                         }
                     }
-                    
+
                     //actual total
                     using (Font font1 = new Font("Times New Roman", 24, FontStyle.Bold, GraphicsUnit.Pixel))
                     {
@@ -3527,10 +3722,10 @@ namespace JennyCasey_Assignment5
                         }
                         else
                         {
-                            
-                                PointF pointF1 = new PointF(diagnal2SumBox.Width / 2, diagnal2SumBox.Height / 3);
-                                e.Graphics.DrawString(diagnal2AnswerHard.ToString(), font1, Brushes.Black, pointF1);
-                            
+
+                            PointF pointF1 = new PointF(diagnal2SumBox.Width / 2, diagnal2SumBox.Height / 3);
+                            e.Graphics.DrawString(diagnal2AnswerHard.ToString(), font1, Brushes.Black, pointF1);
+
                         }
                     }
 
@@ -3551,13 +3746,13 @@ namespace JennyCasey_Assignment5
             //Display the current time when user clicks pause
             if (PauseResume_Button.Text == "Pause")
             {
-               
+
                 Paused = true;
                 tmrCounter.Enabled = false;
                 PauseResume_Button.Text = "Resume";
                 isDown = true;
                 Hide_Board = true;
-                          
+
                 if (gameDifficultyDropDown.Text == "Easy")
                 {
                     isEasyGame = true;
@@ -3587,7 +3782,7 @@ namespace JennyCasey_Assignment5
                 diagnal2SumBox.Refresh();
                 //refresh_totals_and_canvas();                
             }
-            
+
             else if (PauseResume_Button.Text == "Resume")
             {
                 PauseResume_Button.Text = "Pause";
@@ -3595,36 +3790,36 @@ namespace JennyCasey_Assignment5
                 tmrCounter.Enabled = true;
                 Hide_Board = false;
                 Paused = false;
-                
+
                 if (gameDifficultyDropDown.Text == "Easy")
                 {
                     isEasyGame = true;
                     resetMediumPuzzleTextboxes();
                     resetHardPuzzleTextboxes();
                 }
-                if(gameDifficultyDropDown.Text == "Medium")
+                if (gameDifficultyDropDown.Text == "Medium")
                 {
                     isMediumGame = true;
                     resetEasyPuzzleTextboxes();
                     resetHardPuzzleTextboxes();
                 }
-                if(gameDifficultyDropDown.Text == "Hard")
+                if (gameDifficultyDropDown.Text == "Hard")
                 {
                     isHardGame = true;
                     resetEasyPuzzleTextboxes();
                     resetMediumPuzzleTextboxes();
                 }
-                
+
                 Hide_Board = false;
                 canvas.Refresh();
                 rowSumBox.Refresh();
                 columnSumBox.Refresh();
                 diagnal1SumBox.Refresh();
                 diagnal2SumBox.Refresh();
-                
+
                 //refresh_totals_and_canvas();
             }
-            
+
         }
 
         static string convertseconds(int seconds)
@@ -3760,7 +3955,7 @@ namespace JennyCasey_Assignment5
                         writer.WriteLine(item + " ");
                     }
                 }
-                Complete = true; 
+                Complete = true;
             }
             else if (HardRowCompleted && HardDiagnalCompleted1 && HardDiagnalCompleted2)
             {
@@ -3815,6 +4010,61 @@ namespace JennyCasey_Assignment5
             {
                 refresh_totals_and_canvas();
                 PauseResume_Button.Text = "Pause";
+                if (EasySavedFlag)
+                {
+                    if (!string.IsNullOrEmpty(easyGame))
+                    {
+                        FileStream easyfileStream = File.Open(easyGame, FileMode.Open);
+                        easyfileStream.SetLength(0);
+                        easyfileStream.Close();
+                        EasySaved.Clear();
+                    }
+                    EasygameBoardCount++;
+
+                    //if we get up to 3, reset to 1
+                    if (EasygameBoardCount == 3)
+                    {
+                        EasygameBoardCount = 1;
+                    }
+                    EasySavedFlag = false;
+                }
+                else if (MediumSavedFlag)
+                {
+                    if (!string.IsNullOrEmpty(mediumGame))
+                    {
+                        FileStream medfileStream = File.Open(mediumGame, FileMode.Open);
+                        medfileStream.SetLength(0);
+                        medfileStream.Close();
+                        MediumSaved.Clear();
+                    }
+                    MediumgameBoardCount++;
+
+                    //if we get up to 3, reset to 1
+                    if (MediumgameBoardCount == 3)
+                    {
+                        MediumgameBoardCount = 1;
+                    }
+                    MediumSavedFlag = false;
+                }
+                else if (HardSavedFlag)
+                {
+                    if (!string.IsNullOrEmpty(hardGame))
+                    {
+                        FileStream hardfileStream = File.Open(hardGame, FileMode.Open);
+                        hardfileStream.SetLength(0);
+                        hardfileStream.Close();
+                        HardSaved.Clear();
+                    }
+                    HardgameBoardCount++;
+
+                    //if we get up to 3, reset to 1
+                    if (HardgameBoardCount == 3)
+                    {
+                        HardgameBoardCount = 1;
+                    }
+                    HardSavedFlag = false;
+                }
+
                 Complete = false;
                 Hide_Board = false;
                 isEasyGame = false;
@@ -3837,13 +4087,7 @@ namespace JennyCasey_Assignment5
                 resetMediumPuzzleTextboxes();
                 resetHardPuzzleTextboxes();
                 Timer_Label.Text = "";
-                gameBoardCount++;
 
-                //if we get up to 3, reset to 1
-                if(gameBoardCount == 3)
-                {
-                    gameBoardCount = 1;
-                }
                 canvas.Refresh();
 
             }
@@ -3877,14 +4121,14 @@ namespace JennyCasey_Assignment5
             i = 0;
         }
 
-        private void highLightWrongArea(PaintEventArgs e )
+        private void highLightWrongArea(PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
 
             //go through the textbox guesses list, and depending what index value it is and what 
             //game board we are checking progress on, we will highlight that row, diagnal, and column
             foreach (int i in textboxesGuessed)
-            { 
+            {
                 Pen highlighter = new Pen(Color.FromArgb(128, 255, 255, 0), 15);
                 using (highlighter)
                 {
@@ -3898,7 +4142,7 @@ namespace JennyCasey_Assignment5
                             e.Graphics.DrawLine(highlighter, 0, canvas.Height / 6 + 10, canvas.Width, canvas.Height / 6 + 10);
                         }
                         //second row
-                        if(i >=3 && i < 6)
+                        if (i >= 3 && i < 6)
                         {
                             e.Graphics.DrawLine(highlighter, 0, 3 * canvas.Height / 6 + 10, canvas.Width, 3 * canvas.Height / 6 + 10);
                         }
@@ -3908,12 +4152,12 @@ namespace JennyCasey_Assignment5
                             e.Graphics.DrawLine(highlighter, 0, 5 * canvas.Height / 6 + 10, canvas.Width, 5 * canvas.Height / 6 + 10);
                         }
                         //first column
-                        if (i == 0 ||  i == 3 || i == 6)
+                        if (i == 0 || i == 3 || i == 6)
                         {
-                            e.Graphics.DrawLine(highlighter, canvas.Width / 6, 0,  canvas.Width / 6, canvas.Height);
+                            e.Graphics.DrawLine(highlighter, canvas.Width / 6, 0, canvas.Width / 6, canvas.Height);
                         }
                         //second column
-                        if(i == 1 || i == 4 || i == 7)
+                        if (i == 1 || i == 4 || i == 7)
                         {
                             e.Graphics.DrawLine(highlighter, 3 * canvas.Width / 6, 0, 3 * canvas.Width / 6, canvas.Height);
                         }
@@ -3923,24 +4167,24 @@ namespace JennyCasey_Assignment5
                             e.Graphics.DrawLine(highlighter, 5 * canvas.Width / 6, 0, 5 * canvas.Width / 6, canvas.Height);
                         }
                         //diagnal 1
-                        if(i == 2 || i == 4 || i == 6)
+                        if (i == 2 || i == 4 || i == 6)
                         {
-                            e.Graphics.DrawLine(highlighter, canvas.Width , 0, 0, canvas.Height);
+                            e.Graphics.DrawLine(highlighter, canvas.Width, 0, 0, canvas.Height);
                         }
                         //diagnal 2
-                        if (i == 0|| i == 4 || i == 8)
+                        if (i == 0 || i == 4 || i == 8)
                         {
                             e.Graphics.DrawLine(highlighter, 0, 0, canvas.Width, canvas.Height);
                         }
                     }
-                    if(isMediumBoard)
+                    if (isMediumBoard)
                     {
                         //rows of medium board
-                        if(i >= 0 && i < 5)
+                        if (i >= 0 && i < 5)
                         {
                             e.Graphics.DrawLine(highlighter, 0, canvas.Height / 10 + 10, canvas.Width, canvas.Height / 10 + 10);
                         }
-                        if(i >= 5 && i < 9)
+                        if (i >= 5 && i < 9)
                         {
                             e.Graphics.DrawLine(highlighter, 0, 3 * canvas.Height / 10 + 10, canvas.Width, 3 * canvas.Height / 10 + 10);
                         }
@@ -3954,10 +4198,10 @@ namespace JennyCasey_Assignment5
                         }
                         if (i >= 19 && i < 25)
                         {
-                            e.Graphics.DrawLine(highlighter, 0, 9 *canvas.Height / 10 + 10, canvas.Width, 9 * canvas.Height / 10 + 10);
+                            e.Graphics.DrawLine(highlighter, 0, 9 * canvas.Height / 10 + 10, canvas.Width, 9 * canvas.Height / 10 + 10);
                         }
                         //columns of medium board
-                        if(i == 0 || i == 5 || i == 10 || i == 15 || i == 20)
+                        if (i == 0 || i == 5 || i == 10 || i == 15 || i == 20)
                         {
                             e.Graphics.DrawLine(highlighter, canvas.Width / 10 + 5, 0, canvas.Width / 10 + 5, canvas.Height);
                         }
@@ -3988,14 +4232,14 @@ namespace JennyCasey_Assignment5
                             e.Graphics.DrawLine(highlighter, 0, 0, canvas.Width, canvas.Height);
                         }
                     }
-                    if(isHardBoard)
+                    if (isHardBoard)
                     {
                         //rows
-                        if(i >= 0 && i < 7)
+                        if (i >= 0 && i < 7)
                         {
                             e.Graphics.DrawLine(highlighter, 0, canvas.Height / 14, canvas.Width, canvas.Height / 14);
                         }
-                        if(i >= 7 && i < 14)
+                        if (i >= 7 && i < 14)
                         {
                             e.Graphics.DrawLine(highlighter, 0, 3 * canvas.Height / 14, canvas.Width, 3 * canvas.Height / 14);
                         }
@@ -4020,9 +4264,9 @@ namespace JennyCasey_Assignment5
                             e.Graphics.DrawLine(highlighter, 0, 13 * canvas.Height / 14, canvas.Width, 13 * canvas.Height / 14);
                         }
                         //columns
-                        if(i == 0 || i == 7 || i == 14 || i == 21 || i == 28 || i == 35 || i == 42)
+                        if (i == 0 || i == 7 || i == 14 || i == 21 || i == 28 || i == 35 || i == 42)
                         {
-                            e.Graphics.DrawLine(highlighter, canvas.Width / 14 + 5 , 0,  canvas.Width /14 + 5, canvas.Height);
+                            e.Graphics.DrawLine(highlighter, canvas.Width / 14 + 5, 0, canvas.Width / 14 + 5, canvas.Height);
                         }
                         if (i == 1 || i == 8 || i == 15 || i == 22 || i == 29 || i == 36 || i == 43)
                         {
@@ -4063,7 +4307,7 @@ namespace JennyCasey_Assignment5
                 }
             }
         }
-        
+
         private void progressButton_Click(object sender, EventArgs e)
         {
             int textboxesFilled = 0;
@@ -4127,7 +4371,7 @@ namespace JennyCasey_Assignment5
                     }
                 }
             }
-            if(isHardBoard)
+            if (isHardBoard)
             {
                 textboxesFilled = 0;
                 textboxesRight = 0;
@@ -4156,31 +4400,94 @@ namespace JennyCasey_Assignment5
                 }
             }
 
-                //if the amount of boxes we filles equals the amount right, that means
-                //all our guesses have been right so send a messagebox message and refresh the board
-                //if we previously highlighted it to get rid of highlight bar
-                if (textboxesFilled == textboxesRight)
+            //if the amount of boxes we filles equals the amount right, that means
+            //all our guesses have been right so send a messagebox message and refresh the board
+            //if we previously highlighted it to get rid of highlight bar
+            if (textboxesFilled == textboxesRight)
+            {
+                if (textboxesFilled != 0)
                 {
-                    if (textboxesFilled != 0)
+                    MessageBox.Show("You're doing great! Keep it up!");
+                    if (highlightValue)
                     {
-                        MessageBox.Show("You're doing great! Keep it up!");
-                        if (highlightValue)
-                        {
-                            canvas.Refresh();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please enter a value guess before seeing progress!");
+                        canvas.Refresh();
                     }
                 }
                 else
                 {
-                    highlightValue = true;
-                    canvas.Refresh();
+                    MessageBox.Show("Please enter a value guess before seeing progress!");
                 }
-            
-            
+            }
+            else
+            {
+                highlightValue = true;
+                canvas.Refresh();
+            }
+
+
+        }
+        private void save_puzzle()
+        {
+            if (EasySaved.Count != 0 && isEasyGame)
+            {
+                using (StreamWriter writer = new StreamWriter(easyGame))
+                {
+                    for (int i = 0; i < 9; i++)
+                    {
+                        writer.WriteLine(EasySaved[i]);
+                    }
+                    for (int n = 4; n < 7; n++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            writer.WriteLine(gameStatsEasy1[n][j]);
+                        }
+                    }
+                }
+            }
+            if (MediumSaved.Count != 0 && isMediumGame)
+            {
+                using (StreamWriter writer = new StreamWriter(mediumGame))
+                {
+                    for (int i = 0; i < 25; i++)
+                    {
+                        writer.WriteLine(MediumSaved[i]);
+                    }
+                    for (int n = 6; n < 11; n++)
+                    {
+                        for (int j = 0; j < 5; j++)
+                        {
+                            writer.WriteLine(gameStatsMedium1[n][j]);
+                        }
+                    }
+                }
+            }
+            if (HardSaved.Count != 0 && isHardGame)
+            {
+                using (StreamWriter writer = new StreamWriter(hardGame))
+                {
+                    for (int i = 0; i < 49; i++)
+                    {
+                        writer.WriteLine(HardSaved[i]);
+                    }
+
+                    for (int n = 8; n < 15; n++)
+                    {
+                        for (int j = 0; j < 7; j++)
+                        {
+                            writer.WriteLine(gameStatsHard1[n][j]);
+                        }
+                    }
+                }
+            }
+            refresh_totals_and_canvas();
+            resetEasyPuzzleTextboxes();
+            resetMediumPuzzleTextboxes();
+            resetHardPuzzleTextboxes();
+            Timer_Label.Text = "";
+            canvas.Refresh();
+
+            readInFileInfo();
         }
     }
 }
