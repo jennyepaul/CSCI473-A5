@@ -212,7 +212,10 @@ namespace JennyCasey_Assignment5
             //gameValuesEasy1.Clear();
             //gameValuesMedium1.Clear();
             //gameValuesHard1.Clear();
+
+            //clearing flags that start drawing process to eliminate any possibly crashing from using previous board info
             isDown = false;
+            highlightValue = false;
 
             //depending what difficulty the user entered, we need to draw the corresponding playing field
             if (gameDifficultyDropDown.Text == "Easy")
