@@ -4489,5 +4489,43 @@ namespace JennyCasey_Assignment5
 
             readInFileInfo();
         }
+
+        private void Help_Button_Click(object sender, EventArgs e)
+        {
+            if (gameDifficultyDropDown.Text == "Easy")
+            {
+                int index;
+                for (int i = 0; i < EasySaved.Count(); i++)
+                {
+                    if (EasySaved[i] == "")
+                    {
+                        index = i;
+                        int t = 0;
+                        for (int n = 4; n < 7; n++)
+                        {
+                            for (int j = 0; j < 3; j++)
+                            {
+                                if (t == i)
+                                {
+                                    EasySaved[i] = gameStatsEasy1[n][j].ToString();
+                                    goto EasyLoopEnd;
+                                }
+                                t++;
+                            }
+                        }
+                    }
+                }
+            }
+            EasyLoopEnd:
+                
+                isEasyBoard = true;
+                isEasyGame = true;
+                resetMediumPuzzleTextboxes();
+                resetHardPuzzleTextboxes();
+                isDown = true;   
+                readInFileInfo();
+                canvas.Refresh();
+                refresh_totals_and_canvas();
+        }
     }
 }

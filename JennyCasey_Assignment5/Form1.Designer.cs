@@ -45,6 +45,7 @@ namespace JennyCasey_Assignment5
             this.Timer_Label = new System.Windows.Forms.Label();
             this.resetPuzzleButton = new System.Windows.Forms.Button();
             this.progressButton = new System.Windows.Forms.Button();
+            this.Help_Button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).BeginInit();
@@ -57,7 +58,7 @@ namespace JennyCasey_Assignment5
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1371, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1371, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -177,11 +178,22 @@ namespace JennyCasey_Assignment5
             this.progressButton.UseVisualStyleBackColor = true;
             this.progressButton.Click += new System.EventHandler(this.progressButton_Click);
             // 
+            // Help_Button
+            // 
+            this.Help_Button.Location = new System.Drawing.Point(912, 2);
+            this.Help_Button.Name = "Help_Button";
+            this.Help_Button.Size = new System.Drawing.Size(129, 44);
+            this.Help_Button.TabIndex = 13;
+            this.Help_Button.Text = "Help";
+            this.Help_Button.UseVisualStyleBackColor = true;
+            this.Help_Button.Click += new System.EventHandler(this.Help_Button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
+            this.Controls.Add(this.Help_Button);
             this.Controls.Add(this.progressButton);
             this.Controls.Add(this.resetPuzzleButton);
             this.Controls.Add(this.Timer_Label);
@@ -223,6 +235,7 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.Label Timer_Label;
         private System.Windows.Forms.Button resetPuzzleButton;
         private System.Windows.Forms.Button progressButton;
+        private System.Windows.Forms.Button Help_Button;
     }
 }
 
