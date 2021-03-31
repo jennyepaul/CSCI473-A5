@@ -494,6 +494,7 @@ namespace JennyCasey_Assignment5
                     //if user wanted to play an easy game, then paint a 3x3 
                     if (isEasyGame)
                     {
+                        
                         isEasyBoard = true;
                         //draw our vertical lines 
                         graphics.DrawLine(gamePen, W / 3, 0, W / 3, L);
@@ -564,12 +565,18 @@ namespace JennyCasey_Assignment5
                                 txt.Name = "easyPuzzleCell" + c;
                                 if (Saved)
                                 {
+                                    //if saved load the value into the textbox but make it disabled
+                                    //if user clicks it, it enables it and recalculates?
+                                    //then we want to change the text
                                     //if a value has been saved then load it into the textbox	
                                     txt.Text = EasySaved[c];
                                     if (txt.Text != "")
                                     {
+                                        txt.Click += readyToEdit;
+                                        txt.ReadOnly = true;
                                         txt.Click += numberInput;
                                     }
+                                    
                                 }
                                 else
                                 {
@@ -1541,6 +1548,12 @@ namespace JennyCasey_Assignment5
             }
         }
         
+        private void readyToEdit(object sender, EventArgs e)
+        {
+            TextBox textbox = (TextBox)sender;
+            textbox.ReadOnly = false;
+            //numberInputChange(textbox);
+        }
         //whenever a number input changes on the board, we need to recalculate the derived totals
         private void numberInput(object sender,  EventArgs e)
         {
@@ -2673,6 +2686,13 @@ namespace JennyCasey_Assignment5
                 {
                     isEasyGame = true;
                     isEasyBoard = true;
+                    //IDK WHERE TO PLACE THIS TO HAVE IT GO OFF IF USER SWITCHING FROM NON SAVED GAME to SAVED?
+                    if (Saved)
+                    {
+                        MessageBox.Show("Loading your last saved game for this difficulty! Your previous entries will be 'readonly' & derived " +
+                            "sums will not be recalculated until you click on that box, " +
+                            "so please click on each previous textbox entry to recalculate and continue solving!");
+                    }
                     resetMediumPuzzleTextboxes();
                     resetHardPuzzleTextboxes();
                 }
