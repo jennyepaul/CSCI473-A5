@@ -206,9 +206,9 @@ namespace JennyCasey_Assignment5
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             //clear all the lists that hold the values when we switch a game
-            gameValuesEasy1.Clear();
-            gameValuesMedium1.Clear();
-            gameValuesHard1.Clear();
+            //gameValuesEasy1.Clear();
+            //gameValuesMedium1.Clear();
+            //gameValuesHard1.Clear();
             isDown = false;
 
             //depending what difficulty the user entered, we need to draw the corresponding playing field
@@ -519,6 +519,7 @@ namespace JennyCasey_Assignment5
                         {
                             if (Hide_Board)
                             {
+
                                 PointF point = new PointF(xPoints[xSub] * (W / 6), yPoints[ySub] * (L / 6));
                                 e.Graphics.DrawString("?", Font, Brushes.Black, point);
                             }
@@ -547,7 +548,7 @@ namespace JennyCasey_Assignment5
                                     txt.Text = EasySaved[c];
                                     if (txt.Text != "")
                                     {
-                                        txt.Enter += numberInput;
+                                        txt.Click += numberInput;
                                     }
                                 }
                                 else
