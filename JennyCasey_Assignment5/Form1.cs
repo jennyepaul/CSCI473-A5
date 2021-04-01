@@ -42,6 +42,7 @@ namespace JennyCasey_Assignment5
         private static bool isMediumBoard = false;
         private static bool isHardBoard = false;
         private static bool Hide_Board = false;
+        private static bool Paused = false;
         private static bool isDeletedValue = false;
         private static bool EasyRowCompleted = false;
         private static bool MediumRowCompleted = false;
@@ -3940,7 +3941,7 @@ namespace JennyCasey_Assignment5
         //time and the board 
         private void completed_puzzle()
         {
-            if (EasyRowCompleted && EasyColCompleted && EasyDiagnalCompleted1 && EasyDiagnalCompleted2)
+            if (EasyRowCompleted && EasyColCompleted && EasyDiagnalCompleted2)
             {
                 tmrCounter.Enabled = false;
                 easy_itr++;
@@ -4038,7 +4039,7 @@ namespace JennyCasey_Assignment5
                 }
                 Complete = true; 
             }
-            else if (HardRowCompleted && HardColCompleted && HardDiagnalCompleted1 && HardDiagnalCompleted2)
+            else if (HardRowCompleted && HardDiagnalCompleted1 && HardDiagnalCompleted2)
             {
                 tmrCounter.Enabled = false;
                 hard_itr++;
