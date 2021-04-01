@@ -221,11 +221,6 @@ namespace JennyCasey_Assignment5
 
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //clear all the lists that hold the values when we switch a game
-            //gameValuesEasy1.Clear();
-            //gameValuesMedium1.Clear();
-            //gameValuesHard1.Clear();
-
             //clearing flags that start drawing process to eliminate any possibly crashing from using previous board info
             isDown = false;
             highlightValue = false;
@@ -483,6 +478,9 @@ namespace JennyCasey_Assignment5
                 }
             }
         }
+        //purpose of this function is to paint the board (whether it is easy, medium, or hard)
+        // as well as textboxes for any possible "blanks" and paint the values on the board
+        //for those that are given from the input files
         private void canvas_Paint(object sender, PaintEventArgs e)
         {
             readInFileInfo();
@@ -490,7 +488,7 @@ namespace JennyCasey_Assignment5
             //draw the board
             Graphics graphics = e.Graphics;
 
-            //if the user pressed down or is reading 
+            //if the user pressed down or wants to see progress
             if (isDown || highlightValue)
             {
                 using (Pen gamePen = new Pen(Color.Black))
@@ -593,11 +591,14 @@ namespace JennyCasey_Assignment5
                                 {
                                     txt.Text = "";
                                 }
+                                //set the textbox attributes & set up events based on users interactions with box
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
                                 txt.Font = new Font(txt.Font.FontFamily, 14);                      
                                 generatedEasyTextboxes.Add(txt);
+                                txt.Enter += highlightBox;
+                                txt.Leave += removeHighlight; 
                                 txt.TextChanged += numberInput;
                                 txt.KeyDown += deletedValue;                                
                             }
@@ -617,9 +618,7 @@ namespace JennyCasey_Assignment5
                         for (int i = 0; i < generatedEasyTextboxes.Count; i++)
                         {
                             canvas.Controls.Add(generatedEasyTextboxes[i]);
-                        }
-
-                        
+                        }  
                     }
                     else if (isMediumGame)
                     {
@@ -718,11 +717,14 @@ namespace JennyCasey_Assignment5
                                 {
                                     txt.Text = "";
                                 }
+                                //set the textbox attributes & set up events based on users interactions with box
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
                                 txt.Font = new Font(txt.Font.FontFamily, 14);
                                 generatedMedTextboxes.Add(txt);
+                                txt.Enter += highlightBox;
+                                txt.Leave += removeHighlight;
                                 txt.TextChanged += numberInput;
                                 txt.KeyDown += deletedValue;
 
@@ -838,11 +840,14 @@ namespace JennyCasey_Assignment5
                                 {
                                     txt.Text = "";
                                 }
+                                //set the textbox attributes & set up events based on users interactions with box
                                 txt.Location = point2;
                                 txt.Height = 30;
                                 txt.Width = 30;
                                 txt.Font = new Font(txt.Font.FontFamily, 14);
                                 generatedHardTextboxes.Add(txt);
+                                txt.Enter += highlightBox;
+                                txt.Leave += removeHighlight;
                                 txt.KeyDown += deletedValue;
                                 txt.TextChanged += numberInput;
                             }
@@ -874,6 +879,20 @@ namespace JennyCasey_Assignment5
             isBoardLoaded = true;
         }
          
+        //this function highlights the textbox that the user has entered
+        private void highlightBox(object obj, EventArgs a)
+        {
+            TextBox T = (TextBox)obj;
+            T.BackColor = Color.LightSkyBlue;
+        }
+
+        //this functions removes the highlight from the textbox once the user has moved on to another
+        private void removeHighlight(object obj, EventArgs e)
+        {
+            TextBox T = (TextBox)obj;
+            T.BackColor = Color.White;
+        }
+        
         //these 3 functions calculate the ACTUAL answers for Easy board rows, columns, and diagnals
         private void calculateAnswerEasyRow(List<char> list1)
         {
@@ -1649,14 +1668,18 @@ namespace JennyCasey_Assignment5
                     HardSaved[index] = newValue;
                 }
             }
-            
+           
             //if we can parse it to an integer then do math because it is a valid number
             if (int.TryParse(textbox.Text, out value))
             {
                 //ensure user is not entering 0 or a negative number
-                if(value == 0 || value < 0)
+                if (value == 0 || value < 0)
                 {
                     MessageBox.Show("INVALID NUMBER! Only values 1-9! Please erase value and re-enter a nonzero/nonnegative number!");
+                }
+                else if (textbox.Text.Length > 1)
+                {
+                    MessageBox.Show("Only enter values 1-9, 2 digit numbers are not permitted!");
                 }
                 numberInputChange(textbox);
             }
