@@ -4594,8 +4594,7 @@ namespace JennyCasey_Assignment5
             readInFileInfo();
         }
 
-        //loads the correct number into the next available textbox 
-        private void HelpButton_Click(object sender, EventArgs e)
+        private void Help_Button_Click(object sender, EventArgs e)
         {
                 if (gameDifficultyDropDown.Text == "Easy")
                 {
