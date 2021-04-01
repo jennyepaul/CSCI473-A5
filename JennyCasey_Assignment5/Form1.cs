@@ -1,4 +1,11 @@
-﻿using System;
+﻿/* CSCI473 
+ * Assignment 5
+ * DATE: 4/1/2020
+ * TEAM: JennyCasey
+ * Contributors: Jennifer Paul (z1878099) and Casey McDermott (z1878096)
+ * PURPOSE: 
+ */
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
