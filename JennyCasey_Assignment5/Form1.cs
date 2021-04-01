@@ -4079,7 +4079,26 @@ namespace JennyCasey_Assignment5
             refresh_totals_and_canvas();
             highlightValue = false;
             tmrCounter.Enabled = false;
+            isDown = true;
 
+            //intitially setting all game flags to false, because depending what
+            //type of board it is, depends on how we repaint the canvas once we click "reset"
+            //and refresh the board
+            isEasyGame = false;
+            isMediumGame = false;
+            isHardGame = false;
+            if(isEasyBoard)
+            {
+                isEasyGame = true;
+            }
+            if(isMediumBoard)
+            {
+                isMediumGame = true;
+            }
+            if(isHardBoard)
+            {
+                isHardGame = true;
+            }
             //clear out the textboxes
             foreach (TextBox i in generatedEasyTextboxes)
             {
@@ -4093,6 +4112,7 @@ namespace JennyCasey_Assignment5
             {
                 i.Text = "";
             }
+            canvas.Refresh();
         }
 
         private void resetPuzzleButton_MouseUp(object sender, MouseEventArgs e)
