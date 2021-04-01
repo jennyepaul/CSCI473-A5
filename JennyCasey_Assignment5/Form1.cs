@@ -3809,6 +3809,10 @@ namespace JennyCasey_Assignment5
             }
         }
 
+        //When paused - changes the pause/resume button to resume, sets the paused flag 
+        //which changes all the numbers to a '?' and reloads the board
+        //When resumed - changes the pause/resume button to pause, sets the paused flag to 
+       //false and changes the numbers back to their previous state
         private void PauseResume_Button_Click(object sender, EventArgs e)
         {
             isEasyGame = false;
@@ -3894,6 +3898,7 @@ namespace JennyCasey_Assignment5
             
         }
 
+        //converts the time from seconds to hour, minutes, seconds
         static string convertseconds(int seconds)
         {
             int totalsecs = seconds;
@@ -3920,6 +3925,8 @@ namespace JennyCasey_Assignment5
             }
         }
 
+        //keeps track of the time the user has been in the program and then displays that time 
+        //in a label for the user to see
         private void tmrCounter_Tick(object sender, EventArgs e)
         {
             i++;
@@ -3929,6 +3936,9 @@ namespace JennyCasey_Assignment5
             Timer_Label.Text = "Current Time: " + time;
         }
 
+        //when all the textboxes are full and are correct the function displays a message box 
+        //giving the user thier time, the average time, and the fastest time, then clears the 
+        //time and the board 
         private void completed_puzzle()
         {
             if (EasyRowCompleted && EasyColCompleted && EasyDiagnalCompleted2)
@@ -4523,6 +4533,8 @@ namespace JennyCasey_Assignment5
             
             
         }
+
+        //saves the current state of the puzzle into a file to load when the user want to use it again
         private void save_puzzle()
         {
             if (EasySaved.Count != 0 && isEasyGame)
@@ -4585,6 +4597,142 @@ namespace JennyCasey_Assignment5
             canvas.Refresh();
 
             readInFileInfo();
+        }
+
+        //loads the correct number into the next available textbox 
+        private void HelpButton_Click(object sender, EventArgs e)
+        {
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    int index;
+                    for (int i = 0; i < EasySaved.Count(); i++)
+                    {
+                        if (EasySaved[i] == "")
+                        {
+                            index = i;
+                            int t = 0;
+                            for (int n = 4; n < 7; n++)
+                            {
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    if (t == i)
+                                    {
+                                        EasySaved[i] = gameStatsEasy1[n][j].ToString();
+                                        goto LoopEnd;
+                                    }
+                                    t++;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    int index;
+                    for (int i = 0; i < MediumSaved.Count(); i++)
+                    {
+                        if (MediumSaved[i] == "")
+                        {
+                            index = i;
+                            int t = 0;
+                            for (int n = 6; n < 11; n++)
+                            {
+                                for (int j = 0; j < 5; j++)
+                                {
+                                    if (t == i)
+                                    {
+                                        MediumSaved[i] = gameStatsMedium1[n][j].ToString();
+                                        goto LoopEnd;
+                                    }
+                                    t++;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    int index;
+                    for (int i = 0; i < HardSaved.Count(); i++)
+                    {
+                        if (HardSaved[i] == "")
+                        {
+                            index = i;
+                            int t = 0;
+                            for (int n = 8; n < 15; n++)
+                            {
+                                for (int j = 0; j < 7; j++)
+                                {
+                                    if (t == i)
+                                    {
+                                        HardSaved[i] = gameStatsHard1[n][j].ToString();
+                                        goto LoopEnd;
+                                    }
+                                    t++;
+                                }
+                            }
+                        }
+                    }
+                }
+            LoopEnd:
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    EasySavedFlag = true;
+                }
+                else if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    MediumSavedFlag = true;
+                }
+                else if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    HardSavedFlag = true;
+                }
+                save_puzzle();
+                Hide_Board = false;
+                isEasyGame = false;
+                isMediumGame = false;
+                isHardGame = false;
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    isEasyGame = true;
+                    isEasyBoard = true;
+
+                    MessageBox.Show("A new 'Help' number has been retrieved, it will be 'readonly' & derived, along with your other entries " +
+                        "sums will not be recalculated until you click on that box, " +
+                        "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
+
+                    resetMediumPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    isMediumGame = true;
+                    isMediumBoard = true;
+
+                    MessageBox.Show("A new 'Help' number has been retrieved, it will be 'readonly' & derived, along with your other entries " +
+                        "sums will not be recalculated until you click on that box, " +
+                        "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
+
+                    resetEasyPuzzleTextboxes();
+                    resetHardPuzzleTextboxes();
+                }
+                else if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    isHardGame = true;
+                    isHardBoard = true;
+
+                    MessageBox.Show("A new 'Help' number has been retrieved, it will be 'readonly' & derived, along with your other entries " +
+                        "sums will not be recalculated until you click on that box, " +
+                        "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
+
+                    resetEasyPuzzleTextboxes();
+                    resetMediumPuzzleTextboxes();
+                }
+                Complete = false;
+                isDown = true;
+
+                canvas.Refresh();
+                refresh_totals_and_canvas();
         }
     }
 }
