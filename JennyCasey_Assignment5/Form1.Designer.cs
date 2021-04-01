@@ -57,7 +57,7 @@ namespace JennyCasey_Assignment5
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1371, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1371, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -169,11 +169,11 @@ namespace JennyCasey_Assignment5
             // 
             // progressButton
             // 
-            this.progressButton.Location = new System.Drawing.Point(12, 589);
+            this.progressButton.Location = new System.Drawing.Point(12, 613);
             this.progressButton.Name = "progressButton";
-            this.progressButton.Size = new System.Drawing.Size(121, 65);
+            this.progressButton.Size = new System.Drawing.Size(134, 41);
             this.progressButton.TabIndex = 12;
-            this.progressButton.Text = "Progress";
+            this.progressButton.Text = "View Progress";
             this.progressButton.UseVisualStyleBackColor = true;
             this.progressButton.Click += new System.EventHandler(this.progressButton_Click);
             // 

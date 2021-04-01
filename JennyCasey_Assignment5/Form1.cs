@@ -1,4 +1,11 @@
-﻿using System;
+﻿/* CSCI473 
+ * Assignment 5
+ * DATE: 4/1/2020
+ * TEAM: JennyCasey
+ * Contributors: Jennifer Paul (z1878099) and Casey McDermott (z1878096)
+ * PURPOSE: 
+ */
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -494,6 +501,7 @@ namespace JennyCasey_Assignment5
                     //if user wanted to play an easy game, then paint a 3x3 
                     if (isEasyGame)
                     {
+                        
                         isEasyBoard = true;
                         //draw our vertical lines 
                         graphics.DrawLine(gamePen, W / 3, 0, W / 3, L);
@@ -564,10 +572,14 @@ namespace JennyCasey_Assignment5
                                 txt.Name = "easyPuzzleCell" + c;
                                 if (Saved)
                                 {
-                                    //if a value has been saved then load it into the textbox	
+                                    //if saved load the value into the textbox and make it readonly
+                                    //so when user wants to edit, he/she has to reclick and then
+                                    //READONLY will be set to false and the sums will be recalculates
                                     txt.Text = EasySaved[c];
                                     if (txt.Text != "")
                                     {
+                                        txt.Click += readyToEdit;
+                                        txt.ReadOnly = true;
                                         txt.Click += numberInput;
                                     }
                                 }
@@ -685,10 +697,14 @@ namespace JennyCasey_Assignment5
                                 txt.Name = "medPuzzleCell" + c;
                                 if (Saved)
                                 {
-                                    //if a value has been saved then load it into the textbox	
+                                    //if saved load the value into the textbox and make it readonly
+                                    //so when user wants to edit, he/she has to reclick and then
+                                    //READONLY will be set to false and the sums will be recalculates
                                     txt.Text = MediumSaved[c];
                                     if (txt.Text != "")
                                     {
+                                        txt.Click += readyToEdit;
+                                        txt.ReadOnly = true;
                                         txt.Click += numberInput;
                                     }
                                 }
@@ -807,6 +823,8 @@ namespace JennyCasey_Assignment5
                                     txt.Text = HardSaved[z];
                                     if (txt.Text != "")
                                     {
+                                        txt.Click += readyToEdit;
+                                        txt.ReadOnly = true;
                                         txt.Click += numberInput;
                                     }
                                 }
@@ -1541,6 +1559,13 @@ namespace JennyCasey_Assignment5
             }
         }
         
+        //the purpose of this function is to change the textbox to allow the user to edit the board again
+        //after loading the saved game
+        private void readyToEdit(object sender, EventArgs e)
+        {
+            TextBox textbox = (TextBox)sender;
+            textbox.ReadOnly = false;
+        }
         //whenever a number input changes on the board, we need to recalculate the derived totals
         private void numberInput(object sender,  EventArgs e)
         {
@@ -1622,6 +1647,11 @@ namespace JennyCasey_Assignment5
             //if we can parse it to an integer then do math because it is a valid number
             if (int.TryParse(textbox.Text, out value))
             {
+                //ensure user is not entering 0 or a negative number
+                if(value == 0 || value < 0)
+                {
+                    MessageBox.Show("INVALID NUMBER! Only values 1-9! Please erase value and re-enter a nonzero/nonnegative number!");
+                }
                 numberInputChange(textbox);
             }
             //else user entered something else so not valid
@@ -1941,8 +1971,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    // row2MediumSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell10" || textbox.Name == "medPuzzleCell11" || textbox.Name == "medPuzzleCell12"
                                 || textbox.Name == "medPuzzleCell13" || textbox.Name == "medPuzzleCell14")
@@ -1970,8 +1998,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    //row3MediumSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell17"
                                 || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell19")
@@ -1999,8 +2025,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    //row4MediumSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell20" || textbox.Name == "medPuzzleCell21" || textbox.Name == "medPuzzleCell22"
                                 || textbox.Name == "medPuzzleCell23" || textbox.Name == "medPuzzleCell24")
@@ -2673,6 +2697,16 @@ namespace JennyCasey_Assignment5
                 {
                     isEasyGame = true;
                     isEasyBoard = true;
+
+                    //IDK WHERE TO PLACE THIS TO HAVE IT GO OFF IF USER SWITCHING FROM NON SAVED GAME to SAVED? (right now 
+                    // it only does it for saved easy game, won't go off for saved medium or hard, so since you're adding in the flags
+                    //for each saved game can you readjust the placement of this?
+                    if (Saved)
+                    {
+                        MessageBox.Show("Loading your last saved game for this difficulty! Your previous entries will be 'readonly' & derived " +
+                            "sums will not be recalculated until you click on that box, " +
+                            "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
+                    }
                     resetMediumPuzzleTextboxes();
                     resetHardPuzzleTextboxes();
                 }
@@ -4059,7 +4093,26 @@ namespace JennyCasey_Assignment5
             refresh_totals_and_canvas();
             highlightValue = false;
             tmrCounter.Enabled = false;
+            isDown = true;
 
+            //intitially setting all game flags to false, because depending what
+            //type of board it is, depends on how we repaint the canvas once we click "reset"
+            //and refresh the board
+            isEasyGame = false;
+            isMediumGame = false;
+            isHardGame = false;
+            if(isEasyBoard)
+            {
+                isEasyGame = true;
+            }
+            if(isMediumBoard)
+            {
+                isMediumGame = true;
+            }
+            if(isHardBoard)
+            {
+                isHardGame = true;
+            }
             //clear out the textboxes
             foreach (TextBox i in generatedEasyTextboxes)
             {
@@ -4073,6 +4126,7 @@ namespace JennyCasey_Assignment5
             {
                 i.Text = "";
             }
+            canvas.Refresh();
         }
 
         private void resetPuzzleButton_MouseUp(object sender, MouseEventArgs e)
