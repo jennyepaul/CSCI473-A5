@@ -565,10 +565,9 @@ namespace JennyCasey_Assignment5
                                 txt.Name = "easyPuzzleCell" + c;
                                 if (Saved)
                                 {
-                                    //if saved load the value into the textbox but make it disabled
-                                    //if user clicks it, it enables it and recalculates?
-                                    //then we want to change the text
-                                    //if a value has been saved then load it into the textbox	
+                                    //if saved load the value into the textbox and make it readonly
+                                    //so when user wants to edit, he/she has to reclick and then
+                                    //READONLY will be set to false and the sums will be recalculates
                                     txt.Text = EasySaved[c];
                                     if (txt.Text != "")
                                     {
@@ -576,7 +575,6 @@ namespace JennyCasey_Assignment5
                                         txt.ReadOnly = true;
                                         txt.Click += numberInput;
                                     }
-                                    
                                 }
                                 else
                                 {
@@ -692,10 +690,14 @@ namespace JennyCasey_Assignment5
                                 txt.Name = "medPuzzleCell" + c;
                                 if (Saved)
                                 {
-                                    //if a value has been saved then load it into the textbox	
+                                    //if saved load the value into the textbox and make it readonly
+                                    //so when user wants to edit, he/she has to reclick and then
+                                    //READONLY will be set to false and the sums will be recalculates
                                     txt.Text = MediumSaved[c];
                                     if (txt.Text != "")
                                     {
+                                        txt.Click += readyToEdit;
+                                        txt.ReadOnly = true;
                                         txt.Click += numberInput;
                                     }
                                 }
@@ -814,6 +816,8 @@ namespace JennyCasey_Assignment5
                                     txt.Text = HardSaved[z];
                                     if (txt.Text != "")
                                     {
+                                        txt.Click += readyToEdit;
+                                        txt.ReadOnly = true;
                                         txt.Click += numberInput;
                                     }
                                 }
@@ -1960,8 +1964,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    // row2MediumSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell10" || textbox.Name == "medPuzzleCell11" || textbox.Name == "medPuzzleCell12"
                                 || textbox.Name == "medPuzzleCell13" || textbox.Name == "medPuzzleCell14")
@@ -1989,8 +1991,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    //row3MediumSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell15" || textbox.Name == "medPuzzleCell16" || textbox.Name == "medPuzzleCell17"
                                 || textbox.Name == "medPuzzleCell18" || textbox.Name == "medPuzzleCell19")
@@ -2018,8 +2018,6 @@ namespace JennyCasey_Assignment5
                     {
                         rowSumBox.Refresh();
                     }
-                    //row4MediumSum += value;
-                    //rowSumBox.Refresh();
                 }
                 if (textbox.Name == "medPuzzleCell20" || textbox.Name == "medPuzzleCell21" || textbox.Name == "medPuzzleCell22"
                                 || textbox.Name == "medPuzzleCell23" || textbox.Name == "medPuzzleCell24")
@@ -2692,12 +2690,15 @@ namespace JennyCasey_Assignment5
                 {
                     isEasyGame = true;
                     isEasyBoard = true;
-                    //IDK WHERE TO PLACE THIS TO HAVE IT GO OFF IF USER SWITCHING FROM NON SAVED GAME to SAVED?
+
+                    //IDK WHERE TO PLACE THIS TO HAVE IT GO OFF IF USER SWITCHING FROM NON SAVED GAME to SAVED? (right now 
+                    // it only does it for saved easy game, won't go off for saved medium or hard, so since you're adding in the flags
+                    //for each saved game can you readjust the placement of this?
                     if (Saved)
                     {
                         MessageBox.Show("Loading your last saved game for this difficulty! Your previous entries will be 'readonly' & derived " +
                             "sums will not be recalculated until you click on that box, " +
-                            "so please click on each previous textbox entry to recalculate and continue solving!");
+                            "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
                     }
                     resetMediumPuzzleTextboxes();
                     resetHardPuzzleTextboxes();
