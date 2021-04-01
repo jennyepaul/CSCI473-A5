@@ -4671,6 +4671,11 @@ namespace JennyCasey_Assignment5
             {
                 isMediumGame = true;
                 isMediumBoard = true;
+
+                MessageBox.Show("A new 'Help' number has been retrieved, it will be 'readonly' & derived, along with your other entries " +
+                    "sums will not be recalculated until you click on that box, " +
+                    "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
+
                 resetEasyPuzzleTextboxes();
                 resetHardPuzzleTextboxes();
             }
@@ -4678,6 +4683,11 @@ namespace JennyCasey_Assignment5
             {
                 isHardGame = true;
                 isHardBoard = true;
+
+                MessageBox.Show("A new 'Help' number has been retrieved, it will be 'readonly' & derived, along with your other entries " +
+                    "sums will not be recalculated until you click on that box, " +
+                    "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
+
                 resetEasyPuzzleTextboxes();
                 resetMediumPuzzleTextboxes();
             }
