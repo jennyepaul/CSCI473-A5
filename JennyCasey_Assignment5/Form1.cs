@@ -1548,11 +1548,12 @@ namespace JennyCasey_Assignment5
             }
         }
         
+        //the purpose of this function is to change the textbox to allow the user to edit the board again
+        //after loading the saved game
         private void readyToEdit(object sender, EventArgs e)
         {
             TextBox textbox = (TextBox)sender;
             textbox.ReadOnly = false;
-            //numberInputChange(textbox);
         }
         //whenever a number input changes on the board, we need to recalculate the derived totals
         private void numberInput(object sender,  EventArgs e)
@@ -1635,6 +1636,11 @@ namespace JennyCasey_Assignment5
             //if we can parse it to an integer then do math because it is a valid number
             if (int.TryParse(textbox.Text, out value))
             {
+                //ensure user is not entering 0 or a negative number
+                if(value == 0 || value < 0)
+                {
+                    MessageBox.Show("INVALID NUMBER! Only values 1-9! Please erase value and re-enter a nonzero/nonnegative number!");
+                }
                 numberInputChange(textbox);
             }
             //else user entered something else so not valid
