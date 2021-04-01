@@ -4159,14 +4159,17 @@ namespace JennyCasey_Assignment5
             if(isEasyBoard)
             {
                 isEasyGame = true;
+                Easynewgame_itr = 0;
             }
             if(isMediumBoard)
             {
                 isMediumGame = true;
+                Mediumnewgame_itr = 0;
             }
             if(isHardBoard)
             {
                 isHardGame = true;
+                Hardnewgame_itr = 0;
             }
             //clear out the textboxes
             foreach (TextBox i in generatedEasyTextboxes)
