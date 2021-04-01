@@ -45,6 +45,7 @@ namespace JennyCasey_Assignment5
             this.Timer_Label = new System.Windows.Forms.Label();
             this.resetPuzzleButton = new System.Windows.Forms.Button();
             this.progressButton = new System.Windows.Forms.Button();
+            this.HelpButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowSumBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnSumBox)).BeginInit();
@@ -177,11 +178,22 @@ namespace JennyCasey_Assignment5
             this.progressButton.UseVisualStyleBackColor = true;
             this.progressButton.Click += new System.EventHandler(this.progressButton_Click);
             // 
+            // HelpButton
+            // 
+            this.HelpButton.Location = new System.Drawing.Point(912, 2);
+            this.HelpButton.Name = "HelpButton";
+            this.HelpButton.Size = new System.Drawing.Size(129, 46);
+            this.HelpButton.TabIndex = 13;
+            this.HelpButton.Text = "Help";
+            this.HelpButton.UseVisualStyleBackColor = true;
+            this.HelpButton.Click += new System.EventHandler(this.HelpButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1371, 698);
+            this.Controls.Add(this.HelpButton);
             this.Controls.Add(this.progressButton);
             this.Controls.Add(this.resetPuzzleButton);
             this.Controls.Add(this.Timer_Label);
@@ -223,6 +235,7 @@ namespace JennyCasey_Assignment5
         private System.Windows.Forms.Label Timer_Label;
         private System.Windows.Forms.Button resetPuzzleButton;
         private System.Windows.Forms.Button progressButton;
+        private System.Windows.Forms.Button HelpButton;
     }
 }
 
