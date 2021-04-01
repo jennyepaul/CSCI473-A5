@@ -3,7 +3,9 @@
  * DATE: 4/1/2020
  * TEAM: JennyCasey
  * Contributors: Jennifer Paul (z1878099) and Casey McDermott (z1878096)
- * PURPOSE: 
+ * PURPOSE: The purpose of this assignment is to create a sudoku-like puzzle where the user can
+ *          choose between an easy, medium, or difficult level puzzle. Other functionality, includes
+ *          being able to pause/resume a game, get hints, see the progress, and reset the board. 
  */
 using System;
 using System.Collections.Generic;
@@ -20,7 +22,6 @@ namespace JennyCasey_Assignment5
 {
     public partial class Form1 : Form
     {
-
         private static bool highlightValue = false; 
         private static string easyGame;
         private static string easyGame1;
