@@ -219,7 +219,7 @@ namespace JennyCasey_Assignment5
             gameDifficultyDropDown.Items.Add("Hard");
         }
       
-
+        //this event will monitor when a user chooses a new difficulty, and reset flags, counters, etc. 
         private void gameDifficultyDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             //clearing flags that start drawing process to eliminate any possibly crashing from using previous board info
@@ -287,6 +287,7 @@ namespace JennyCasey_Assignment5
                 resetMediumPuzzleTextboxes();
             }
         }
+        //this function reads in info from the input files to load our board
         private void readInFileInfo()
         {
             string gameRecordEasy1, gameRecordMedium1, gameRecordHard1;
@@ -1694,6 +1695,7 @@ namespace JennyCasey_Assignment5
             }
             isDeletedValue = false;
         }
+        //this function is called when a user deletes or inputs a new value to the board to recalculate the derived sums
         private void numberInputChange(TextBox textbox)
         {
             int value;
@@ -1936,12 +1938,6 @@ namespace JennyCasey_Assignment5
                     {
                         diagnal1SumBox.Refresh();
                     }
-
-                    //diagnal2EasySum += value;
-                    //diagnal2SumBox.Refresh();
-
-                    //diagnal1EasySum += value;
-                    //diagnal1SumBox.Refresh();
                 }
             }
             //MEDIUM BOARD CALCULTIONS IF CHANGE IN TEXT BOXES
@@ -2273,10 +2269,7 @@ namespace JennyCasey_Assignment5
                     {
                         diagnal1SumBox.Refresh();
                     }
-                    //diagnal1MediumSum += value;
-                    //diagnal1SumBox.Refresh();
                 }
-
             }
             //HARD BOARD CALCULATIONS IF CHANGE IN TeXT BOXES
             if (isHardBoard)
@@ -2713,6 +2706,8 @@ namespace JennyCasey_Assignment5
             completed_puzzle();
         }
 
+        //Event that will fire when the user mouses-down on the New game button
+        //it wil set flags depending on what difficulty they chose and refresh the canvas to paint the board
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
             if (!Complete)
@@ -2831,6 +2826,8 @@ namespace JennyCasey_Assignment5
             refresh_totals_and_canvas();
             
         }
+        //this function refreshed the counters and board in prep to switch between difficulties
+        //solves problem of easy sums/values/boxes appearing on other boards and vice versa
         private void refresh_totals_and_canvas()
         {
             //reset the counters
@@ -2997,6 +2994,7 @@ namespace JennyCasey_Assignment5
                 }
             }
         }
+        //Event that refreshes flags when user mouses up after clicking down on "new game"
         private void newGameButton_MouseUp(object sender, MouseEventArgs e)
         {
             //reset all flags
@@ -3010,6 +3008,7 @@ namespace JennyCasey_Assignment5
             isNewGame = false;
         }
 
+        //resets and gets rid of the generated easy board textboxes
         private void resetEasyPuzzleTextboxes()
         {
             //remove the areas user can enter value for easy textboxes
@@ -3021,6 +3020,7 @@ namespace JennyCasey_Assignment5
 
         }
 
+        //resets and gets rid of the generated medium board textboxes
         private void resetMediumPuzzleTextboxes()
         {
             //remove the areas user can enter value for medium textboxes
@@ -3031,7 +3031,7 @@ namespace JennyCasey_Assignment5
             generatedMedTextboxes.Clear();
 
         }
-
+        //resets and gets rid of the generated hard board textboxes
         private void resetHardPuzzleTextboxes()
         {
             //remove the areas user can enter value for hard textboxes
@@ -3706,11 +3706,6 @@ namespace JennyCasey_Assignment5
                                 PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
                                 e.Graphics.DrawString(diagnal2MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
                             }
-
-                            /*
-                            PointF pointF1 = new PointF(diagnal2SumBox.Width / 6 - 10, diagnal2SumBox.Height / 3);
-                            e.Graphics.DrawString(diagnal2MediumSum.ToString(), font1, Brushes.DarkGray, pointF1);
-                            */
                         }
                     }
 
@@ -3856,7 +3851,6 @@ namespace JennyCasey_Assignment5
                 columnSumBox.Refresh();
                 diagnal1SumBox.Refresh();
                 diagnal2SumBox.Refresh();
-                //refresh_totals_and_canvas();                
             }
             
             else if (PauseResume_Button.Text == "Resume")
@@ -3891,11 +3885,8 @@ namespace JennyCasey_Assignment5
                 rowSumBox.Refresh();
                 columnSumBox.Refresh();
                 diagnal1SumBox.Refresh();
-                diagnal2SumBox.Refresh();
-                
-                //refresh_totals_and_canvas();
-            }
-            
+                diagnal2SumBox.Refresh();              
+            }          
         }
 
         //converts the time from seconds to hour, minutes, seconds
@@ -4176,6 +4167,7 @@ namespace JennyCasey_Assignment5
 
             }
         }
+        //Event that will reset the board if the user chooses to, all sums, boxes, etc. will be "erased" and reset to initial state
         private void resetPuzzleButton_MouseDown(object sender, MouseEventArgs e)
         {
             //refresh everything and clear out the textboxes since we are resetting
@@ -4221,6 +4213,7 @@ namespace JennyCasey_Assignment5
             canvas.Refresh();
         }
 
+        //when the user mousesUp after clicking down on the reset button, the timer will start again
         private void resetPuzzleButton_MouseUp(object sender, MouseEventArgs e)
         {
             //enable the timer and restart the clock
@@ -4228,6 +4221,7 @@ namespace JennyCasey_Assignment5
             i = 0;
         }
 
+        //This function will highlight the row, diagnal, and/or column that contains an incorrect value
         private void highLightWrongArea(PaintEventArgs e )
         {
             Graphics graphics = e.Graphics;
@@ -4415,6 +4409,8 @@ namespace JennyCasey_Assignment5
             }
         }
         
+        //Event that when clicked will either pop up a messagebox that lets the user know all the textboxes they have guessed in are correct
+        //OR will call the highlightWrongArea method to notify what areas of the board have the wrong value
         private void progressButton_Click(object sender, EventArgs e)
         {
             int textboxesFilled = 0;
@@ -4506,8 +4502,7 @@ namespace JennyCasey_Assignment5
                     }
                 }
             }
-
-                //if the amount of boxes we filles equals the amount right, that means
+                //if the amount of boxes we filled equals the amount right, that means
                 //all our guesses have been right so send a messagebox message and refresh the board
                 //if we previously highlighted it to get rid of highlight bar
                 if (textboxesFilled == textboxesRight)
