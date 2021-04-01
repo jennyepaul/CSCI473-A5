@@ -28,7 +28,9 @@ namespace JennyCasey_Assignment5
         private static string mediumGame1;
         private static string hardGame;
         private static string hardGame1;
-        private static int gameBoardCount = 1;
+        private static int EasygameBoardCount = 1;
+        private static int MediumgameBoardCount = 1;
+        private static int HardgameBoardCount = 1;
         private static bool isNewGame = false;
         private static bool isEasyGame = false;
         private static bool isMediumGame = false;
@@ -54,7 +56,9 @@ namespace JennyCasey_Assignment5
         private static bool HardDiagnalCompleted1 = false;
         private static bool HardDiagnalCompleted2 = false;
         private static bool Complete = false;
-        private static bool Saved = false;
+        private static bool EasySavedFlag = false;
+        private static bool MediumSavedFlag = false;
+        private static bool HardSavedFlag = false;
 
         //all totals variables  for an easy board
         private static int row1EasySum = 0;
@@ -165,7 +169,9 @@ namespace JennyCasey_Assignment5
         public static int easy_itr = 0;
         public static int med_itr = 0;
         public static int hard_itr = 0;
-        public static int newgame_itr = 0;
+        public static int Easynewgame_itr = 0;
+        public static int Mediumnewgame_itr = 0;
+        public static int Hardnewgame_itr = 0;
 
         public static List<string> EasySaved = new List<string>();
         public static List<string> MediumSaved = new List<string>();
@@ -296,12 +302,12 @@ namespace JennyCasey_Assignment5
                 //solved e1 (count == 2), then we load easy puzzle 2
                 if (isEasyGame)
                 {
-                    if (gameBoardCount == 1)
+                    if (EasygameBoardCount == 1)
                     {
                         easyGame1 = "../../easy/e1.txt";
                         easyGame = "../../easy/e1Save.txt";
                     }
-                    else if (gameBoardCount == 2)
+                    else if (EasygameBoardCount == 2)
                     {
                         easyGame1 = "../../easy/e2.txt";
                         easyGame = "../../easy/e2Save.txt";
@@ -309,7 +315,7 @@ namespace JennyCasey_Assignment5
                         gameValuesEasy1.Clear();
                         gameAnswersEasy1.Clear();
                     }
-                    else if(gameBoardCount == 3)
+                    else if(EasygameBoardCount == 3)
                     {
                         easyGame1 = "../../easy/e3.txt";
                         easyGame = "../../easy/e3Save.txt";
@@ -357,12 +363,12 @@ namespace JennyCasey_Assignment5
                 }
                 if (isMediumGame)
                 { 
-                    if (gameBoardCount == 1)
+                    if (MediumgameBoardCount == 1)
                     {
                         mediumGame1 = "../../medium/m1.txt";
                         mediumGame = "../../medium/m1Save.txt";
                     }
-                    else if (gameBoardCount == 2)
+                    else if (MediumgameBoardCount == 2)
                     {
                         mediumGame1 = "../../medium/m2.txt";
                         mediumGame = "../../medium/m2Save.txt";
@@ -370,7 +376,7 @@ namespace JennyCasey_Assignment5
                         gameValuesMedium1.Clear();
                         gameAnswersMed1.Clear();
                     }
-                    else if (gameBoardCount == 3)
+                    else if (MediumgameBoardCount == 3)
                     {
                         mediumGame1 = "../../medium/m3.txt";
                         mediumGame = "../../medium/m3Save.txt";
@@ -418,12 +424,12 @@ namespace JennyCasey_Assignment5
                 }
                 if (isHardGame)
                 {
-                    if (gameBoardCount == 1)
+                    if (HardgameBoardCount == 1)
                     {
                         hardGame1 = "../../hard/h1.txt";
                         hardGame = "../../hard/h1Save.txt";
                     }
-                    else if (gameBoardCount == 2)
+                    else if (HardgameBoardCount == 2)
                     {
                         hardGame1 = "../../hard/h2.txt";
                         hardGame = "../../hard/h2Save.txt";
@@ -431,7 +437,7 @@ namespace JennyCasey_Assignment5
                         gameValuesHard1.Clear();
                         gameAnswersHard1.Clear();
                     }
-                    else if (gameBoardCount == 3)
+                    else if (HardgameBoardCount == 3)
                     {
                         hardGame1 = "../../hard/h3.txt";
                         hardGame = "../../hard/h3Save.txt";
@@ -570,7 +576,7 @@ namespace JennyCasey_Assignment5
                                 Point point2 = new Point(xPoints[xSub] * (W / 6) - 10, yPoints[ySub] * (L / 6));
                                 TextBox txt = new TextBox();
                                 txt.Name = "easyPuzzleCell" + c;
-                                if (Saved)
+                                if (EasySavedFlag)
                                 {
                                     //if saved load the value into the textbox and make it readonly
                                     //so when user wants to edit, he/she has to reclick and then
@@ -695,7 +701,7 @@ namespace JennyCasey_Assignment5
                                 Point point2 = new Point(xPoints[xSub] * (W / 10) - 10, yPoints[ySub] * (L / 10));
                                 TextBox txt = new TextBox();
                                 txt.Name = "medPuzzleCell" + c;
-                                if (Saved)
+                                if (MediumSavedFlag)
                                 {
                                     //if saved load the value into the textbox and make it readonly
                                     //so when user wants to edit, he/she has to reclick and then
@@ -817,7 +823,7 @@ namespace JennyCasey_Assignment5
                                 Point point2 = new Point(xPoints[xSub] * (W / 14) - 10, yPoints[ySub] * (L / 14) - 10);
                                 TextBox txt = new TextBox();
                                 txt.Name = "hardPuzzleCell" + z;
-                                if (Saved)
+                                if (HardSavedFlag)
                                 {
                                     //if a value has been saved then load it into the textbox	
                                     txt.Text = HardSaved[z];
@@ -2685,9 +2691,23 @@ namespace JennyCasey_Assignment5
 
         private void newGameButton_MouseDown(object sender, MouseEventArgs e)
         {
-            if (newgame_itr > 0 && !Complete)
+            if (!Complete)
             {
-                Saved = true;
+                if (gameDifficultyDropDown.Text == "Easy")
+                {
+                    EasySavedFlag = true;
+                    Easynewgame_itr++;
+                }
+                else if (gameDifficultyDropDown.Text == "Medium")
+                {
+                    MediumSavedFlag = true;
+                    Mediumnewgame_itr++;
+                }
+                else if (gameDifficultyDropDown.Text == "Hard")
+                {
+                    HardSavedFlag = true;
+                    Hardnewgame_itr++;
+                }
                 save_puzzle();
                 Hide_Board = false;
                 isEasyGame = false;
@@ -2701,9 +2721,9 @@ namespace JennyCasey_Assignment5
                     //IDK WHERE TO PLACE THIS TO HAVE IT GO OFF IF USER SWITCHING FROM NON SAVED GAME to SAVED? (right now 
                     // it only does it for saved easy game, won't go off for saved medium or hard, so since you're adding in the flags
                     //for each saved game can you readjust the placement of this?
-                    if (Saved)
+                    if (EasySavedFlag && Easynewgame_itr > 1)
                     {
-                        MessageBox.Show("Loading your last saved game for this difficulty! Your previous entries will be 'readonly' & derived " +
+                        MessageBox.Show("Loading your last saved game for Easy difficulty! Your previous entries will be 'readonly' & derived " +
                             "sums will not be recalculated until you click on that box, " +
                             "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
                     }
@@ -2716,6 +2736,12 @@ namespace JennyCasey_Assignment5
                     isMediumBoard = true;
                     resetEasyPuzzleTextboxes();
                     resetHardPuzzleTextboxes();
+                    if (MediumSavedFlag && Mediumnewgame_itr > 1)
+                    {
+                        MessageBox.Show("Loading your last saved game for Medium difficulty! Your previous entries will be 'readonly' & derived " +
+                            "sums will not be recalculated until you click on that box, " +
+                            "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
+                    }
                 }
                 else if (gameDifficultyDropDown.Text == "Hard")
                 {
@@ -2723,9 +2749,14 @@ namespace JennyCasey_Assignment5
                     isHardBoard = true;
                     resetEasyPuzzleTextboxes();
                     resetMediumPuzzleTextboxes();
+                    if (HardSavedFlag && Hardnewgame_itr > 1)
+                    {
+                        MessageBox.Show("Loading your last saved game for Hard difficulty! Your previous entries will be 'readonly' & derived " +
+                            "sums will not be recalculated until you click on that box, " +
+                            "so please click on each previous textbox entry to recalculate, edit, and continue solving!");
+                    }
                 }
             }
-            newgame_itr++;
             isNewGame = true;
             isEasyBoard = false;
             isMediumBoard = false;
@@ -4027,7 +4058,7 @@ namespace JennyCasey_Assignment5
             {
                 refresh_totals_and_canvas();
                 PauseResume_Button.Text = "Pause";
-                if (Saved)
+                if (EasySavedFlag)
                 {
                     if (!string.IsNullOrEmpty(easyGame))
                     {
@@ -4036,7 +4067,18 @@ namespace JennyCasey_Assignment5
                         easyfileStream.Close();
                         EasySaved.Clear();
                     }
-
+                    
+                    //if we get up to 3, reset to 1	
+                    if (EasygameBoardCount == 3)
+                    {
+                        EasygameBoardCount = 1;
+                    }
+                    EasygameBoardCount++;
+                    Easynewgame_itr = 0;
+                    EasySavedFlag = false;
+                }
+                else if (MediumSavedFlag)
+                {
                     if (!string.IsNullOrEmpty(mediumGame))
                     {
                         FileStream medfileStream = File.Open(mediumGame, FileMode.Open);
@@ -4044,7 +4086,18 @@ namespace JennyCasey_Assignment5
                         medfileStream.Close();
                         MediumSaved.Clear();
                     }
-
+                    
+                    //if we get up to 3, reset to 1	
+                    if (MediumgameBoardCount == 3)
+                    {
+                        MediumgameBoardCount = 1;
+                    }
+                    MediumgameBoardCount++;
+                    Mediumnewgame_itr = 0;
+                    MediumSavedFlag = false;
+                }
+                else if (HardSavedFlag)
+                {
                     if (!string.IsNullOrEmpty(hardGame))
                     {
                         FileStream hardfileStream = File.Open(hardGame, FileMode.Open);
@@ -4052,8 +4105,16 @@ namespace JennyCasey_Assignment5
                         hardfileStream.Close();
                         HardSaved.Clear();
                     }
-                }
-                Saved = false;
+                    
+                    //if we get up to 3, reset to 1	
+                    if (HardgameBoardCount == 3)
+                    {
+                        HardgameBoardCount = 1;
+                    }
+                    HardgameBoardCount++;
+                    Hardnewgame_itr = 0;
+                    HardSavedFlag = false;
+                }             
                 Complete = false;
                 Hide_Board = false;
                 isEasyGame = false;
@@ -4076,13 +4137,7 @@ namespace JennyCasey_Assignment5
                 resetMediumPuzzleTextboxes();
                 resetHardPuzzleTextboxes();
                 Timer_Label.Text = "";
-                gameBoardCount++;
-
-                //if we get up to 3, reset to 1
-                if(gameBoardCount == 3)
-                {
-                    gameBoardCount = 1;
-                }
+               
                 canvas.Refresh();
 
             }
